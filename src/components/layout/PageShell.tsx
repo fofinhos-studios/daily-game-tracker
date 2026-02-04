@@ -5,8 +5,8 @@ export function PageShell({ children }: { children: ReactNode }) {
     <div className="relative min-h-screen overflow-hidden">
       {/* Background gradients */}
       <div className="pointer-events-none fixed inset-0">
-        <div className="absolute -left-1/3 -top-1/3 h-[800px] w-[800px] rounded-full bg-primary/5 blur-[120px]" />
-        <div className="absolute -bottom-1/3 -right-1/3 h-[700px] w-[700px] rounded-full bg-accent/5 blur-[120px]" />
+        <div className="absolute -left-1/3 -top-1/3 h-[800px] w-[800px] rounded-full bg-primary/10 blur-[120px]" />
+        <div className="absolute -bottom-1/3 -right-1/3 h-[700px] w-[700px] rounded-full bg-accent/10 blur-[120px]" />
       </div>
 
       {/* Noise texture overlay */}
