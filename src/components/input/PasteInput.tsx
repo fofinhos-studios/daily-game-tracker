@@ -5,9 +5,14 @@ import { GameBadge } from "./GameBadge"
 
 interface PasteInputProps {
   onResults: (results: GameResult[]) => { added: number; replaced: number }
+  onDatesAffected?: (dates: string[]) => void
 }
 
-export function PasteInput({ onResults }: PasteInputProps) {
+function uniqueDates(results: GameResult[]): string[] {
+  return [...new Set(results.map((r) => r.date))].sort()
+}
+
+export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
   const [value, setValue] = useState("")
   const [detected, setDetected] = useState<GameResult[]>([])
   const [toast, setToast] = useState<string | null>(null)
@@ -29,6 +34,20 @@ export function PasteInput({ onResults }: PasteInputProps) {
     }
   }, [])
 
+  const submitResults = useCallback(
+    (results: GameResult[]) => {
+      const { added, replaced } = onResults(results)
+      const parts: string[] = []
+      if (added > 0) parts.push(`${added} game${added > 1 ? "s" : ""} added`)
+      if (replaced > 0) parts.push(`${replaced} replaced`)
+      showToast(parts.join(", ") + "!")
+      onDatesAffected?.(uniqueDates(results))
+      setValue("")
+      setDetected([])
+    },
+    [onResults, onDatesAffected, showToast]
+  )
+
   const handlePaste = useCallback(
     (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
       e.preventDefault()
@@ -36,33 +55,21 @@ export function PasteInput({ onResults }: PasteInputProps) {
       const results = parseInput(text)
 
       if (results.length > 0) {
-        const { added, replaced } = onResults(results)
-        const parts: string[] = []
-        if (added > 0) parts.push(`${added} game${added > 1 ? "s" : ""} added`)
-        if (replaced > 0) parts.push(`${replaced} replaced`)
-        showToast(parts.join(", ") + "!")
-        setValue("")
-        setDetected([])
+        submitResults(results)
       } else {
         setValue(text)
         setDetected([])
         showToast("No games detected in pasted text")
       }
     },
-    [onResults, showToast]
+    [submitResults, showToast]
   )
 
   const handleSubmit = useCallback(() => {
     if (detected.length > 0) {
-      const { added, replaced } = onResults(detected)
-      const parts: string[] = []
-      if (added > 0) parts.push(`${added} game${added > 1 ? "s" : ""} added`)
-      if (replaced > 0) parts.push(`${replaced} replaced`)
-      showToast(parts.join(", ") + "!")
-      setValue("")
-      setDetected([])
+      submitResults(detected)
     }
-  }, [detected, onResults, showToast])
+  }, [detected, submitResults])
 
   return (
     <div className="space-y-3">

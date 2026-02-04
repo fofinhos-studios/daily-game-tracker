@@ -1,18 +1,29 @@
 import type { GamedleMode, GamedleResult } from "@/types/games"
 import type { GameParser, ParseResult } from "./types"
 import { parseBrazilianDate } from "@/lib/dates"
-import { isEmojiLine } from "./utils"
 
 // Format 1: Multi-line block starting with "Gamedle" header
 const BLOCK_HEADER_RE = /^Gamedle$/i
 // Category headers like "🕹️ (Capa) #1377:" or "🎨 (Artwork) #1136:"
 const CATEGORY_RE = /^(.+?)\s*\(([^)]+)\)\s*#(\d+):\s*$/
-// Category with inline grid: "🕹️ (Capa) #1377:" followed by grid on same line - not seen, but handle anyway
 
 // Format 2: Single-line per mode
 // "🕹️ Gamedle: 06/06/2024 🟥🟥🟩⬜⬜⬜ > https://gamedle.wtf/classic"
 // "🕹️🎨 Gamedle (Artwork mode): 06/06/2024 🟥🟥🟥🟥🟩⬜ > https://gamedle.wtf/artwork"
 const SINGLE_LINE_RE = /^(.+?)\s*Gamedle(?:\s*\(([^)]+)\))?\s*:\s*(\d{1,2}\/\d{1,2}\/\d{4})\s+(.+?)(?:\s*>\s*https?:\/\/\S+)?$/
+
+// Patterns that indicate the start of a different game (stop consuming)
+const GAME_HEADER_PATTERNS = [
+  /^Joguei conexo\.ws/i,
+  /^Framed\s+#/i,
+  /^#GuessTheGame/i,
+  /^Joguei letroso\.com/i,
+  /^(?:joguei\s+)?term\.ooo/i,
+]
+
+function isGameHeader(line: string): boolean {
+  return GAME_HEADER_PATTERNS.some((re) => re.test(line))
+}
 
 export const gamedleParser: GameParser = {
   gameType: "gamedle",
@@ -20,9 +31,7 @@ export const gamedleParser: GameParser = {
   detect(lines: string[]): boolean {
     if (lines.length === 0) return false
     const first = lines[0]!.trim()
-    // Block format: starts with "Gamedle"
     if (BLOCK_HEADER_RE.test(first)) return true
-    // Single-line format: contains "Gamedle" with emoji prefix
     if (SINGLE_LINE_RE.test(first)) return true
     return false
   },
@@ -30,12 +39,10 @@ export const gamedleParser: GameParser = {
   parse(lines: string[], fallbackDate: string): ParseResult | null {
     const first = lines[0]!.trim()
 
-    // Try single-line format first
     if (SINGLE_LINE_RE.test(first)) {
       return parseSingleLineFormat(lines, fallbackDate)
     }
 
-    // Block format
     if (BLOCK_HEADER_RE.test(first)) {
       return parseBlockFormat(lines, fallbackDate)
     }
@@ -74,7 +81,6 @@ function parseSingleLineFormat(lines: string[], fallbackDate: string): ParseResu
       })
       consumed = i + 1
     } else {
-      // Not a gamedle line — stop
       break
     }
   }
@@ -104,10 +110,14 @@ function parseBlockFormat(lines: string[], fallbackDate: string): ParseResult | 
   while (consumed < lines.length) {
     const line = lines[consumed]!.trim()
 
-    // Skip blank lines
     if (line === "") {
       consumed++
       continue
+    }
+
+    // Stop if we hit the start of another game
+    if (isGameHeader(line)) {
+      break
     }
 
     // Try category header
@@ -124,9 +134,13 @@ function parseBlockFormat(lines: string[], fallbackDate: string): ParseResult | 
       }
 
       let gridStr = ""
-      if (consumed < lines.length && isEmojiLine(lines[consumed]!.trim())) {
-        gridStr = lines[consumed]!.trim()
-        consumed++
+      if (consumed < lines.length) {
+        const candidate = lines[consumed]!.trim()
+        // Accept as grid unless it's another category header or game header
+        if (candidate && !CATEGORY_RE.test(candidate) && !isGameHeader(candidate)) {
+          gridStr = candidate
+          consumed++
+        }
       }
 
       modes.push({
@@ -139,11 +153,7 @@ function parseBlockFormat(lines: string[], fallbackDate: string): ParseResult | 
       continue
     }
 
-    // If we hit a non-category, non-blank line that isn't emoji, stop
-    if (!isEmojiLine(line)) {
-      break
-    }
-
+    // Unknown line inside the block — skip it
     consumed++
   }
 
