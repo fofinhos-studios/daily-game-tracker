@@ -79,7 +79,7 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
           onChange={(e) => handleChange(e.target.value)}
           onPaste={handlePaste}
           placeholder="Paste your game results here..."
-          className="h-36 w-full resize-none glass rounded-2xl px-4 py-3 text-sm font-light text-foreground placeholder:font-extralight placeholder:text-muted-foreground/50 focus:animate-glow-pulse focus:outline-none transition-all"
+          className="h-36 w-full resize-none glass rounded-2xl px-4 py-3 text-sm font-light text-foreground placeholder:font-extralight placeholder:text-muted-foreground/70 focus:animate-glow-pulse focus:outline-none transition-all"
         />
         {toast && (
           <div className="animate-fade-in absolute -bottom-1 left-0 translate-y-full glass glow-primary rounded-lg px-3 py-1.5 text-xs font-bold text-primary">

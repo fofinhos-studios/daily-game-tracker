@@ -14,7 +14,7 @@ export function SuccessRateList({ data }: SuccessRateListProps) {
 
   if (allStats.length === 0) {
     return (
-      <p className="text-center text-xs font-light text-muted-foreground/40 py-4">
+      <p className="text-center text-xs font-light text-muted-foreground/60 py-2">
         Stats will appear after you add some games
       </p>
     )

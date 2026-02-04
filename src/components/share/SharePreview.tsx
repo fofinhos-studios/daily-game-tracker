@@ -10,7 +10,7 @@ export function SharePreview({ entry }: SharePreviewProps) {
   if (!entry || entry.results.length === 0) {
     return (
       <div className="glass rounded-2xl px-6 py-8 text-center">
-        <p className="text-xs font-light text-muted-foreground/40">
+        <p className="text-xs font-light text-muted-foreground/60">
           Your shareable message will appear here
         </p>
       </div>
