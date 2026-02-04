@@ -1,9 +1,10 @@
+import { parseBrazilianDate } from "@/lib/dates"
 import type { LetrosoResult } from "@/types/games"
 import type { GameParser, ParseResult } from "./types"
-import { parseBrazilianDate } from "@/lib/dates"
 import { collectEmojiLines } from "./utils"
 
-const HEADER_RE = /^Joguei letroso\.com\s+(\d{1,2}\/\d{1,2}\/\d{4})\s+e consegui em\s+(\d+)\s+tentativas?/i
+const HEADER_RE =
+  /^Joguei letroso\.com\s+(\d{1,2}\/\d{1,2}\/\d{4})\s+e consegui em\s+(\d+)\s+tentativas?/i
 
 export const letrosoParser: GameParser = {
   gameType: "letroso",

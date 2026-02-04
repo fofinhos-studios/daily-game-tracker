@@ -57,4 +57,3 @@ export function getGamesPlayedOnDate(data: AppData, dateKey: string): number {
   const entry = data.entries[dateKey]
   return entry ? entry.results.length : 0
 }
-

@@ -1,9 +1,10 @@
+import { parseBrazilianDate } from "@/lib/dates"
 import type { ConexoResult } from "@/types/games"
 import type { GameParser, ParseResult } from "./types"
-import { parseBrazilianDate } from "@/lib/dates"
 import { collectEmojiLines } from "./utils"
 
-const HEADER_RE = /^Joguei conexo\.ws\s+(\d{1,2}\/\d{1,2}\/\d{4})\s+e consegui em\s+(\d+)\s+tentativas?(?:\s+e\s+(\d+)\s+dicas?)?/i
+const HEADER_RE =
+  /^Joguei conexo\.ws\s+(\d{1,2}\/\d{1,2}\/\d{4})\s+e consegui em\s+(\d+)\s+tentativas?(?:\s+e\s+(\d+)\s+dicas?)?/i
 
 export const conexoParser: GameParser = {
   gameType: "conexo",
