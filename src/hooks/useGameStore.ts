@@ -54,7 +54,7 @@ export function useGameStore(): GameStore {
 
       return { added, replaced }
     },
-    [setData]
+    [setData],
   )
 
   const removeResult = useCallback(
@@ -75,14 +75,14 @@ export function useGameStore(): GameStore {
         return next
       })
     },
-    [setData]
+    [setData],
   )
 
   const getEntry = useCallback(
     (date: string): DayEntry | undefined => {
       return data.entries[date]
     },
-    [data]
+    [data],
   )
 
   const getAllDates = useCallback((): string[] => {
@@ -97,7 +97,7 @@ export function useGameStore(): GameStore {
         return next
       })
     },
-    [setData]
+    [setData],
   )
 
   return { data, addResults, removeResult, getEntry, getAllDates, clearDay }

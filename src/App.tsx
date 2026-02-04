@@ -1,16 +1,16 @@
+import { BarChart3, Calendar, Gamepad2, Share2 } from "lucide-react"
 import { useState } from "react"
-import { useGameStore } from "@/hooks/useGameStore"
-import { useToday } from "@/hooks/useToday"
-import { PageShell } from "@/components/layout/PageShell"
-import { Header } from "@/components/layout/Header"
-import { SupportedGames } from "@/components/layout/SupportedGames"
 import { PasteInput } from "@/components/input/PasteInput"
-import { DailySummary } from "@/components/summary/DailySummary"
+import { Header } from "@/components/layout/Header"
+import { PageShell } from "@/components/layout/PageShell"
+import { SupportedGames } from "@/components/layout/SupportedGames"
 import { SharePreview } from "@/components/share/SharePreview"
 import { CalendarHeatmap } from "@/components/stats/CalendarHeatmap"
 import { SuccessRateList } from "@/components/stats/SuccessRateList"
+import { DailySummary } from "@/components/summary/DailySummary"
+import { useGameStore } from "@/hooks/useGameStore"
+import { useToday } from "@/hooks/useToday"
 import { formatDateDisplay } from "@/lib/dates"
-import { Calendar, BarChart3, Share2, Gamepad2 } from "lucide-react"
 
 type Tab = "summary" | "share" | "stats"
 
@@ -68,11 +68,7 @@ export default function App() {
                 Activity
               </h2>
             </div>
-            <CalendarHeatmap
-              data={store.data}
-              today={today}
-              onSelectDate={handleSelectDate}
-            />
+            <CalendarHeatmap data={store.data} today={today} onSelectDate={handleSelectDate} />
           </section>
         </div>
 
@@ -82,6 +78,7 @@ export default function App() {
           <div className="flex gap-1 rounded-lg bg-muted/30 p-1">
             {tabs.map((tab) => (
               <button
+                type="button"
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex flex-1 items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition-all ${
@@ -102,10 +99,9 @@ export default function App() {
               <div className="space-y-3">
                 {!isToday && (
                   <div className="flex items-center justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      {formatDateDisplay(viewDate)}
-                    </p>
+                    <p className="text-xs text-muted-foreground">{formatDateDisplay(viewDate)}</p>
                     <button
+                      type="button"
                       onClick={() => setSelectedDate(null)}
                       className="text-xs text-primary hover:text-primary/80 font-bold"
                     >
@@ -113,17 +109,11 @@ export default function App() {
                     </button>
                   </div>
                 )}
-                <DailySummary
-                  entry={entry}
-                  onRemove={store.removeResult}
-                  date={viewDate}
-                />
+                <DailySummary entry={entry} onRemove={store.removeResult} date={viewDate} />
               </div>
             )}
 
-            {activeTab === "share" && (
-              <SharePreview entry={entry} />
-            )}
+            {activeTab === "share" && <SharePreview entry={entry} />}
 
             {activeTab === "stats" && (
               <div className="space-y-4">

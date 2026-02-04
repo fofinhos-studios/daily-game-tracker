@@ -1,6 +1,6 @@
 import { ExternalLink } from "lucide-react"
-import { GAME_INFO, GAME_ORDER } from "@/types/games"
 import type { GameType } from "@/types/games"
+import { GAME_INFO, GAME_ORDER } from "@/types/games"
 
 const GAME_NAME_COLORS: Record<GameType, string> = {
   conexo: "text-blue-300",
@@ -31,9 +31,7 @@ export function SupportedGames() {
             >
               <span className="text-sm">{info.emoji}</span>
               <div className="min-w-0">
-                <span className={`text-sm font-bold ${GAME_NAME_COLORS[game]}`}>
-                  {info.label}
-                </span>
+                <span className={`text-sm font-bold ${GAME_NAME_COLORS[game]}`}>{info.label}</span>
                 <p className="text-xs text-muted-foreground/70 whitespace-nowrap">
                   {info.description}
                 </p>

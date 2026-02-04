@@ -1,8 +1,15 @@
-import { describe, test, expect } from "bun:test"
-import { readFileSync } from "fs"
-import { resolve } from "path"
+import { describe, expect, test } from "bun:test"
+import { readFileSync } from "node:fs"
+import { resolve } from "node:path"
+import type {
+  ConexoResult,
+  FramedResult,
+  GamedleResult,
+  GuessTheGameResult,
+  LetrosoResult,
+  TermoResult,
+} from "../../types/games"
 import { parseInput } from "../index"
-import type { ConexoResult, FramedResult, GamedleResult, GuessTheGameResult, LetrosoResult, TermoResult } from "../../types/games"
 import { isEmojiLine } from "../utils"
 
 const samplesDir = resolve(import.meta.dir, "../../../samples")
@@ -13,7 +20,10 @@ function readSample(name: string): string {
 
 /** Split a sample file by "---" separator into individual test blocks */
 function splitBlocks(text: string): string[] {
-  return text.split(/\n---\n/).map((b) => b.trim()).filter(Boolean)
+  return text
+    .split(/\n---\n/)
+    .map((b) => b.trim())
+    .filter(Boolean)
 }
 
 // ---------------------------------------------------------------------------
@@ -160,9 +170,7 @@ Joguei letroso.com 27/01/2026 e consegui em 8 tentativas.
   test("Gamedle has all 4 modes", () => {
     const r = results.find((r) => r.gameType === "gamedle") as GamedleResult
     expect(r.modes).toHaveLength(4)
-    expect(r.modes.map((m) => m.mode)).toEqual([
-      "Capa", "Artwork", "Personagem", "Palavras-chave"
-    ])
+    expect(r.modes.map((m) => m.mode)).toEqual(["Capa", "Artwork", "Personagem", "Palavras-chave"])
   })
 
   test("Gamedle grids containing ⬜ are captured", () => {
@@ -340,7 +348,6 @@ describe("termo parser", () => {
 // ---------------------------------------------------------------------------
 
 describe("emoji line detection", () => {
-
   test("⬛ (U+2B1B) is recognized", () => {
     expect(isEmojiLine("⬛⬛⬛⬛⬛")).toBe(true)
   })

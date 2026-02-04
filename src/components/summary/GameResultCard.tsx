@@ -1,7 +1,7 @@
+import { Trophy, X, XCircle } from "lucide-react"
+import { GameBadge } from "@/components/input/GameBadge"
 import type { GameResult, GameType } from "@/types/games"
 import { GAME_LABELS } from "@/types/games"
-import { GameBadge } from "@/components/input/GameBadge"
-import { X, Trophy, XCircle } from "lucide-react"
 
 interface GameResultCardProps {
   result: GameResult
@@ -21,6 +21,7 @@ export function GameResultCard({ result, onRemove }: GameResultCardProps) {
           )}
         </div>
         <button
+          type="button"
           onClick={() => onRemove(result.gameType)}
           className="rounded p-0.5 text-muted-foreground/30 opacity-0 transition-all hover:text-destructive group-hover:opacity-100"
           aria-label={`Remove ${GAME_LABELS[result.gameType]}`}
