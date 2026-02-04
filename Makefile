@@ -1,4 +1,4 @@
-.PHONY: install dev build preview lint lint-fix typecheck ci clean
+.PHONY: install dev build preview test lint lint-fix typecheck ci clean
 
 install: ## Install dependencies
 	bun install
@@ -22,7 +22,10 @@ lint-fix: ## Run ESLint with auto-fix
 typecheck: ## Run TypeScript type checking
 	bun run typecheck
 
-ci: lint typecheck build ## Run full CI pipeline locally (lint + typecheck + build)
+test: ## Run tests
+	bun test
+
+ci: lint typecheck test build ## Run full CI pipeline locally (lint + typecheck + test + build)
 
 clean: ## Remove build artifacts and dependencies
 	rm -rf dist node_modules .vite
