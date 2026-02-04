@@ -3,6 +3,7 @@ import { useGameStore } from "@/hooks/useGameStore"
 import { useToday } from "@/hooks/useToday"
 import { PageShell } from "@/components/layout/PageShell"
 import { Header } from "@/components/layout/Header"
+import { SupportedGames } from "@/components/layout/SupportedGames"
 import { PasteInput } from "@/components/input/PasteInput"
 import { DailySummary } from "@/components/summary/DailySummary"
 import { SharePreview } from "@/components/share/SharePreview"
@@ -48,6 +49,7 @@ export default function App() {
   return (
     <PageShell>
       <Header today={today} />
+      <SupportedGames />
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Left column */}
