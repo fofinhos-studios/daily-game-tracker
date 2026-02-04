@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
 export default defineConfig({
-  base: '/daily-game-tracker/',
+  base: '/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
