@@ -1,6 +1,6 @@
+import { calculateGameStats } from "@/lib/stats"
 import type { AppData } from "@/types/games"
 import { GAME_ORDER } from "@/types/games"
-import { calculateGameStats } from "@/lib/stats"
 import { SuccessRateBar } from "./SuccessRateBar"
 
 interface SuccessRateListProps {
@@ -8,9 +8,9 @@ interface SuccessRateListProps {
 }
 
 export function SuccessRateList({ data }: SuccessRateListProps) {
-  const allStats = GAME_ORDER
-    .map((gameType) => calculateGameStats(data, gameType))
-    .filter((s) => s.totalPlayed > 0)
+  const allStats = GAME_ORDER.map((gameType) => calculateGameStats(data, gameType)).filter(
+    (s) => s.totalPlayed > 0,
+  )
 
   if (allStats.length === 0) {
     return (

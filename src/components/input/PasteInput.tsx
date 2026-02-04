@@ -1,6 +1,6 @@
-import { useState, useCallback, useRef } from "react"
-import type { GameResult } from "@/types/games"
+import { useCallback, useRef, useState } from "react"
 import { parseInput } from "@/parsers"
+import type { GameResult } from "@/types/games"
 import { GameBadge } from "./GameBadge"
 
 interface PasteInputProps {
@@ -40,12 +40,12 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
       const parts: string[] = []
       if (added > 0) parts.push(`${added} game${added > 1 ? "s" : ""} added`)
       if (replaced > 0) parts.push(`${replaced} replaced`)
-      showToast(parts.join(", ") + "!")
+      showToast(`${parts.join(", ")}!`)
       onDatesAffected?.(uniqueDates(results))
       setValue("")
       setDetected([])
     },
-    [onResults, onDatesAffected, showToast]
+    [onResults, onDatesAffected, showToast],
   )
 
   const handlePaste = useCallback(
@@ -62,7 +62,7 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
         showToast("No games detected in pasted text")
       }
     },
-    [submitResults, showToast]
+    [submitResults, showToast],
   )
 
   const handleSubmit = useCallback(() => {
@@ -92,9 +92,14 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
         <div className="animate-fade-in flex items-center gap-2 flex-wrap">
           <span className="text-xs text-muted-foreground">Detected:</span>
           {detected.map((r, i) => (
-            <GameBadge key={`${r.gameType}-${i}`} gameType={r.gameType} className="animate-pulse-once" />
+            <GameBadge
+              key={`${r.gameType}-${i}`}
+              gameType={r.gameType}
+              className="animate-pulse-once"
+            />
           ))}
           <button
+            type="button"
             onClick={handleSubmit}
             className="ml-auto rounded-lg bg-primary/20 px-3 py-1 text-xs font-bold text-primary hover:bg-primary/30 transition-colors border border-primary/30"
           >

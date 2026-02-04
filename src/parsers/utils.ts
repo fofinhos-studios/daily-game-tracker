@@ -5,19 +5,22 @@ export function isEmojiLine(line: string): boolean {
   // then check if anything meaningful (letters) remains.
   const stripped = trimmed
     .replace(/[\u{1F300}-\u{1FAFF}]/gu, "") // emoticons, symbols, pictographs
-    .replace(/[\u{2600}-\u{27BF}]/gu, "")   // misc symbols, dingbats
-    .replace(/[\u{2B00}-\u{2BFF}]/gu, "")   // misc symbols & arrows (⬛⬜)
-    .replace(/[\u{2300}-\u{23FF}]/gu, "")    // misc technical (⏳ etc)
-    .replace(/[\u{FE00}-\u{FE0F}]/gu, "")   // variation selectors
-    .replace(/\u{200D}/gu, "")               // zero-width joiner
-    .replace(/\u{20E3}/gu, "")               // combining enclosing keycap
-    .replace(/[\u{E0020}-\u{E007F}]/gu, "")  // tags
-    .replace(/[0-9]/g, "")                   // keycap base digits
+    .replace(/[\u{2600}-\u{27BF}]/gu, "") // misc symbols, dingbats
+    .replace(/[\u{2B00}-\u{2BFF}]/gu, "") // misc symbols & arrows (⬛⬜)
+    .replace(/[\u{2300}-\u{23FF}]/gu, "") // misc technical (⏳ etc)
+    .replace(/[\u{FE00}-\u{FE0F}]/gu, "") // variation selectors
+    .replace(/\u{200D}/gu, "") // zero-width joiner
+    .replace(/\u{20E3}/gu, "") // combining enclosing keycap
+    .replace(/[\u{E0020}-\u{E007F}]/gu, "") // tags
+    .replace(/[0-9]/g, "") // keycap base digits
     .replace(/\s/g, "")
   return stripped.length === 0 || stripped.length < trimmed.length * 0.3
 }
 
-export function collectEmojiLines(lines: string[], startIndex: number): { grid: string[]; count: number } {
+export function collectEmojiLines(
+  lines: string[],
+  startIndex: number,
+): { grid: string[]; count: number } {
   const grid: string[] = []
   let i = startIndex
   while (i < lines.length) {

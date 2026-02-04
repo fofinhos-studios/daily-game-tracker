@@ -1,6 +1,6 @@
+import { formatDateBR } from "@/lib/dates"
 import type { DayEntry } from "@/types/games"
 import { GAME_ORDER } from "@/types/games"
-import { formatDateBR } from "@/lib/dates"
 
 export function generateShareMessage(entry: DayEntry): string {
   const dateLine = `Daily Games - ${formatDateBR(entry.date)}`

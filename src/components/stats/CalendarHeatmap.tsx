@@ -1,7 +1,7 @@
+import { addDays, format, startOfWeek, subDays } from "date-fns"
 import { useMemo } from "react"
-import { format, subDays, startOfWeek, addDays } from "date-fns"
-import type { AppData } from "@/types/games"
 import { getGamesPlayedOnDate } from "@/lib/stats"
+import type { AppData } from "@/types/games"
 import { CalendarDay } from "./CalendarDay"
 
 interface CalendarHeatmapProps {
@@ -12,7 +12,7 @@ interface CalendarHeatmapProps {
 
 export function CalendarHeatmap({ data, today, onSelectDate }: CalendarHeatmapProps) {
   const calendar = useMemo(() => {
-    const todayDate = new Date(today + "T12:00:00")
+    const todayDate = new Date(`${today}T12:00:00`)
     const weeks = 20 // ~5 months
     const totalDays = weeks * 7
 
@@ -82,7 +82,14 @@ export function CalendarHeatmap({ data, today, onSelectDate }: CalendarHeatmapPr
           <div
             key={i}
             className={`h-2.5 w-2.5 rounded-sm ${
-              ["bg-muted/30", "bg-accent/20", "bg-accent/40", "bg-accent/60", "bg-accent/80", "bg-accent"][i]
+              [
+                "bg-muted/30",
+                "bg-accent/20",
+                "bg-accent/40",
+                "bg-accent/60",
+                "bg-accent/80",
+                "bg-accent",
+              ][i]
             }`}
           />
         ))}

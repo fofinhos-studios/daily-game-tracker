@@ -1,6 +1,6 @@
+import { cn } from "@/lib/utils"
 import type { GameType } from "@/types/games"
 import { GAME_LABELS } from "@/types/games"
-import { cn } from "@/lib/utils"
 
 const GAME_COLORS: Record<GameType, string> = {
   conexo: "bg-blue-500/20 text-blue-300 border-blue-500/30",
@@ -22,7 +22,7 @@ export function GameBadge({ gameType, className }: GameBadgeProps) {
       className={cn(
         "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-bold transition-all",
         GAME_COLORS[gameType],
-        className
+        className,
       )}
     >
       {GAME_LABELS[gameType]}

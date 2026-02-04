@@ -1,6 +1,6 @@
+import { GameBadge } from "@/components/input/GameBadge"
 import type { GameStats } from "@/lib/stats"
 import { GAME_LABELS } from "@/types/games"
-import { GameBadge } from "@/components/input/GameBadge"
 
 interface SuccessRateBarProps {
   stats: GameStats

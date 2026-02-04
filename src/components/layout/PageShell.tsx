@@ -19,9 +19,7 @@ export function PageShell({ children }: { children: ReactNode }) {
       />
 
       {/* Content */}
-      <div className="relative mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-        {children}
-      </div>
+      <div className="relative mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">{children}</div>
     </div>
   )
 }

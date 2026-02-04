@@ -1,6 +1,6 @@
+import { parseBrazilianDate } from "@/lib/dates"
 import type { GamedleMode, GamedleResult } from "@/types/games"
 import type { GameParser, ParseResult } from "./types"
-import { parseBrazilianDate } from "@/lib/dates"
 
 // Format 1: Multi-line block starting with "Gamedle" header
 const BLOCK_HEADER_RE = /^Gamedle$/i
@@ -10,7 +10,8 @@ const CATEGORY_RE = /^(.+?)\s*\(([^)]+)\)\s*#(\d+):\s*$/
 // Format 2: Single-line per mode
 // "🕹️ Gamedle: 06/06/2024 🟥🟥🟩⬜⬜⬜ > https://gamedle.wtf/classic"
 // "🕹️🎨 Gamedle (Artwork mode): 06/06/2024 🟥🟥🟥🟥🟩⬜ > https://gamedle.wtf/artwork"
-const SINGLE_LINE_RE = /^(.+?)\s*Gamedle(?:\s*\(([^)]+)\))?\s*:\s*(\d{1,2}\/\d{1,2}\/\d{4})\s+(.+?)(?:\s*>\s*https?:\/\/\S+)?$/
+const SINGLE_LINE_RE =
+  /^(.+?)\s*Gamedle(?:\s*\(([^)]+)\))?\s*:\s*(\d{1,2}\/\d{1,2}\/\d{4})\s+(.+?)(?:\s*>\s*https?:\/\/\S+)?$/
 
 // Patterns that indicate the start of a different game (stop consuming)
 const GAME_HEADER_PATTERNS = [

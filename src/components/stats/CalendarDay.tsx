@@ -9,13 +9,13 @@ interface CalendarDayProps {
 }
 
 const INTENSITY_CLASSES = [
-  "bg-muted/30",         // 0 games
-  "bg-accent/20",        // 1 game
-  "bg-accent/40",        // 2 games
-  "bg-accent/60",        // 3 games
-  "bg-accent/80",        // 4 games
-  "bg-accent",           // 5 games
-  "bg-primary",          // 6+ games
+  "bg-muted/30", // 0 games
+  "bg-accent/20", // 1 game
+  "bg-accent/40", // 2 games
+  "bg-accent/60", // 3 games
+  "bg-accent/80", // 4 games
+  "bg-accent", // 5 games
+  "bg-primary", // 6+ games
 ]
 
 export function CalendarDay({ date, count, isToday, onClick }: CalendarDayProps) {
@@ -23,11 +23,12 @@ export function CalendarDay({ date, count, isToday, onClick }: CalendarDayProps)
 
   return (
     <button
+      type="button"
       onClick={() => onClick?.(date)}
       className={cn(
         "h-3 w-3 rounded-sm transition-all hover:scale-125 hover:ring-1 hover:ring-foreground/20",
         INTENSITY_CLASSES[intensity],
-        isToday && "ring-1 ring-primary/50"
+        isToday && "ring-1 ring-primary/50",
       )}
       title={`${date}: ${count} game${count !== 1 ? "s" : ""}`}
       aria-label={`${date}: ${count} game${count !== 1 ? "s" : ""}`}

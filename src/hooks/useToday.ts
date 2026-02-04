@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import { todayKey } from "@/lib/dates"
 
 export function useToday(): string {

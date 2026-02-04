@@ -1,5 +1,5 @@
-import { useState, useCallback, useRef } from "react"
-import { Copy, Check } from "lucide-react"
+import { Check, Copy } from "lucide-react"
+import { useCallback, useRef, useState } from "react"
 
 interface CopyButtonProps {
   text: string
@@ -33,6 +33,7 @@ export function CopyButton({ text }: CopyButtonProps) {
 
   return (
     <button
+      type="button"
       onClick={handleCopy}
       className="flex w-full items-center justify-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-bold text-primary transition-all hover:bg-primary/20 active:scale-[0.98]"
     >

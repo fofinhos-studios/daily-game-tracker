@@ -1,5 +1,5 @@
-import type { DayEntry } from "@/types/games"
 import { generateShareMessage } from "@/lib/message"
+import type { DayEntry } from "@/types/games"
 import { CopyButton } from "./CopyButton"
 
 interface SharePreviewProps {

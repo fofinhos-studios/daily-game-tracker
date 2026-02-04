@@ -1,7 +1,7 @@
 import type { DayEntry, GameType } from "@/types/games"
 import { GAME_ORDER } from "@/types/games"
-import { GameResultCard } from "./GameResultCard"
 import { EmptyState } from "./EmptyState"
+import { GameResultCard } from "./GameResultCard"
 
 interface DailySummaryProps {
   entry: DayEntry | undefined
@@ -15,7 +15,7 @@ export function DailySummary({ entry, onRemove, date }: DailySummaryProps) {
   }
 
   const sorted = [...entry.results].sort(
-    (a, b) => GAME_ORDER.indexOf(a.gameType) - GAME_ORDER.indexOf(b.gameType)
+    (a, b) => GAME_ORDER.indexOf(a.gameType) - GAME_ORDER.indexOf(b.gameType),
   )
 
   return (
@@ -26,10 +26,7 @@ export function DailySummary({ entry, onRemove, date }: DailySummaryProps) {
           className="animate-fade-in-up"
           style={{ animationDelay: `${i * 0.05}s` }}
         >
-          <GameResultCard
-            result={result}
-            onRemove={(gameType) => onRemove(date, gameType)}
-          />
+          <GameResultCard result={result} onRemove={(gameType) => onRemove(date, gameType)} />
         </div>
       ))}
     </div>

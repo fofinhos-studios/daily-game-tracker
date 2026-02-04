@@ -1,10 +1,11 @@
+import { parseBrazilianDate } from "@/lib/dates"
 import type { TermoMode, TermoResult } from "@/types/games"
 import type { GameParser, ParseResult } from "./types"
-import { parseBrazilianDate } from "@/lib/dates"
 import { isEmojiLine } from "./utils"
 
 // "joguei term.ooo #1302 6/6 🔥 1" or "term.ooo/2 #1251 🔥 1"
-const HEADER_RE = /^(?:joguei\s+)?term\.ooo(?:\/(\d+))?\s+#(\d+)\s+(?:(\d{1,2}\/\d{1,2}(?:\/\d{4})?)\s+)?(?:(\d+\/\d+)\s+)?🔥\s*(\d+)/i
+const HEADER_RE =
+  /^(?:joguei\s+)?term\.ooo(?:\/(\d+))?\s+#(\d+)\s+(?:(\d{1,2}\/\d{1,2}(?:\/\d{4})?)\s+)?(?:(\d+\/\d+)\s+)?🔥\s*(\d+)/i
 
 export const termoParser: GameParser = {
   gameType: "termo",

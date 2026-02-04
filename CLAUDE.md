@@ -12,21 +12,23 @@ A single-page React app for tracking daily word/puzzle game results. Users paste
 - **CSS:** Tailwind CSS 4 (via `@tailwindcss/vite` plugin, no `tailwind.config` — uses CSS-first `@theme` config)
 - **Utilities:** clsx + tailwind-merge (`cn()` helper in `src/lib/utils.ts`), date-fns, lucide-react icons
 - **Testing:** Bun's built-in test runner (`bun test`)
-- **Linting:** ESLint 9 (flat config)
+- **Linting / Formatting:** Biome
+- **Task runner:** Just (`justfile`)
 - **Deployment:** Vercel (static SPA)
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `make dev` | Start Vite dev server |
-| `make build` | Typecheck + production build |
-| `make test` | Run tests (`bun test`) |
-| `make lint` | Run ESLint |
-| `make lint-fix` | ESLint with auto-fix |
-| `make typecheck` | TypeScript type checking only |
-| `make ci` | Full CI: lint + typecheck + test + build |
-| `make clean` | Remove `dist/`, `node_modules/`, `.vite/` |
+| `just dev` | Start Vite dev server |
+| `just build` | Typecheck + production build |
+| `just test` | Run tests (`bun test`) |
+| `just lint` | Run Biome linter |
+| `just lint-fix` | Biome lint with auto-fix |
+| `just format` | Format code with Biome |
+| `just typecheck` | TypeScript type checking only |
+| `just ci` | Full CI: lint + typecheck + test + build |
+| `just clean` | Remove `dist/`, `node_modules/`, `.vite/` |
 
 ## Directory Structure
 
