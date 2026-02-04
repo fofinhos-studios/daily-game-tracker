@@ -28,6 +28,17 @@ export default function App() {
     setActiveTab("summary")
   }
 
+  const handleDatesAffected = (dates: string[]) => {
+    // If all results landed on today, stay on today.
+    // Otherwise navigate to the first affected date so the user sees them.
+    if (dates.length === 1 && dates[0] === today) return
+    if (dates.length > 0) {
+      const target = dates.includes(today) ? today : dates[0]!
+      setSelectedDate(target === today ? null : target)
+      setActiveTab("summary")
+    }
+  }
+
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: "summary", label: "Today", icon: <Gamepad2 className="h-3.5 w-3.5" /> },
     { id: "share", label: "Share", icon: <Share2 className="h-3.5 w-3.5" /> },
@@ -45,7 +56,7 @@ export default function App() {
             <h2 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
               Paste Results
             </h2>
-            <PasteInput onResults={store.addResults} />
+            <PasteInput onResults={store.addResults} onDatesAffected={handleDatesAffected} />
           </section>
 
           <section>
