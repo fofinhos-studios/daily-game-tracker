@@ -12,7 +12,7 @@ import { useGameStore } from "@/hooks/useGameStore"
 import { useToday } from "@/hooks/useToday"
 import { formatDateDisplay } from "@/lib/dates"
 
-type Tab = "summary" | "share" | "stats"
+type Tab = "summary" | "share"
 
 export default function App() {
   const today = useToday()
@@ -30,8 +30,6 @@ export default function App() {
   }
 
   const handleDatesAffected = (dates: string[]) => {
-    // If all results landed on today, stay on today.
-    // Otherwise navigate to the first affected date so the user sees them.
     if (dates.length === 1 && dates[0] === today) return
     if (dates.length > 0) {
       const target = dates.includes(today) ? today : dates[0]!
@@ -43,7 +41,6 @@ export default function App() {
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: "summary", label: "Today", icon: <Gamepad2 className="h-3.5 w-3.5" /> },
     { id: "share", label: "Share", icon: <Share2 className="h-3.5 w-3.5" /> },
-    { id: "stats", label: "Stats", icon: <BarChart3 className="h-3.5 w-3.5" /> },
   ]
 
   return (
@@ -62,6 +59,20 @@ export default function App() {
               </h2>
               <PasteInput onResults={store.addResults} onDatesAffected={handleDatesAffected} />
             </section>
+
+            <section>
+              <div className="mb-3 flex items-center gap-2">
+                <BarChart3 className="h-3.5 w-3.5 text-muted-foreground" />
+                <h2 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                  Win Rates
+                </h2>
+              </div>
+              <div className="glass rounded-2xl p-4 noise overflow-hidden">
+                <div className="relative z-10">
+                  <SuccessRateList data={store.data} />
+                </div>
+              </div>
+            </section>
           </div>
 
           {/* Right column */}
@@ -75,7 +86,7 @@ export default function App() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
                     activeTab === tab.id
-                      ? "bg-foreground/10 text-foreground shadow-sm"
+                      ? "bg-primary/15 text-primary shadow-sm"
                       : "text-muted-foreground hover:text-foreground/70"
                   }`}
                 >
@@ -106,15 +117,6 @@ export default function App() {
               )}
 
               {activeTab === "share" && <SharePreview entry={entry} />}
-
-              {activeTab === "stats" && (
-                <div className="space-y-4">
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                    Win Rates
-                  </h3>
-                  <SuccessRateList data={store.data} />
-                </div>
-              )}
             </div>
           </div>
         </div>

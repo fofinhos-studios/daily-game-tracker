@@ -32,7 +32,7 @@ export function SupportedGames() {
               <span className="text-sm">{info.emoji}</span>
               <div className="min-w-0">
                 <span className={`text-sm font-bold ${GAME_NAME_COLORS[game]}`}>{info.label}</span>
-                <p className="text-xs text-muted-foreground/70 whitespace-nowrap">
+                <p className="text-[11px] text-muted-foreground whitespace-nowrap">
                   {info.description}
                 </p>
               </div>
