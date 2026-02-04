@@ -22,9 +22,9 @@ export function SuccessRateBar({ stats }: SuccessRateBarProps) {
           )}
         </div>
       </div>
-      <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-muted/40">
         <div
-          className="h-full rounded-full bg-accent transition-all duration-500"
+          className="h-full rounded-full bg-accent transition-all duration-500 shadow-[0_0_8px_oklch(0.6_0.15_165/0.3)]"
           style={{ width: `${stats.winRate}%` }}
           role="progressbar"
           aria-valuenow={stats.winRate}

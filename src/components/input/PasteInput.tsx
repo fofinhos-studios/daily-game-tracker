@@ -79,10 +79,10 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
           onChange={(e) => handleChange(e.target.value)}
           onPaste={handlePaste}
           placeholder="Paste your game results here..."
-          className="h-32 w-full resize-none rounded-xl border border-border bg-card/50 px-4 py-3 text-sm font-light text-foreground placeholder:font-extralight placeholder:text-muted-foreground/50 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-colors"
+          className="h-36 w-full resize-none glass rounded-2xl px-4 py-3 text-sm font-light text-foreground placeholder:font-extralight placeholder:text-muted-foreground/50 focus:animate-glow-pulse focus:outline-none transition-all"
         />
         {toast && (
-          <div className="animate-fade-in absolute -bottom-1 left-0 translate-y-full rounded-lg bg-card border border-primary/30 px-3 py-1.5 text-xs font-bold text-primary shadow-lg">
+          <div className="animate-fade-in absolute -bottom-1 left-0 translate-y-full glass glow-primary rounded-lg px-3 py-1.5 text-xs font-bold text-primary">
             {toast}
           </div>
         )}
@@ -101,7 +101,7 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
           <button
             type="button"
             onClick={handleSubmit}
-            className="ml-auto rounded-lg bg-primary/20 px-3 py-1 text-xs font-bold text-primary hover:bg-primary/30 transition-colors border border-primary/30"
+            className="ml-auto rounded-xl glass border-primary/20 px-4 py-1.5 text-xs font-bold text-primary hover:glow-primary transition-all"
           >
             Add
           </button>

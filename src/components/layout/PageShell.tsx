@@ -5,9 +5,12 @@ export function PageShell({ children }: { children: ReactNode }) {
     <div className="relative min-h-screen overflow-hidden">
       {/* Background gradients */}
       <div className="pointer-events-none fixed inset-0">
-        <div className="absolute -left-1/4 -top-1/4 h-[600px] w-[600px] rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute -bottom-1/4 -right-1/4 h-[500px] w-[500px] rounded-full bg-accent/5 blur-3xl" />
+        <div className="absolute -left-1/3 -top-1/3 h-[800px] w-[800px] rounded-full bg-primary/5 blur-[120px]" />
+        <div className="absolute -bottom-1/3 -right-1/3 h-[700px] w-[700px] rounded-full bg-accent/5 blur-[120px]" />
       </div>
+
+      {/* Noise texture overlay */}
+      <div className="pointer-events-none fixed inset-0 noise" />
 
       {/* Dot grid pattern */}
       <div
@@ -19,7 +22,7 @@ export function PageShell({ children }: { children: ReactNode }) {
       />
 
       {/* Content */}
-      <div className="relative mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">{children}</div>
+      <div className="relative">{children}</div>
     </div>
   )
 }
