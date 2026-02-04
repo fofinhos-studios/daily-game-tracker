@@ -20,7 +20,7 @@ export function GameBadge({ gameType, className }: GameBadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-bold transition-all",
+        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-bold transition-all hover:scale-105",
         GAME_COLORS[gameType],
         className,
       )}

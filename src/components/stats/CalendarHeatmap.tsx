@@ -51,49 +51,53 @@ export function CalendarHeatmap({ data, today, onSelectDate }: CalendarHeatmapPr
   }
 
   return (
-    <div className="overflow-x-auto">
-      <div className="inline-flex gap-[3px]">
-        {Array.from(weeks.entries())
-          .sort(([a], [b]) => a - b)
-          .map(([weekNum, days]) => (
-            <div key={weekNum} className="flex flex-col gap-[3px]">
-              {Array.from({ length: 7 }).map((_, dow) => {
-                const day = days.find((d) => d.dayOfWeek === dow)
-                if (!day) {
-                  return <div key={dow} className="h-3 w-3" />
-                }
-                return (
-                  <CalendarDay
-                    key={day.date}
-                    date={day.date}
-                    count={day.count}
-                    maxCount={calendar.maxCount}
-                    isToday={day.date === today}
-                    onClick={onSelectDate}
-                  />
-                )
-              })}
-            </div>
-          ))}
-      </div>
-      <div className="mt-2 flex items-center gap-1 text-[10px] text-muted-foreground/50">
-        <span>Less</span>
-        {[0, 1, 2, 3, 4, 5].map((i) => (
-          <div
-            key={i}
-            className={`h-2.5 w-2.5 rounded-sm ${
-              [
-                "bg-muted/30",
-                "bg-accent/20",
-                "bg-accent/40",
-                "bg-accent/60",
-                "bg-accent/80",
-                "bg-accent",
-              ][i]
-            }`}
-          />
-        ))}
-        <span>More</span>
+    <div className="glass rounded-2xl p-4 noise overflow-hidden">
+      <div className="relative z-10">
+        <div className="overflow-x-auto">
+          <div className="inline-flex gap-[3px]">
+            {Array.from(weeks.entries())
+              .sort(([a], [b]) => a - b)
+              .map(([weekNum, days]) => (
+                <div key={weekNum} className="flex flex-col gap-[3px]">
+                  {Array.from({ length: 7 }).map((_, dow) => {
+                    const day = days.find((d) => d.dayOfWeek === dow)
+                    if (!day) {
+                      return <div key={dow} className="h-3 w-3" />
+                    }
+                    return (
+                      <CalendarDay
+                        key={day.date}
+                        date={day.date}
+                        count={day.count}
+                        maxCount={calendar.maxCount}
+                        isToday={day.date === today}
+                        onClick={onSelectDate}
+                      />
+                    )
+                  })}
+                </div>
+              ))}
+          </div>
+          <div className="mt-2 flex items-center gap-1 text-[10px] text-muted-foreground/50">
+            <span>Less</span>
+            {[0, 1, 2, 3, 4, 5].map((i) => (
+              <div
+                key={i}
+                className={`h-2.5 w-2.5 rounded-sm ${
+                  [
+                    "bg-muted/30",
+                    "bg-accent/20",
+                    "bg-accent/40",
+                    "bg-accent/60",
+                    "bg-accent/80",
+                    "bg-accent",
+                  ][i]
+                }`}
+              />
+            ))}
+            <span>More</span>
+          </div>
+        </div>
       </div>
     </div>
   )

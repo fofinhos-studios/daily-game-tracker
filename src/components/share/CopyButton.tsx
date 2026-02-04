@@ -35,7 +35,7 @@ export function CopyButton({ text }: CopyButtonProps) {
     <button
       type="button"
       onClick={handleCopy}
-      className="flex w-full items-center justify-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-bold text-primary transition-all hover:bg-primary/20 active:scale-[0.98]"
+      className="flex w-full items-center justify-center gap-2 glass border-primary/20 rounded-xl px-4 py-2 text-sm font-bold text-primary transition-all hover:glow-primary active:scale-[0.98]"
     >
       {copied ? (
         <>

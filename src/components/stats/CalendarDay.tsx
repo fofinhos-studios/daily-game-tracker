@@ -26,7 +26,7 @@ export function CalendarDay({ date, count, isToday, onClick }: CalendarDayProps)
       type="button"
       onClick={() => onClick?.(date)}
       className={cn(
-        "h-3 w-3 rounded-sm transition-all hover:scale-125 hover:ring-1 hover:ring-foreground/20",
+        "h-3 w-3 rounded-sm transition-all hover:scale-150 hover:ring-1 hover:ring-foreground/20 hover:shadow-[0_0_6px_oklch(0.6_0.15_165/0.3)]",
         INTENSITY_CLASSES[intensity],
         isToday && "ring-1 ring-primary/50",
       )}

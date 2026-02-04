@@ -1,4 +1,4 @@
-import { BarChart3, Calendar, Gamepad2, Share2 } from "lucide-react"
+import { Calendar, Gamepad2, Share2, X } from "lucide-react"
 import { useState } from "react"
 import { PasteInput } from "@/components/input/PasteInput"
 import { Header } from "@/components/layout/Header"
@@ -12,13 +12,15 @@ import { useGameStore } from "@/hooks/useGameStore"
 import { useToday } from "@/hooks/useToday"
 import { formatDateDisplay } from "@/lib/dates"
 
-type Tab = "summary" | "share" | "stats"
+type Tab = "summary" | "share"
 
 export default function App() {
   const today = useToday()
   const store = useGameStore()
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<Tab>("summary")
+  const [gamesOpen, setGamesOpen] = useState(false)
+  const [statsOpen, setStatsOpen] = useState(false)
 
   const viewDate = selectedDate || today
   const entry = store.getEntry(viewDate)
@@ -43,47 +45,39 @@ export default function App() {
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: "summary", label: "Today", icon: <Gamepad2 className="h-3.5 w-3.5" /> },
     { id: "share", label: "Share", icon: <Share2 className="h-3.5 w-3.5" /> },
-    { id: "stats", label: "Stats", icon: <BarChart3 className="h-3.5 w-3.5" /> },
   ]
 
   return (
     <PageShell>
-      <Header today={today} />
-      <SupportedGames />
+      <Header
+        today={today}
+        onToggleGames={() => setGamesOpen((v) => !v)}
+        onToggleStats={() => setStatsOpen((v) => !v)}
+        gamesOpen={gamesOpen}
+        statsOpen={statsOpen}
+      />
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Left column */}
-        <div className="space-y-6 animate-fade-in-up delay-1">
-          <section>
-            <h2 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-              Paste Results
-            </h2>
-            <PasteInput onResults={store.addResults} onDatesAffected={handleDatesAffected} />
-          </section>
+      {/* Main content — single column */}
+      <main className="mx-auto max-w-2xl space-y-6 px-4 py-8 sm:px-6">
+        {/* Paste input — hero */}
+        <section className="animate-fade-in-up delay-0">
+          <h2 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+            Paste Results
+          </h2>
+          <PasteInput onResults={store.addResults} onDatesAffected={handleDatesAffected} />
+        </section>
 
-          <section>
-            <div className="mb-3 flex items-center gap-2">
-              <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
-              <h2 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                Activity
-              </h2>
-            </div>
-            <CalendarHeatmap data={store.data} today={today} onSelectDate={handleSelectDate} />
-          </section>
-        </div>
-
-        {/* Right column */}
-        <div className="space-y-4 animate-fade-in-up delay-2">
-          {/* Tabs */}
-          <div className="flex gap-1 rounded-lg bg-muted/30 p-1">
+        {/* Tabs */}
+        <div className="animate-fade-in-up delay-1 space-y-4">
+          <div className="flex gap-1 glass rounded-xl p-1">
             {tabs.map((tab) => (
               <button
                 type="button"
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex flex-1 items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition-all ${
+                className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
                   activeTab === tab.id
-                    ? "bg-card text-foreground shadow-sm"
+                    ? "bg-foreground/10 text-foreground shadow-sm"
                     : "text-muted-foreground hover:text-foreground/70"
                 }`}
               >
@@ -114,18 +108,56 @@ export default function App() {
             )}
 
             {activeTab === "share" && <SharePreview entry={entry} />}
-
-            {activeTab === "stats" && (
-              <div className="space-y-4">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                  Win Rates
-                </h3>
-                <SuccessRateList data={store.data} />
-              </div>
-            )}
           </div>
         </div>
-      </div>
+
+        {/* Calendar heatmap */}
+        <section className="animate-fade-in-up delay-2">
+          <div className="mb-3 flex items-center gap-2">
+            <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+            <h2 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+              Activity
+            </h2>
+          </div>
+          <CalendarHeatmap data={store.data} today={today} onSelectDate={handleSelectDate} />
+        </section>
+      </main>
+
+      {/* Supported games popover */}
+      <SupportedGames open={gamesOpen} onClose={() => setGamesOpen(false)} />
+
+      {/* Stats drawer */}
+      {statsOpen && (
+        <div className="fixed inset-y-0 right-0 z-[55] flex">
+          {/* Backdrop */}
+          <button
+            type="button"
+            tabIndex={-1}
+            className="fixed inset-0 bg-background/40 animate-fade-in cursor-default"
+            onClick={() => setStatsOpen(false)}
+            aria-label="Close stats"
+          />
+          {/* Drawer panel */}
+          <div className="relative ml-auto h-full w-80 glass-strong animate-slide-in-right overflow-y-auto">
+            <div className="p-5">
+              <div className="mb-5 flex items-center justify-between">
+                <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
+                  Win Rates
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => setStatsOpen(false)}
+                  className="flex h-7 w-7 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Close stats"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+              <SuccessRateList data={store.data} />
+            </div>
+          </div>
+        </div>
+      )}
     </PageShell>
   )
 }
