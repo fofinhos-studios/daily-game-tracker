@@ -1,4 +1,3 @@
-import { BarChart3, Calendar, Gamepad2, Share2 } from "lucide-react"
 import { useState } from "react"
 import { PasteInput } from "@/components/input/PasteInput"
 import { Header } from "@/components/layout/Header"
@@ -38,9 +37,9 @@ export default function App() {
     }
   }
 
-  const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
-    { id: "summary", label: "Today", icon: <Gamepad2 className="h-3.5 w-3.5" /> },
-    { id: "share", label: "Share", icon: <Share2 className="h-3.5 w-3.5" /> },
+  const tabs: { id: Tab; label: string }[] = [
+    { id: "summary", label: "Today" },
+    { id: "share", label: "Share" },
   ]
 
   return (
@@ -54,23 +53,14 @@ export default function App() {
           {/* Left column */}
           <div className="space-y-6 animate-fade-in-up delay-1">
             <section>
-              <h2 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                Paste Results
-              </h2>
+              <h2 className="section-heading mb-3">Paste Results</h2>
               <PasteInput onResults={store.addResults} onDatesAffected={handleDatesAffected} />
             </section>
 
             <section>
-              <div className="mb-3 flex items-center gap-2">
-                <BarChart3 className="h-3.5 w-3.5 text-muted-foreground" />
-                <h2 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                  Win Rates
-                </h2>
-              </div>
-              <div className="glass rounded-2xl p-4 noise overflow-hidden">
-                <div className="relative z-10">
-                  <SuccessRateList data={store.data} />
-                </div>
+              <h2 className="section-heading mb-3">Win Rates</h2>
+              <div className="card-surface rounded-xl p-4">
+                <SuccessRateList data={store.data} />
               </div>
             </section>
           </div>
@@ -78,19 +68,18 @@ export default function App() {
           {/* Right column */}
           <div className="space-y-4 animate-fade-in-up delay-2">
             {/* Tabs */}
-            <div className="flex gap-1 glass rounded-xl p-1">
+            <div className="flex gap-1 rounded-lg border border-border bg-muted p-1">
               {tabs.map((tab) => (
                 <button
                   type="button"
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
+                  className={`flex flex-1 items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition-all ${
                     activeTab === tab.id
-                      ? "bg-primary/15 text-primary shadow-sm"
-                      : "text-muted-foreground hover:text-foreground/70"
+                      ? "bg-card text-primary shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  {tab.icon}
                   {tab.label}
                 </button>
               ))}
@@ -123,12 +112,7 @@ export default function App() {
 
         {/* Activity heatmap — full width below grid */}
         <section className="mt-6 animate-fade-in-up delay-3">
-          <div className="mb-3 flex items-center gap-2">
-            <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
-            <h2 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
-              Activity
-            </h2>
-          </div>
+          <h2 className="section-heading mb-3">Activity</h2>
           <CalendarHeatmap data={store.data} today={today} onSelectDate={handleSelectDate} />
         </section>
       </main>

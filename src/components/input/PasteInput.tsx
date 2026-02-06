@@ -79,10 +79,10 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
           onChange={(e) => handleChange(e.target.value)}
           onPaste={handlePaste}
           placeholder="Paste your game results here..."
-          className="h-36 w-full resize-none glass rounded-2xl px-4 py-3 text-sm font-light text-foreground placeholder:font-extralight placeholder:text-muted-foreground/70 focus:animate-glow-pulse focus:outline-none transition-all"
+          className="h-36 w-full resize-none rounded-xl border border-border bg-muted/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/70 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
         />
         {toast && (
-          <div className="animate-fade-in absolute -bottom-1 left-0 translate-y-full glass glow-primary rounded-lg px-3 py-1.5 text-xs font-bold text-primary">
+          <div className="animate-fade-in absolute -bottom-1 left-0 translate-y-full card-surface rounded-lg px-3 py-1.5 text-xs font-bold text-primary">
             {toast}
           </div>
         )}
@@ -101,7 +101,7 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
           <button
             type="button"
             onClick={handleSubmit}
-            className="ml-auto rounded-xl glass border-primary/20 px-4 py-1.5 text-xs font-bold text-primary hover:glow-primary transition-all"
+            className="ml-auto rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Add
           </button>
