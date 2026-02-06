@@ -85,7 +85,7 @@ export function CalendarHeatmap({ data, today, onSelectDate }: CalendarHeatmapPr
                 key={i}
                 className={`h-2.5 w-2.5 rounded-sm ${
                   [
-                    "bg-muted/30",
+                    "bg-muted-foreground/15",
                     "bg-accent/20",
                     "bg-accent/40",
                     "bg-accent/60",
