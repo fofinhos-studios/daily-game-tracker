@@ -9,7 +9,7 @@ interface CalendarDayProps {
 }
 
 const INTENSITY_CLASSES = [
-  "bg-muted/30", // 0 games
+  "bg-muted-foreground/15", // 0 games
   "bg-accent/20", // 1 game
   "bg-accent/40", // 2 games
   "bg-accent/60", // 3 games
