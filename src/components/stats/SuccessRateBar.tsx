@@ -1,6 +1,16 @@
 import { GameBadge } from "@/components/input/GameBadge"
 import type { GameStats } from "@/lib/stats"
+import type { GameType } from "@/types/games"
 import { GAME_LABELS } from "@/types/games"
+
+const GAME_BAR_COLORS: Record<GameType, string> = {
+  conexo: "bg-blue-500",
+  framed: "bg-red-500",
+  gamedle: "bg-purple-500",
+  guessthegame: "bg-emerald-500",
+  letroso: "bg-yellow-500",
+  termo: "bg-orange-500",
+}
 
 interface SuccessRateBarProps {
   stats: GameStats
@@ -16,15 +26,15 @@ export function SuccessRateBar({ stats }: SuccessRateBarProps) {
             {stats.winRate}% ({stats.totalWon}/{stats.totalPlayed})
           </span>
           {stats.currentStreak > 0 && (
-            <span className="text-accent font-bold" title={`Best: ${stats.bestStreak}`}>
-              🔥 {stats.currentStreak}
+            <span className="text-primary font-bold" title={`Best: ${stats.bestStreak}`}>
+              {stats.currentStreak} streak
             </span>
           )}
         </div>
       </div>
-      <div className="h-2 w-full overflow-hidden rounded-full bg-muted/40">
+      <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
         <div
-          className="h-full rounded-full bg-accent transition-all duration-500 shadow-[0_0_8px_oklch(0.6_0.15_165/0.3)]"
+          className={`h-full rounded-full transition-all duration-500 ${GAME_BAR_COLORS[stats.gameType]}`}
           style={{ width: `${stats.winRate}%` }}
           role="progressbar"
           aria-valuenow={stats.winRate}
