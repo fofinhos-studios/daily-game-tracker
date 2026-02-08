@@ -8,22 +8,17 @@ interface SharePreviewProps {
 
 export function SharePreview({ entry }: SharePreviewProps) {
   if (!entry || entry.results.length === 0) {
-    return (
-      <div className="card-surface rounded-xl px-6 py-8 text-center">
-        <p className="text-xs text-muted-foreground/60">Your shareable message will appear here</p>
-      </div>
-    )
+    return null
   }
 
   const message = generateShareMessage(entry)
 
   return (
-    <div className="space-y-3">
-      <div className="card-surface rounded-xl p-4">
-        <pre className="whitespace-pre-wrap font-mono text-xs leading-relaxed text-foreground/80">
-          {message}
-        </pre>
-      </div>
+    <div className="card-surface rounded-xl p-4 space-y-3">
+      <h3 className="section-heading">Share</h3>
+      <pre className="whitespace-pre-wrap font-mono text-xs leading-relaxed text-foreground/80">
+        {message}
+      </pre>
       <CopyButton text={message} />
     </div>
   )
