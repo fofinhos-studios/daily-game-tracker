@@ -25,11 +25,7 @@ export function Header({ today }: HeaderProps) {
             className="rounded-md p-1.5 text-primary-foreground/70 transition-colors hover:text-primary-foreground hover:bg-primary-foreground/10"
             aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
           >
-            {theme === "light" ? (
-              <Moon className="h-4 w-4" />
-            ) : (
-              <Sun className="h-4 w-4" />
-            )}
+            {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
           </button>
         </div>
       </div>
