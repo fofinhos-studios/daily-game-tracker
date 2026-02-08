@@ -1,36 +1,57 @@
 import { addDays, format, startOfWeek, subDays } from "date-fns"
 import { useMemo } from "react"
-import { getGamesPlayedOnDate } from "@/lib/stats"
+import { getWinRateForDate } from "@/lib/stats"
 import type { AppData, GameType } from "@/types/games"
 import { CalendarDay } from "./CalendarDay"
 
-interface CalendarHeatmapProps {
+interface AccuracyHeatmapProps {
   data: AppData
   today: string
   gameFilter?: Set<GameType>
   onSelectDate?: (date: string) => void
 }
 
-export function CalendarHeatmap({ data, today, gameFilter, onSelectDate }: CalendarHeatmapProps) {
+const ACCURACY_CLASSES = [
+  "bg-muted",
+  "bg-red-400",
+  "bg-orange-400",
+  "bg-yellow-400",
+  "bg-lime-400",
+  "bg-emerald-400",
+  "bg-green-500",
+]
+
+function getAccuracyIntensity(rate: number | null): number {
+  if (rate === null) return 0
+  if (rate === 0) return 1
+  if (rate <= 25) return 2
+  if (rate <= 50) return 3
+  if (rate <= 75) return 4
+  if (rate < 100) return 5
+  return 6
+}
+
+export function AccuracyHeatmap({ data, today, gameFilter, onSelectDate }: AccuracyHeatmapProps) {
   const calendar = useMemo(() => {
     const todayDate = new Date(`${today}T12:00:00`)
-    const weeks = 20 // ~5 months
+    const weeks = 20
     const totalDays = weeks * 7
 
-    // Find the start: go back totalDays from today, then align to start of week (Sunday)
     const rawStart = subDays(todayDate, totalDays)
     const start = startOfWeek(rawStart, { weekStartsOn: 0 })
 
-    const days: { date: string; count: number; dayOfWeek: number; week: number }[] = []
+    const days: { date: string; rate: number | null; intensity: number; dayOfWeek: number; week: number }[] = []
     let currentDate = start
 
     for (let w = 0; w <= weeks; w++) {
       for (let d = 0; d < 7; d++) {
         const dateKey = format(currentDate, "yyyy-MM-dd")
         if (dateKey <= today) {
+          const rate = getWinRateForDate(data, dateKey, gameFilter)
           days.push({
             date: dateKey,
-            count: getGamesPlayedOnDate(data, dateKey, gameFilter),
+            rate,
+            intensity: getAccuracyIntensity(rate),
             dayOfWeek: d,
             week: w,
           })
@@ -39,11 +60,9 @@ export function CalendarHeatmap({ data, today, gameFilter, onSelectDate }: Calen
       }
     }
 
-    const maxCount = Math.max(1, ...days.map((d) => d.count))
-    return { days, maxCount, weeks }
+    return { days, weeks }
   }, [data, today, gameFilter])
 
-  // Group by week
   const weeks = new Map<number, typeof calendar.days>()
   for (const day of calendar.days) {
     const arr = weeks.get(day.week) || []
@@ -64,14 +83,15 @@ export function CalendarHeatmap({ data, today, gameFilter, onSelectDate }: Calen
                   if (!day) {
                     return <div key={dow} className="h-3 w-3" />
                   }
+                  const tooltip = day.rate !== null ? `${day.date}: ${day.rate}% accuracy` : `${day.date}: no games`
                   return (
-                    <CalendarDay
+                    <button
+                      type="button"
                       key={day.date}
-                      date={day.date}
-                      count={day.count}
-                      maxCount={calendar.maxCount}
-                      isToday={day.date === today}
-                      onClick={onSelectDate}
+                      onClick={() => onSelectDate?.(day.date)}
+                      className={`h-3 w-3 rounded-sm transition-transform hover:scale-150 ${ACCURACY_CLASSES[day.intensity]} ${day.date === today ? "ring-1 ring-foreground/30" : ""}`}
+                      title={tooltip}
+                      aria-label={tooltip}
                     />
                   )
                 })}
@@ -79,18 +99,11 @@ export function CalendarHeatmap({ data, today, gameFilter, onSelectDate }: Calen
             ))}
         </div>
         <div className="mt-2 flex items-center gap-1 text-[10px] text-muted-foreground/70">
-          <span>Less</span>
-          {[
-            "bg-muted",
-            "bg-orange-100",
-            "bg-orange-200",
-            "bg-red-300",
-            "bg-red-400",
-            "bg-red-500",
-          ].map((cls, i) => (
+          <span>0%</span>
+          {ACCURACY_CLASSES.slice(1).map((cls, i) => (
             <div key={i} className={`h-2.5 w-2.5 rounded-sm ${cls}`} />
           ))}
-          <span>More</span>
+          <span>100%</span>
         </div>
       </div>
     </div>
