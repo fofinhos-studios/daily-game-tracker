@@ -34,11 +34,7 @@ export function SuccessRateList({ data, gameFilter }: SuccessRateListProps) {
         const key = stats.subGameKey || stats.gameType
         const { mode } = parseSubGameKey(key)
         return (
-          <SuccessRateBar
-            key={key}
-            stats={stats}
-            label={mode ? getSubGameLabel(key) : undefined}
-          />
+          <SuccessRateBar key={key} stats={stats} label={mode ? getSubGameLabel(key) : undefined} />
         )
       })}
     </div>

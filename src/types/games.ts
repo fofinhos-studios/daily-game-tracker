@@ -135,9 +135,7 @@ export function createEmptyAppData(): AppData {
 // Sub-game support: "gameType" or "gameType:mode"
 export type SubGameKey = string
 
-export function getSubGameEntries(
-  result: GameResult,
-): { key: SubGameKey; won: boolean }[] {
+export function getSubGameEntries(result: GameResult): { key: SubGameKey; won: boolean }[] {
   if (result.gameType === "gamedle") {
     return result.modes.map((m) => ({
       key: `gamedle:${m.mode}`,

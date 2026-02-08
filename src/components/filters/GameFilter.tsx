@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react"
 import { ChevronDown, X } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
 import { GAME_LABELS, type GameType } from "@/types/games"
 
 interface GameFilterProps {
@@ -38,9 +38,7 @@ export function GameFilter({ availableGames, selected, onChange }: GameFilterPro
     onChange(next)
   }
 
-  const sorted = [...availableGames].sort((a, b) =>
-    GAME_LABELS[a].localeCompare(GAME_LABELS[b]),
-  )
+  const sorted = [...availableGames].sort((a, b) => GAME_LABELS[a].localeCompare(GAME_LABELS[b]))
 
   return (
     <div ref={ref} className="relative">
@@ -75,7 +73,9 @@ export function GameFilter({ availableGames, selected, onChange }: GameFilterPro
               ))}
           </div>
         )}
-        <ChevronDown className={`h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
+        <ChevronDown
+          className={`h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`}
+        />
       </button>
 
       {open && (

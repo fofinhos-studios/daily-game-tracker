@@ -90,9 +90,9 @@ export function DailySummary({ entry, onRemove, date, gameFilter }: DailySummary
   }
 
   return (
-    <div className="space-y-2">
+    <ul className="space-y-2">
       {sorted.map((result, i) => (
-        <div
+        <li
           key={result.gameType}
           className={`animate-fade-in-up ${draggedIdx === i ? "opacity-50" : ""} ${dragOverIdx === i ? "ring-2 ring-primary/30 rounded-xl" : ""}`}
           style={{ animationDelay: `${i * 0.05}s` }}
@@ -116,8 +116,8 @@ export function DailySummary({ entry, onRemove, date, gameFilter }: DailySummary
             onRemove={(gameType) => onRemove(date, gameType)}
             draggable
           />
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   )
 }

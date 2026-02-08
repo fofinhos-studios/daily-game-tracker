@@ -10,14 +10,14 @@
   --color-foreground: oklch(0.22 0.04 50);
   --color-muted: oklch(0.93 0.01 70);
   --color-muted-foreground: oklch(0.45 0.03 50);
-  --color-primary: oklch(0.50 0.18 280);
+  --color-primary: oklch(0.5 0.18 280);
   --color-primary-foreground: oklch(0.97 0.01 70);
   --color-accent: oklch(0.56 0.08 150);
   --color-accent-foreground: oklch(0.97 0.01 70);
   --color-card: oklch(1 0 0);
   --color-card-foreground: oklch(0.22 0.04 50);
   --color-border: oklch(0.88 0.01 70);
-  --color-ring: oklch(0.50 0.18 280);
+  --color-ring: oklch(0.5 0.18 280);
   --color-destructive: oklch(0.55 0.2 25);
   --color-destructive-foreground: oklch(0.97 0.01 70);
   --color-header: oklch(0.25 0.03 280);

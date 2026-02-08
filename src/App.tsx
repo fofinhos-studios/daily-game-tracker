@@ -166,9 +166,7 @@ export default function App() {
         </div>
       </main>
 
-      {showSupportedGames && (
-        <SupportedGamesModal onClose={() => setShowSupportedGames(false)} />
-      )}
+      {showSupportedGames && <SupportedGamesModal onClose={() => setShowSupportedGames(false)} />}
     </PageShell>
   )
 }

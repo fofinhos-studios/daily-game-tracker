@@ -19,7 +19,8 @@ function readSample(name: string): string {
 }
 
 /** Split a sample file by "---" separator into individual test blocks */
-function splitBlocks(text: string): string[] {
+function splitBlocks(text: string | undefined): string[] {
+  if (!text) return []
   return text
     .split(/\n---\n/)
     .map((b) => b.trim())
