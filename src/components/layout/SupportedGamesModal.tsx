@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react"
 import { ExternalLink, X } from "lucide-react"
+import { useEffect, useRef } from "react"
 import type { GameType } from "@/types/games"
 import { GAME_INFO, GAME_ORDER } from "@/types/games"
 
@@ -39,9 +39,15 @@ export function SupportedGamesModal({ onClose }: SupportedGamesModalProps) {
   return (
     <div
       ref={overlayRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Supported Games"
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm animate-fade-in"
       onClick={(e) => {
         if (e.target === overlayRef.current) onClose()
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") onClose()
       }}
     >
       <div className="card-surface mx-4 w-full max-w-lg rounded-2xl p-6 shadow-xl animate-fade-in-up">

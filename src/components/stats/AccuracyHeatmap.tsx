@@ -2,7 +2,6 @@ import { addDays, format, startOfWeek, subDays } from "date-fns"
 import { useMemo } from "react"
 import { getWinRateForDate } from "@/lib/stats"
 import type { AppData, GameType } from "@/types/games"
-import { CalendarDay } from "./CalendarDay"
 
 interface AccuracyHeatmapProps {
   data: AppData
@@ -40,7 +39,13 @@ export function AccuracyHeatmap({ data, today, gameFilter, onSelectDate }: Accur
     const rawStart = subDays(todayDate, totalDays)
     const start = startOfWeek(rawStart, { weekStartsOn: 0 })
 
-    const days: { date: string; rate: number | null; intensity: number; dayOfWeek: number; week: number }[] = []
+    const days: {
+      date: string
+      rate: number | null
+      intensity: number
+      dayOfWeek: number
+      week: number
+    }[] = []
     let currentDate = start
 
     for (let w = 0; w <= weeks; w++) {
@@ -83,7 +88,10 @@ export function AccuracyHeatmap({ data, today, gameFilter, onSelectDate }: Accur
                   if (!day) {
                     return <div key={dow} className="h-3 w-3" />
                   }
-                  const tooltip = day.rate !== null ? `${day.date}: ${day.rate}% accuracy` : `${day.date}: no games`
+                  const tooltip =
+                    day.rate !== null
+                      ? `${day.date}: ${day.rate}% accuracy`
+                      : `${day.date}: no games`
                   return (
                     <button
                       type="button"

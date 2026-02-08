@@ -17,7 +17,8 @@ const parsers: GameParser[] = [
   termoParser,
 ]
 
-export function parseInput(text: string): GameResult[] {
+export function parseInput(text: string | undefined): GameResult[] {
+  if (!text) return []
   const lines = text.split("\n")
   const results: GameResult[] = []
   const fallbackDate = todayKey()

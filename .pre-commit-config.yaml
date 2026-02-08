@@ -1,0 +1,38 @@
+# Pre-commit hooks configuration
+# 
+# OPTION 1: Using pre-commit (requires: pip install pre-commit)
+# Run: pre-commit install
+repos:
+  - repo: local
+    hooks:
+      - id: lint
+        name: Lint (Biome)
+        entry: bun run lint
+        language: system
+        pass_filenames: false
+        types: [typescript, tsx, javascript, jsx]
+
+      - id: typecheck
+        name: Type Check (TypeScript)
+        entry: bun run typecheck
+        language: system
+        pass_filenames: false
+        types: [typescript, tsx]
+
+      - id: test
+        name: Test (Bun)
+        entry: bun test
+        language: system
+        pass_filenames: false
+        types: [typescript, tsx]
+
+      - id: format
+        name: Format (Biome)
+        entry: bun run format
+        language: system
+        pass_filenames: false
+        types: [typescript, tsx, javascript, jsx]
+
+# OPTION 2: Simple Git Hook (no additional dependencies)
+# Create .git/hooks/pre-commit with the contents of .pre-commit-hooks.sh
+# Make it executable: chmod +x .git/hooks/pre-commit
