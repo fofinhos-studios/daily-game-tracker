@@ -14,13 +14,20 @@ const GAME_BAR_COLORS: Record<GameType, string> = {
 
 interface SuccessRateBarProps {
   stats: GameStats
+  label?: string
 }
 
-export function SuccessRateBar({ stats }: SuccessRateBarProps) {
+export function SuccessRateBar({ stats, label }: SuccessRateBarProps) {
+  const displayLabel = label || GAME_LABELS[stats.gameType]
+
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <GameBadge gameType={stats.gameType} />
+        {label ? (
+          <span className="text-xs font-bold text-foreground/80">{label}</span>
+        ) : (
+          <GameBadge gameType={stats.gameType} />
+        )}
         <div className="flex items-center gap-3 text-xs">
           <span className="text-muted-foreground">
             {stats.winRate}% ({stats.totalWon}/{stats.totalPlayed})
@@ -40,7 +47,7 @@ export function SuccessRateBar({ stats }: SuccessRateBarProps) {
           aria-valuenow={stats.winRate}
           aria-valuemin={0}
           aria-valuemax={100}
-          aria-label={`${GAME_LABELS[stats.gameType]} win rate: ${stats.winRate}%`}
+          aria-label={`${displayLabel} win rate: ${stats.winRate}%`}
         />
       </div>
     </div>

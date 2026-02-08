@@ -10,6 +10,13 @@ export function generateShareMessage(entry: DayEntry): string {
     return GAME_ORDER.indexOf(a.gameType) - GAME_ORDER.indexOf(b.gameType)
   })
 
-  const blocks = sorted.map((r) => r.rawText)
+  const blocks = sorted.map((r) => {
+    return r.rawText
+      .replace(/\s*>\s*https?:\/\/\S+/g, "")
+      .replace(/https?:\/\/\S+/g, "")
+      .replace(/[ \t]+$/gm, "")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim()
+  })
   return [dateLine, "", ...blocks.join("\n\n").split("\n")].join("\n")
 }

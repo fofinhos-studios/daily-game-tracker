@@ -1,31 +1,52 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Young Serif", ui-serif, Georgia, serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
+  /* Light theme (default) — purple primary */
   --color-background: oklch(0.97 0.01 70);
   --color-foreground: oklch(0.22 0.04 50);
   --color-muted: oklch(0.93 0.01 70);
   --color-muted-foreground: oklch(0.45 0.03 50);
-  --color-primary: oklch(0.48 0.17 25);
+  --color-primary: oklch(0.50 0.18 280);
   --color-primary-foreground: oklch(0.97 0.01 70);
   --color-accent: oklch(0.56 0.08 150);
   --color-accent-foreground: oklch(0.97 0.01 70);
   --color-card: oklch(1 0 0);
   --color-card-foreground: oklch(0.22 0.04 50);
   --color-border: oklch(0.88 0.01 70);
-  --color-ring: oklch(0.48 0.17 25);
+  --color-ring: oklch(0.50 0.18 280);
   --color-destructive: oklch(0.55 0.2 25);
   --color-destructive-foreground: oklch(0.97 0.01 70);
-  --color-header: oklch(0.22 0.04 50);
-  --color-header-accent: oklch(0.72 0.12 80);
+  --color-header: oklch(0.25 0.03 280);
+  --color-header-accent: oklch(0.65 0.15 280);
 
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
+}
+
+/* Dark theme — orange/amber primary */
+[data-theme="dark"] {
+  --color-background: oklch(0.145 0.02 260);
+  --color-foreground: oklch(0.9 0.03 80);
+  --color-muted: oklch(0.25 0.015 260);
+  --color-muted-foreground: oklch(0.6 0.02 80);
+  --color-primary: oklch(0.72 0.18 55);
+  --color-primary-foreground: oklch(0.15 0.02 55);
+  --color-accent: oklch(0.6 0.15 165);
+  --color-accent-foreground: oklch(0.95 0.02 165);
+  --color-card: oklch(0.18 0.015 260);
+  --color-card-foreground: oklch(0.9 0.03 80);
+  --color-border: oklch(0.28 0.015 260);
+  --color-ring: oklch(0.72 0.18 55);
+  --color-destructive: oklch(0.6 0.2 25);
+  --color-destructive-foreground: oklch(0.95 0.02 25);
+  --color-header: oklch(0.13 0.015 260);
+  --color-header-accent: oklch(0.72 0.18 55);
 }
 
 *,
@@ -51,6 +72,11 @@ body {
   box-shadow: 0 2px 8px rgba(44, 24, 16, 0.06);
 }
 
+[data-theme="dark"] .card-surface {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Light mode: paper grain texture */
 .paper-grain::before {
   content: "";
   position: fixed;
@@ -62,12 +88,43 @@ body {
   background-size: 128px 128px;
 }
 
+/* Dark mode: noise texture */
+[data-theme="dark"] .paper-grain::before {
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 .section-heading {
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--color-muted-foreground);
+}
+
+/* Dark mode gradient orbs */
+[data-theme="dark"] .dark-orbs .orb-primary {
+  position: absolute;
+  left: -15%;
+  top: -15%;
+  height: 600px;
+  width: 600px;
+  border-radius: 50%;
+  background: oklch(0.72 0.18 55 / 0.06);
+  filter: blur(100px);
+  pointer-events: none;
+}
+
+[data-theme="dark"] .dark-orbs .orb-accent {
+  position: absolute;
+  right: -15%;
+  bottom: -15%;
+  height: 500px;
+  width: 500px;
+  border-radius: 50%;
+  background: oklch(0.6 0.15 165 / 0.06);
+  filter: blur(100px);
+  pointer-events: none;
 }
 
 /* Animations */
