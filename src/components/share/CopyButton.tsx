@@ -35,6 +35,7 @@ export function CopyButton({ text }: CopyButtonProps) {
     <button
       type="button"
       onClick={handleCopy}
+      title="Copy the combined results message to your clipboard"
       className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90 active:scale-[0.98]"
     >
       {copied ? (

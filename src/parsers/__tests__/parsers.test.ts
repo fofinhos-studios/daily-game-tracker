@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs"
 import { resolve } from "node:path"
 import type {
   ConexoResult,
+  ExpressoResult,
   FramedResult,
   GamedleResult,
   GuessTheGameResult,
@@ -315,6 +316,22 @@ describe("letroso parser", () => {
     const r = parseInput(blocks[2]!)[0] as LetrosoResult
     expect(r.attempts).toBe(2)
     expect(r.won).toBe(true)
+  })
+})
+
+describe("expresso parser", () => {
+  const input = readSample("expresso.txt")
+
+  test("parses victory and preserves word spacing", () => {
+    const results = parseInput(input)
+    expect(results).toHaveLength(1)
+
+    const r = results[0] as ExpressoResult
+    expect(r.gameType).toBe("expresso")
+    expect(r.date).toBe("2026-06-13")
+    expect(r.attempts).toBe(6)
+    expect(r.won).toBe(true)
+    expect(r.grid[0]).toBe("⬛🟩⬛ ⬛⬛ ⬛⬛🟪⬛🟪🟨")
   })
 })
 

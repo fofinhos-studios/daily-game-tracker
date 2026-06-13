@@ -1,5 +1,8 @@
 import { addDays, format, startOfWeek, subDays } from "date-fns"
+import { Target } from "lucide-react"
 import { useMemo } from "react"
+import { HELP_TEXT } from "@/components/help/helpContent"
+import { SectionHeading } from "@/components/help/SectionHeading"
 import { getWinRateForDate } from "@/lib/stats"
 import type { AppData, GameType } from "@/types/games"
 
@@ -77,6 +80,9 @@ export function AccuracyHeatmap({ data, today, gameFilter, onSelectDate }: Accur
 
   return (
     <div className="card-surface rounded-xl p-4">
+      <SectionHeading className="mb-3" help={HELP_TEXT.accuracy} icon={Target}>
+        Accuracy
+      </SectionHeading>
       <div className="overflow-x-auto">
         <div className="inline-flex gap-[3px]">
           {Array.from(weeks.entries())

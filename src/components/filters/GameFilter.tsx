@@ -1,6 +1,7 @@
-import { ChevronDown, X } from "lucide-react"
+import { ChevronDown, SlidersHorizontal, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { GAME_LABELS, type GameType } from "@/types/games"
+import { GameIcon } from "../input/GameIcon"
 
 interface GameFilterProps {
   availableGames: GameType[]
@@ -45,8 +46,13 @@ export function GameFilter({ availableGames, selected, onChange }: GameFilterPro
       <button
         type="button"
         onClick={() => setOpen(!open)}
+        title="Filter results, activity, accuracy, and win rates by game"
         className="flex w-full items-center justify-between gap-2 rounded-lg border border-border bg-card px-3 py-2 text-xs transition-colors hover:border-primary/30"
       >
+        <SlidersHorizontal
+          aria-hidden="true"
+          className="h-3.5 w-3.5 shrink-0 text-muted-foreground"
+        />
         {selected.size === 0 ? (
           <span className="text-muted-foreground">All games</span>
         ) : (
@@ -58,6 +64,7 @@ export function GameFilter({ availableGames, selected, onChange }: GameFilterPro
                   key={game}
                   className="inline-flex items-center gap-1 rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary"
                 >
+                  <GameIcon gameType={game} className="h-3.5 w-3.5" />
                   {GAME_LABELS[game]}
                   <button
                     type="button"
@@ -65,6 +72,8 @@ export function GameFilter({ availableGames, selected, onChange }: GameFilterPro
                       e.stopPropagation()
                       removeGame(game)
                     }}
+                    aria-label={`Remove ${GAME_LABELS[game]} filter`}
+                    title={`Remove ${GAME_LABELS[game]} filter`}
                     className="rounded-sm hover:text-destructive"
                   >
                     <X className="h-3 w-3" />
@@ -91,11 +100,7 @@ export function GameFilter({ availableGames, selected, onChange }: GameFilterPro
                   : "text-foreground hover:bg-muted"
               }`}
             >
-              <span
-                className={`h-2 w-2 rounded-full ${
-                  selected.has(game) ? "bg-primary" : "bg-muted-foreground/30"
-                }`}
-              />
+              <GameIcon gameType={game} className="h-4 w-4" />
               {GAME_LABELS[game]}
             </button>
           ))}

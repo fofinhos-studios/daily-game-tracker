@@ -7,7 +7,7 @@ export function EmptyState() {
         <ClipboardPaste className="mb-3 h-8 w-8 text-muted-foreground/40" />
         <p className="text-sm font-bold text-muted-foreground">No games yet today</p>
         <p className="mt-1 text-xs text-muted-foreground/60">
-          Paste your game results above to get started
+          Paste a result or mark a loss to get started
         </p>
       </div>
     </div>

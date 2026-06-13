@@ -31,22 +31,22 @@
 
 /* Dark theme — orange/amber primary */
 [data-theme="dark"] {
-  --color-background: oklch(0.145 0.02 260);
-  --color-foreground: oklch(0.9 0.03 80);
-  --color-muted: oklch(0.25 0.015 260);
-  --color-muted-foreground: oklch(0.6 0.02 80);
-  --color-primary: oklch(0.72 0.18 55);
-  --color-primary-foreground: oklch(0.15 0.02 55);
+  --color-background: oklch(0.17 0.018 260);
+  --color-foreground: oklch(0.96 0.012 80);
+  --color-muted: oklch(0.27 0.018 260);
+  --color-muted-foreground: oklch(0.78 0.018 80);
+  --color-primary: oklch(0.78 0.16 65);
+  --color-primary-foreground: oklch(0.14 0.02 55);
   --color-accent: oklch(0.6 0.15 165);
   --color-accent-foreground: oklch(0.95 0.02 165);
-  --color-card: oklch(0.18 0.015 260);
-  --color-card-foreground: oklch(0.9 0.03 80);
-  --color-border: oklch(0.28 0.015 260);
+  --color-card: oklch(0.22 0.018 260);
+  --color-card-foreground: oklch(0.96 0.012 80);
+  --color-border: oklch(0.38 0.02 260);
   --color-ring: oklch(0.72 0.18 55);
   --color-destructive: oklch(0.6 0.2 25);
   --color-destructive-foreground: oklch(0.95 0.02 25);
-  --color-header: oklch(0.13 0.015 260);
-  --color-header-accent: oklch(0.72 0.18 55);
+  --color-header: oklch(0.12 0.018 260);
+  --color-header-accent: oklch(0.78 0.16 65);
 }
 
 *,
@@ -74,6 +74,96 @@ body {
 
 [data-theme="dark"] .card-surface {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .bg-header {
+  color: var(--color-foreground);
+}
+
+[data-theme="dark"] .bg-header .text-primary-foreground {
+  color: var(--color-foreground);
+}
+
+[data-theme="dark"] .bg-header .text-primary-foreground\/70 {
+  color: var(--color-muted-foreground);
+}
+
+[data-theme="dark"] .text-blue-700,
+[data-theme="dark"] .text-blue-600 {
+  color: oklch(0.78 0.12 250);
+}
+
+[data-theme="dark"] .text-cyan-700,
+[data-theme="dark"] .text-cyan-600 {
+  color: oklch(0.82 0.12 205);
+}
+
+[data-theme="dark"] .text-red-700,
+[data-theme="dark"] .text-red-600 {
+  color: oklch(0.78 0.15 25);
+}
+
+[data-theme="dark"] .text-purple-700,
+[data-theme="dark"] .text-purple-600 {
+  color: oklch(0.8 0.13 300);
+}
+
+[data-theme="dark"] .text-emerald-700,
+[data-theme="dark"] .text-emerald-600 {
+  color: oklch(0.8 0.12 160);
+}
+
+[data-theme="dark"] .text-yellow-700,
+[data-theme="dark"] .text-yellow-600 {
+  color: oklch(0.86 0.14 90);
+}
+
+[data-theme="dark"] .text-orange-700,
+[data-theme="dark"] .text-orange-600 {
+  color: oklch(0.82 0.15 60);
+}
+
+[data-theme="dark"] .bg-blue-50 {
+  background-color: oklch(0.3 0.07 250);
+}
+[data-theme="dark"] .border-blue-200 {
+  border-color: oklch(0.5 0.1 250);
+}
+[data-theme="dark"] .bg-cyan-50 {
+  background-color: oklch(0.3 0.06 205);
+}
+[data-theme="dark"] .border-cyan-200 {
+  border-color: oklch(0.5 0.09 205);
+}
+[data-theme="dark"] .bg-red-50 {
+  background-color: oklch(0.3 0.07 25);
+}
+[data-theme="dark"] .border-red-200 {
+  border-color: oklch(0.5 0.1 25);
+}
+[data-theme="dark"] .bg-purple-50 {
+  background-color: oklch(0.3 0.07 300);
+}
+[data-theme="dark"] .border-purple-200 {
+  border-color: oklch(0.5 0.1 300);
+}
+[data-theme="dark"] .bg-emerald-50 {
+  background-color: oklch(0.3 0.06 160);
+}
+[data-theme="dark"] .border-emerald-200 {
+  border-color: oklch(0.5 0.09 160);
+}
+[data-theme="dark"] .bg-yellow-50 {
+  background-color: oklch(0.3 0.06 90);
+}
+[data-theme="dark"] .border-yellow-200 {
+  border-color: oklch(0.5 0.1 90);
+}
+[data-theme="dark"] .bg-orange-50 {
+  background-color: oklch(0.3 0.07 60);
+}
+[data-theme="dark"] .border-orange-200 {
+  border-color: oklch(0.5 0.1 60);
 }
 
 /* Light mode: paper grain texture */

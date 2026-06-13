@@ -1,4 +1,5 @@
 import { useCallback } from "react"
+import { mergeAppData } from "@/lib/backup"
 import type { AppData, DayEntry, GameResult, GameType } from "@/types/games"
 import { createEmptyAppData } from "@/types/games"
 import { useLocalStorage } from "./useLocalStorage"
@@ -12,6 +13,8 @@ interface GameStore {
   getEntry: (date: string) => DayEntry | undefined
   getAllDates: () => string[]
   clearDay: (date: string) => void
+  mergeData: (data: AppData) => void
+  replaceData: (data: AppData) => void
 }
 
 export function useGameStore(): GameStore {
@@ -100,5 +103,21 @@ export function useGameStore(): GameStore {
     [setData],
   )
 
-  return { data, addResults, removeResult, getEntry, getAllDates, clearDay }
+  const mergeData = useCallback(
+    (imported: AppData) => setData((current) => mergeAppData(current, imported)),
+    [setData],
+  )
+
+  const replaceData = useCallback((imported: AppData) => setData(imported), [setData])
+
+  return {
+    data,
+    addResults,
+    removeResult,
+    getEntry,
+    getAllDates,
+    clearDay,
+    mergeData,
+    replaceData,
+  }
 }

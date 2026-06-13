@@ -5,6 +5,7 @@ import { GAME_LABELS } from "@/types/games"
 
 const GAME_BORDER_COLORS: Record<GameType, string> = {
   conexo: "border-l-blue-500",
+  expresso: "border-l-cyan-500",
   framed: "border-l-red-500",
   gamedle: "border-l-purple-500",
   guessthegame: "border-l-emerald-500",
@@ -40,6 +41,7 @@ export function GameResultCard({ result, onRemove, draggable: showGrip }: GameRe
           onClick={() => onRemove(result.gameType)}
           className="rounded p-0.5 text-muted-foreground/40 transition-all hover:text-destructive"
           aria-label={`Remove ${GAME_LABELS[result.gameType]}`}
+          title={`Remove ${GAME_LABELS[result.gameType]} from this day`}
         >
           <Trash2 className="h-3.5 w-3.5" />
         </button>
