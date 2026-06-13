@@ -1,4 +1,4 @@
-# Daily Game Tracker - Samples
+# ミニゲーム (Minigēmu) - Samples
 
 This folder contains sample files for various daily games. Each file represents a different game with its format and examples.
 
@@ -125,6 +125,20 @@ Each file in this folder contains multiple examples of game results. Examples ar
   - Or: `term.ooo/[MODE] #[NUMBER] 🔥 [STREAK]`
   - Emoji hints: `4️⃣6️⃣` or `5️⃣7️⃣6️⃣4️⃣`
   - Grid rows with 🟩 (correct), ⬛ (wrong), 🟨 (misplaced)
+
+### 8. Expresso
+- **File**: [`expresso.txt`](expresso.txt)
+- **Description**: Find a popular expression using Letroso-style clues
+- **Format**:
+  ```
+  Joguei expresso.ac [DATE] e consegui em [N] tentativas.
+
+  [GRID_ROWS]
+  ```
+- **Patterns**:
+  - Date format: DD/MM/YYYY
+  - Spaces separate words in each grid row
+  - 🟩 = correct, 🟨 = right word, 🟪 = wrong word, ⬛ = absent
 
 ---
 

@@ -1,6 +1,7 @@
 import { todayKey } from "@/lib/dates"
 import type { GameResult } from "@/types/games"
 import { conexoParser } from "./conexo"
+import { expressoParser } from "./expresso"
 import { framedParser } from "./framed"
 import { gamedleParser } from "./gamedle"
 import { guessTheGameParser } from "./guessthegame"
@@ -10,6 +11,7 @@ import type { GameParser } from "./types"
 
 const parsers: GameParser[] = [
   conexoParser,
+  expressoParser,
   framedParser,
   gamedleParser,
   guessTheGameParser,

@@ -1,8 +1,8 @@
-# CLAUDE.md — Daily Game Tracker
+# CLAUDE.md — ミニゲーム (Minigēmu)
 
 ## Overview
 
-A single-page React app for tracking daily word/puzzle game results. Users paste share-text from games (Conexo, Framed, Gamedle, GuessTheGame, Letroso, Termo) and the app parses, stores, and visualises them.
+A single-page React app for tracking daily word/puzzle game results. Users paste share-text from games (Conexo, Expresso, Framed, Gamedle, GuessTheGame, Letroso, Termo) and the app parses, stores, and visualises them.
 
 ## Tech Stack
 

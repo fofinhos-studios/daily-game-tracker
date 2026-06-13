@@ -1,5 +1,8 @@
 import { addDays, format, startOfWeek, subDays } from "date-fns"
+import { CalendarDays } from "lucide-react"
 import { useMemo } from "react"
+import { HELP_TEXT } from "@/components/help/helpContent"
+import { SectionHeading } from "@/components/help/SectionHeading"
 import { getGamesPlayedOnDate } from "@/lib/stats"
 import type { AppData, GameType } from "@/types/games"
 import { CalendarDay } from "./CalendarDay"
@@ -53,6 +56,9 @@ export function CalendarHeatmap({ data, today, gameFilter, onSelectDate }: Calen
 
   return (
     <div className="card-surface rounded-xl p-4">
+      <SectionHeading className="mb-3" help={HELP_TEXT.activity} icon={CalendarDays}>
+        Activity
+      </SectionHeading>
       <div className="overflow-x-auto">
         <div className="inline-flex gap-[3px]">
           {Array.from(weeks.entries())

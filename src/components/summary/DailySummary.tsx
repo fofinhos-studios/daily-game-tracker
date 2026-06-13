@@ -3,13 +3,17 @@ import type { DayEntry, GameResult, GameType } from "@/types/games"
 import { GAME_ORDER } from "@/types/games"
 import { EmptyState } from "./EmptyState"
 import { GameResultCard } from "./GameResultCard"
+import { MarkLoss } from "./MarkLoss"
 
 const STORAGE_KEY = "game-order"
 
 function loadOrder(): GameType[] {
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored) return JSON.parse(stored) as GameType[]
+    if (stored) {
+      const order = JSON.parse(stored) as GameType[]
+      return [...order, ...GAME_ORDER.filter((game) => !order.includes(game))]
+    }
   } catch {
     // ignore
   }
@@ -33,9 +37,10 @@ interface DailySummaryProps {
   onRemove: (date: string, gameType: GameType) => void
   date: string
   gameFilter?: Set<GameType>
+  onMarkLoss: (gameType: GameType) => void
 }
 
-export function DailySummary({ entry, onRemove, date, gameFilter }: DailySummaryProps) {
+export function DailySummary({ entry, onRemove, date, gameFilter, onMarkLoss }: DailySummaryProps) {
   const [customOrder, setCustomOrder] = useState(loadOrder)
   const [draggedIdx, setDraggedIdx] = useState<number | null>(null)
   const [dragOverIdx, setDragOverIdx] = useState<number | null>(null)
@@ -55,20 +60,13 @@ export function DailySummary({ entry, onRemove, date, gameFilter }: DailySummary
     dragCounter.current = 0
   }, [])
 
-  if (!entry || entry.results.length === 0) {
-    return <EmptyState />
-  }
-
-  let filtered = entry.results
+  let filtered = entry?.results ?? []
   if (gameFilter && gameFilter.size > 0) {
     filtered = filtered.filter((r) => gameFilter.has(r.gameType))
   }
 
-  if (filtered.length === 0) {
-    return <EmptyState />
-  }
-
   const sorted = sortByOrder(filtered, customOrder)
+  const existingGames = new Set(entry?.results.map((result) => result.gameType) ?? [])
 
   const handleDrop = (targetIdx: number) => {
     if (draggedIdx === null || draggedIdx === targetIdx) return
@@ -90,34 +88,41 @@ export function DailySummary({ entry, onRemove, date, gameFilter }: DailySummary
   }
 
   return (
-    <ul className="space-y-2">
-      {sorted.map((result, i) => (
-        <li
-          key={result.gameType}
-          className={`animate-fade-in-up ${draggedIdx === i ? "opacity-50" : ""} ${dragOverIdx === i ? "ring-2 ring-primary/30 rounded-xl" : ""}`}
-          style={{ animationDelay: `${i * 0.05}s` }}
-          draggable
-          onDragStart={() => handleDragStart(i)}
-          onDragEnd={handleDragEnd}
-          onDragOver={(e) => {
-            e.preventDefault()
-            setDragOverIdx(i)
-          }}
-          onDragLeave={() => {
-            setDragOverIdx(null)
-          }}
-          onDrop={(e) => {
-            e.preventDefault()
-            handleDrop(i)
-          }}
-        >
-          <GameResultCard
-            result={result}
-            onRemove={(gameType) => onRemove(date, gameType)}
-            draggable
-          />
-        </li>
-      ))}
-    </ul>
+    <div className="space-y-2">
+      {sorted.length === 0 ? (
+        <EmptyState />
+      ) : (
+        <ul className="space-y-2">
+          {sorted.map((result, i) => (
+            <li
+              key={result.gameType}
+              className={`animate-fade-in-up ${draggedIdx === i ? "opacity-50" : ""} ${dragOverIdx === i ? "ring-2 ring-primary/30 rounded-xl" : ""}`}
+              style={{ animationDelay: `${i * 0.05}s` }}
+              draggable
+              onDragStart={() => handleDragStart(i)}
+              onDragEnd={handleDragEnd}
+              onDragOver={(e) => {
+                e.preventDefault()
+                setDragOverIdx(i)
+              }}
+              onDragLeave={() => {
+                setDragOverIdx(null)
+              }}
+              onDrop={(e) => {
+                e.preventDefault()
+                handleDrop(i)
+              }}
+            >
+              <GameResultCard
+                result={result}
+                onRemove={(gameType) => onRemove(date, gameType)}
+                draggable
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+      <MarkLoss existingGames={existingGames} onMarkLoss={onMarkLoss} />
+    </div>
   )
 }

@@ -1,9 +1,13 @@
 import { formatDateBR } from "@/lib/dates"
 import type { DayEntry } from "@/types/games"
-import { GAME_ORDER } from "@/types/games"
+import { GAME_LABELS, GAME_ORDER } from "@/types/games"
 
-export function generateShareMessage(entry: DayEntry): string {
-  const dateLine = `Daily Games - ${formatDateBR(entry.date)}`
+interface ShareMessageOptions {
+  gameNamesOnly?: boolean
+}
+
+export function generateShareMessage(entry: DayEntry, options: ShareMessageOptions = {}): string {
+  const dateLine = `ミニゲーム (Minigēmu) - ${formatDateBR(entry.date)}`
 
   // Sort results by canonical game order
   const sorted = [...entry.results].sort((a, b) => {
@@ -11,6 +15,11 @@ export function generateShareMessage(entry: DayEntry): string {
   })
 
   const blocks = sorted.map((r) => {
+    if (options.gameNamesOnly) {
+      if (!r.won && r.rawText === `${GAME_LABELS[r.gameType]} ❌`) return r.rawText
+      return [GAME_LABELS[r.gameType], ...r.grid].join("\n")
+    }
+
     return r.rawText
       .replace(/\s*>\s*https?:\/\/\S+/g, "")
       .replace(/https?:\/\/\S+/g, "")

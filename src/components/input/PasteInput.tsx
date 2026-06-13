@@ -1,3 +1,4 @@
+import { Plus } from "lucide-react"
 import { useCallback, useRef, useState } from "react"
 import { parseInput } from "@/parsers"
 import type { GameResult } from "@/types/games"
@@ -101,8 +102,9 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
           <button
             type="button"
             onClick={handleSubmit}
-            className="ml-auto rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-primary-foreground transition-colors hover:bg-primary/90"
+            className="ml-auto inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-primary-foreground transition-colors hover:bg-primary/90"
           >
+            <Plus aria-hidden="true" className="h-3.5 w-3.5" />
             Add
           </button>
         </div>

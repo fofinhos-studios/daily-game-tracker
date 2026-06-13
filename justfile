@@ -39,6 +39,10 @@ typecheck:
 test:
     bun test
 
+# Refresh supported-game favicons
+favicons:
+    python3 scripts/fetch_favicons.py
+
 # Run full CI pipeline (lint + typecheck + test + build)
 ci: lint typecheck test build
 
