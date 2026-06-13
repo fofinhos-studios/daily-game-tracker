@@ -5,6 +5,7 @@ import { GAME_LABELS } from "@/types/games"
 
 const GAME_BAR_COLORS: Record<GameType, string> = {
   conexo: "bg-blue-500",
+  expresso: "bg-cyan-500",
   framed: "bg-red-500",
   gamedle: "bg-purple-500",
   guessthegame: "bg-emerald-500",
@@ -23,11 +24,7 @@ export function SuccessRateBar({ stats, label }: SuccessRateBarProps) {
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        {label ? (
-          <span className="text-xs font-bold text-foreground/80">{label}</span>
-        ) : (
-          <GameBadge gameType={stats.gameType} />
-        )}
+        <GameBadge gameType={stats.gameType} label={label} />
         <div className="flex items-center gap-3 text-xs">
           <span className="text-muted-foreground">
             {stats.winRate}% ({stats.totalWon}/{stats.totalPlayed})

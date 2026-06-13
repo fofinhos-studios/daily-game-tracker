@@ -1,5 +1,17 @@
+import {
+  BarChart3,
+  CalendarDays,
+  CheckCircle2,
+  ClipboardPaste,
+  Gamepad2,
+  RotateCcw,
+  Target,
+} from "lucide-react"
 import { useMemo, useState } from "react"
+import { BackupModal } from "@/components/backup/BackupModal"
 import { GameFilter } from "@/components/filters/GameFilter"
+import { HELP_TEXT } from "@/components/help/helpContent"
+import { SectionHeading } from "@/components/help/SectionHeading"
 import { PasteInput } from "@/components/input/PasteInput"
 import { Header } from "@/components/layout/Header"
 import { PageShell } from "@/components/layout/PageShell"
@@ -12,7 +24,7 @@ import { DailySummary } from "@/components/summary/DailySummary"
 import { useGameStore } from "@/hooks/useGameStore"
 import { useToday } from "@/hooks/useToday"
 import { formatDateDisplay } from "@/lib/dates"
-import type { GameType } from "@/types/games"
+import { createManualLoss, type GameType } from "@/types/games"
 
 type Tab = "results" | "activity" | "accuracy"
 
@@ -23,6 +35,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>("results")
   const [gameFilter, setGameFilter] = useState<Set<GameType>>(new Set())
   const [showSupportedGames, setShowSupportedGames] = useState(false)
+  const [showBackup, setShowBackup] = useState(false)
 
   const viewDate = selectedDate || today
   const entry = store.getEntry(viewDate)
@@ -53,22 +66,24 @@ export default function App() {
     }
   }
 
-  const tabs: { id: Tab; label: string }[] = [
-    { id: "results", label: "Today's Results" },
-    { id: "activity", label: "Activity" },
-    { id: "accuracy", label: "Accuracy" },
+  const tabs = [
+    { id: "results" as const, label: "Today's Results", icon: CheckCircle2 },
+    { id: "activity" as const, label: "Activity", icon: CalendarDays },
+    { id: "accuracy" as const, label: "Accuracy", icon: Target },
   ]
 
   return (
     <PageShell>
-      <Header today={today} />
+      <Header today={today} onOpenBackup={() => setShowBackup(true)} />
 
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-2">
           {/* Left column: Paste + Share preview */}
           <div className="space-y-6 animate-fade-in-up delay-1">
             <section>
-              <h2 className="section-heading mb-3">Paste Results</h2>
+              <SectionHeading className="mb-3" help={HELP_TEXT.pasteResults} icon={ClipboardPaste}>
+                Paste Results
+              </SectionHeading>
               <PasteInput onResults={store.addResults} onDatesAffected={handleDatesAffected} />
             </section>
 
@@ -91,8 +106,10 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setShowSupportedGames(true)}
-                className="shrink-0 rounded-lg border border-border px-3 py-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground hover:border-primary/30"
+                title="View supported games and open their websites"
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-border px-3 py-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground hover:border-primary/30"
               >
+                <Gamepad2 aria-hidden="true" className="h-3.5 w-3.5" />
                 Supported Games
               </button>
             </div>
@@ -104,12 +121,20 @@ export default function App() {
                   type="button"
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
+                  title={
+                    tab.id === "results"
+                      ? "Review results recorded for the selected day"
+                      : tab.id === "activity"
+                        ? HELP_TEXT.activity
+                        : HELP_TEXT.accuracy
+                  }
                   className={`flex flex-1 items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition-all ${
                     activeTab === tab.id
                       ? "bg-card text-primary shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
+                  <tab.icon aria-hidden="true" className="h-3.5 w-3.5" />
                   {tab.label}
                 </button>
               ))}
@@ -127,6 +152,7 @@ export default function App() {
                         onClick={() => setSelectedDate(null)}
                         className="text-xs text-primary hover:text-primary/80 font-bold"
                       >
+                        <RotateCcw aria-hidden="true" className="mr-1 inline h-3.5 w-3.5" />
                         Back to today
                       </button>
                     </div>
@@ -136,9 +162,14 @@ export default function App() {
                     onRemove={store.removeResult}
                     date={viewDate}
                     gameFilter={gameFilter}
+                    onMarkLoss={(gameType) =>
+                      store.addResults([createManualLoss(gameType, viewDate)])
+                    }
                   />
                   <div className="card-surface rounded-xl p-4">
-                    <h3 className="section-heading mb-3">Win Rates</h3>
+                    <SectionHeading className="mb-3" help={HELP_TEXT.winRates} icon={BarChart3}>
+                      Win Rates
+                    </SectionHeading>
                     <SuccessRateList data={store.data} gameFilter={gameFilter} />
                   </div>
                 </div>
@@ -167,6 +198,14 @@ export default function App() {
       </main>
 
       {showSupportedGames && <SupportedGamesModal onClose={() => setShowSupportedGames(false)} />}
+      {showBackup && (
+        <BackupModal
+          data={store.data}
+          onClose={() => setShowBackup(false)}
+          onMerge={store.mergeData}
+          onReplace={store.replaceData}
+        />
+      )}
     </PageShell>
   )
 }
