@@ -17,7 +17,7 @@ export function InfoTip({ label, text }: InfoTipProps) {
       </button>
       <span
         role="tooltip"
-        className="pointer-events-none invisible absolute left-0 top-full z-40 mt-2 w-64 max-w-[calc(100vw-2rem)] rounded-lg border border-border bg-card px-3 py-2 text-left text-xs font-normal normal-case tracking-normal text-card-foreground opacity-0 shadow-lg transition-all group-hover/info:visible group-hover/info:opacity-100 group-focus-within/info:visible group-focus-within/info:opacity-100"
+        className="pointer-events-none invisible absolute left-1/2 top-full z-40 mt-2 w-64 max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-lg border border-border bg-card px-3 py-2 text-left text-xs font-normal normal-case tracking-normal text-card-foreground opacity-0 shadow-lg transition-all group-hover/info:visible group-hover/info:opacity-100 group-focus-within/info:visible group-focus-within/info:opacity-100"
       >
         {text}
       </span>

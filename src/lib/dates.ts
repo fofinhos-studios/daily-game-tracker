@@ -1,5 +1,4 @@
 import { format, parse } from "date-fns"
-import { ptBR } from "date-fns/locale"
 
 export function todayKey(): string {
   return format(new Date(), "yyyy-MM-dd")
@@ -12,7 +11,7 @@ export function formatDateBR(dateKey: string): string {
 
 export function formatDateDisplay(dateKey: string): string {
   const date = parse(dateKey, "yyyy-MM-dd", new Date())
-  return format(date, "dd 'de' MMMM, yyyy", { locale: ptBR })
+  return format(date, "MMMM d, yyyy")
 }
 
 export function parseBrazilianDate(dateStr: string): string {
