@@ -1,5 +1,6 @@
 import { Check, Copy, DatabaseBackup, Merge, Replace, X } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
+import { useDialogFocus } from "@/hooks/useDialogFocus"
 import { exportBackup, importBackup } from "@/lib/backup"
 import type { AppData } from "@/types/games"
 
@@ -12,17 +13,12 @@ interface BackupModalProps {
 
 export function BackupModal({ data, onClose, onMerge, onReplace }: BackupModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null)
+  const dialogRef = useRef<HTMLDivElement>(null)
   const [value, setValue] = useState("")
   const [message, setMessage] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
 
-  useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") onClose()
-    }
-    document.addEventListener("keydown", handleKeyDown)
-    return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [onClose])
+  useDialogFocus(dialogRef, onClose)
 
   const parseValue = (): AppData | null => {
     try {
@@ -81,7 +77,10 @@ export function BackupModal({ data, onClose, onMerge, onReplace }: BackupModalPr
         if (event.key === "Escape") onClose()
       }}
     >
-      <div className="card-surface mx-4 w-full max-w-xl rounded-2xl p-6 shadow-xl animate-fade-in-up">
+      <div
+        ref={dialogRef}
+        className="card-surface mx-4 w-full max-w-xl rounded-2xl p-6 shadow-xl animate-fade-in-up"
+      >
         <div className="mb-4 flex items-center justify-between">
           <div>
             <h2 className="inline-flex items-center gap-2 text-sm font-bold text-foreground">

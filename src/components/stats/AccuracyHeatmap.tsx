@@ -84,15 +84,15 @@ export function AccuracyHeatmap({ data, today, gameFilter, onSelectDate }: Accur
         Accuracy
       </SectionHeading>
       <div className="overflow-x-auto">
-        <div className="inline-flex gap-[3px]">
+        <div className="inline-flex gap-px">
           {Array.from(weeks.entries())
             .sort(([a], [b]) => a - b)
             .map(([weekNum, days]) => (
-              <div key={weekNum} className="flex flex-col gap-[3px]">
+              <div key={weekNum} className="flex flex-col gap-px">
                 {Array.from({ length: 7 }).map((_, dow) => {
                   const day = days.find((d) => d.dayOfWeek === dow)
                   if (!day) {
-                    return <div key={dow} className="h-3 w-3" />
+                    return <div key={dow} className="h-5 w-5" />
                   }
                   const tooltip =
                     day.rate !== null
@@ -103,10 +103,14 @@ export function AccuracyHeatmap({ data, today, gameFilter, onSelectDate }: Accur
                       type="button"
                       key={day.date}
                       onClick={() => onSelectDate?.(day.date)}
-                      className={`h-3 w-3 rounded-sm transition-transform hover:scale-150 ${ACCURACY_CLASSES[day.intensity]} ${day.date === today ? "ring-1 ring-foreground/30" : ""}`}
+                      className="flex h-5 w-5 items-center justify-center rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       title={tooltip}
                       aria-label={tooltip}
-                    />
+                    >
+                      <span
+                        className={`h-3 w-3 rounded-sm ${ACCURACY_CLASSES[day.intensity]} ${day.date === today ? "ring-1 ring-foreground/50" : ""}`}
+                      />
+                    </button>
                   )
                 })}
               </div>

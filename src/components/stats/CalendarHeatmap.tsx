@@ -60,15 +60,15 @@ export function CalendarHeatmap({ data, today, gameFilter, onSelectDate }: Calen
         Activity
       </SectionHeading>
       <div className="overflow-x-auto">
-        <div className="inline-flex gap-[3px]">
+        <div className="inline-flex gap-px">
           {Array.from(weeks.entries())
             .sort(([a], [b]) => a - b)
             .map(([weekNum, days]) => (
-              <div key={weekNum} className="flex flex-col gap-[3px]">
+              <div key={weekNum} className="flex flex-col gap-px">
                 {Array.from({ length: 7 }).map((_, dow) => {
                   const day = days.find((d) => d.dayOfWeek === dow)
                   if (!day) {
-                    return <div key={dow} className="h-3 w-3" />
+                    return <div key={dow} className="h-5 w-5" />
                   }
                   return (
                     <CalendarDay
