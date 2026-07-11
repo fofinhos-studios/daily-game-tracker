@@ -24,40 +24,36 @@ export function useGameStore(): GameStore {
     (results: GameResult[]): { added: number; replaced: number } => {
       let added = 0
       let replaced = 0
+      const next = { ...data, entries: { ...data.entries } }
 
-      setData((prev) => {
-        const next = { ...prev, entries: { ...prev.entries } }
+      for (const result of results) {
+        const dateKey = result.date
+        const existing = next.entries[dateKey]
 
-        for (const result of results) {
-          const dateKey = result.date
-          const existing = next.entries[dateKey]
-
-          if (existing) {
-            const entry = { ...existing, results: [...existing.results] }
-            const idx = entry.results.findIndex((r) => r.gameType === result.gameType)
-            if (idx >= 0) {
-              entry.results[idx] = result
-              replaced++
-            } else {
-              entry.results.push(result)
-              added++
-            }
-            next.entries[dateKey] = entry
+        if (existing) {
+          const entry = { ...existing, results: [...existing.results] }
+          const idx = entry.results.findIndex((r) => r.gameType === result.gameType)
+          if (idx >= 0) {
+            entry.results[idx] = result
+            replaced++
           } else {
-            next.entries[dateKey] = {
-              date: dateKey,
-              results: [result],
-            }
+            entry.results.push(result)
             added++
           }
+          next.entries[dateKey] = entry
+        } else {
+          next.entries[dateKey] = {
+            date: dateKey,
+            results: [result],
+          }
+          added++
         }
+      }
 
-        return next
-      })
-
+      setData(next)
       return { added, replaced }
     },
-    [setData],
+    [data, setData],
   )
 
   const removeResult = useCallback(

@@ -76,6 +76,7 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
     <div className="space-y-3">
       <div className="relative">
         <textarea
+          id="game-results-input"
           value={value}
           onChange={(e) => handleChange(e.target.value)}
           onPaste={handlePaste}
@@ -83,9 +84,9 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
           className="h-36 w-full resize-none rounded-xl border border-border bg-muted/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/70 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
         />
         {toast && (
-          <div className="animate-fade-in absolute -bottom-1 left-0 translate-y-full card-surface rounded-lg px-3 py-1.5 text-xs font-bold text-primary">
+          <output className="animate-fade-in absolute -bottom-1 left-0 z-10 translate-y-full card-surface rounded-lg px-3 py-1.5 text-xs font-bold text-primary">
             {toast}
-          </div>
+          </output>
         )}
       </div>
 

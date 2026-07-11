@@ -13,11 +13,12 @@ export function Header({ today, onOpenBackup }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 bg-header border-b-2 border-header-accent">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <h1 className="font-serif italic text-lg tracking-tight text-primary-foreground">
-          ミニゲーム <span className="text-sm not-italic opacity-70">(Minigēmu)</span>
+        <h1 className="min-w-0 truncate font-serif italic text-lg tracking-tight text-primary-foreground">
+          ミニゲーム{" "}
+          <span className="hidden text-sm not-italic opacity-70 sm:inline">(Minigēmu)</span>
         </h1>
         <div className="flex items-center gap-3">
-          <span className="text-xs font-medium text-primary-foreground/70">
+          <span className="hidden text-xs font-medium text-primary-foreground/70 md:inline">
             {formatDateDisplay(today)}
           </span>
           <button

@@ -10,14 +10,54 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function isGameResult(value: unknown): value is GameResult {
   if (!isRecord(value)) return false
-  return (
+  const validBase =
     GAME_ORDER.includes(value.gameType as GameType) &&
     typeof value.date === "string" &&
     typeof value.won === "boolean" &&
     Array.isArray(value.grid) &&
     value.grid.every((row) => typeof row === "string") &&
     typeof value.rawText === "string"
-  )
+  if (!validBase) return false
+
+  switch (value.gameType) {
+    case "conexo":
+      return typeof value.attempts === "number" && typeof value.hints === "number"
+    case "expresso":
+    case "letroso":
+      return typeof value.attempts === "number"
+    case "framed":
+    case "guessthegame":
+      return typeof value.gameNumber === "number"
+    case "gamedle":
+      return (
+        Array.isArray(value.modes) &&
+        value.modes.every(
+          (mode) =>
+            isRecord(mode) &&
+            typeof mode.mode === "string" &&
+            typeof mode.emoji === "string" &&
+            typeof mode.gameNumber === "number" &&
+            typeof mode.grid === "string" &&
+            typeof mode.won === "boolean",
+        )
+      )
+    case "termo":
+      return (
+        Array.isArray(value.modes) &&
+        value.modes.every(
+          (mode) =>
+            isRecord(mode) &&
+            typeof mode.mode === "string" &&
+            typeof mode.gameNumber === "number" &&
+            typeof mode.streak === "number" &&
+            Array.isArray(mode.grid) &&
+            mode.grid.every((row) => typeof row === "string") &&
+            typeof mode.attempts === "string",
+        )
+      )
+    default:
+      return false
+  }
 }
 
 function isDayEntry(value: unknown, date: string): value is DayEntry {

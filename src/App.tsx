@@ -67,7 +67,7 @@ export default function App() {
   }
 
   const tabs = [
-    { id: "results" as const, label: "Today's Results", icon: CheckCircle2 },
+    { id: "results" as const, label: isToday ? "Today's Results" : "Results", icon: CheckCircle2 },
     { id: "activity" as const, label: "Activity", icon: CalendarDays },
     { id: "accuracy" as const, label: "Accuracy", icon: Target },
   ]
@@ -77,43 +77,41 @@ export default function App() {
       <Header today={today} onOpenBackup={() => setShowBackup(true)} />
 
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between animate-fade-in-up delay-1">
+          <SectionHeading help={HELP_TEXT.pasteResults} icon={ClipboardPaste}>
+            Paste Results
+          </SectionHeading>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-start">
+            {availableGames.length > 0 && (
+              <div className="w-full sm:w-64">
+                <GameFilter
+                  availableGames={availableGames}
+                  selected={gameFilter}
+                  onChange={setGameFilter}
+                />
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={() => setShowSupportedGames(true)}
+              title="View supported games and open their websites"
+              className="inline-flex min-h-10 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 py-2 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/30 hover:text-foreground"
+            >
+              <Gamepad2 aria-hidden="true" className="h-3.5 w-3.5" />
+              Supported Games
+            </button>
+          </div>
+        </div>
         <div className="grid gap-6 lg:grid-cols-2">
           {/* Left column: Paste + Share preview */}
           <div className="space-y-6 animate-fade-in-up delay-1">
-            <section>
-              <SectionHeading className="mb-3" help={HELP_TEXT.pasteResults} icon={ClipboardPaste}>
-                Paste Results
-              </SectionHeading>
-              <PasteInput onResults={store.addResults} onDatesAffected={handleDatesAffected} />
-            </section>
+            <PasteInput onResults={store.addResults} onDatesAffected={handleDatesAffected} />
 
             <SharePreview entry={todayEntry} />
           </div>
 
           {/* Right column: Results overview with tabs */}
           <div className="space-y-4 animate-fade-in-up delay-2">
-            {/* Header row: filter + supported games button */}
-            <div className="flex items-start gap-3">
-              <div className="flex-1">
-                {availableGames.length > 0 && (
-                  <GameFilter
-                    availableGames={availableGames}
-                    selected={gameFilter}
-                    onChange={setGameFilter}
-                  />
-                )}
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowSupportedGames(true)}
-                title="View supported games and open their websites"
-                className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-border px-3 py-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground hover:border-primary/30"
-              >
-                <Gamepad2 aria-hidden="true" className="h-3.5 w-3.5" />
-                Supported Games
-              </button>
-            </div>
-
             {/* Tabs */}
             <div className="flex gap-1 rounded-lg border border-border bg-muted p-1">
               {tabs.map((tab) => (

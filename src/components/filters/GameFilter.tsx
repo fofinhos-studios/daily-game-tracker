@@ -14,13 +14,21 @@ export function GameFilter({ availableGames, selected, onChange }: GameFilterPro
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
+    function handleDismiss(e: MouseEvent | KeyboardEvent) {
+      if (e instanceof KeyboardEvent && e.key === "Escape") {
+        setOpen(false)
+        return
+      }
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setOpen(false)
       }
     }
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
+    document.addEventListener("mousedown", handleDismiss)
+    document.addEventListener("keydown", handleDismiss)
+    return () => {
+      document.removeEventListener("mousedown", handleDismiss)
+      document.removeEventListener("keydown", handleDismiss)
+    }
   }, [])
 
   const toggleGame = (game: GameType) => {
@@ -46,6 +54,9 @@ export function GameFilter({ availableGames, selected, onChange }: GameFilterPro
       <button
         type="button"
         onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        aria-controls="game-filter-options"
+        aria-haspopup="listbox"
         title="Filter results, activity, accuracy, and win rates by game"
         className="flex w-full items-center justify-between gap-2 rounded-lg border border-border bg-card px-3 py-2 text-xs transition-colors hover:border-primary/30"
       >
@@ -53,47 +64,51 @@ export function GameFilter({ availableGames, selected, onChange }: GameFilterPro
           aria-hidden="true"
           className="h-3.5 w-3.5 shrink-0 text-muted-foreground"
         />
-        {selected.size === 0 ? (
-          <span className="text-muted-foreground">All games</span>
-        ) : (
-          <div className="flex flex-wrap gap-1">
-            {[...selected]
-              .sort((a, b) => GAME_LABELS[a].localeCompare(GAME_LABELS[b]))
-              .map((game) => (
-                <span
-                  key={game}
-                  className="inline-flex items-center gap-1 rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary"
-                >
-                  <GameIcon gameType={game} className="h-3.5 w-3.5" />
-                  {GAME_LABELS[game]}
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      removeGame(game)
-                    }}
-                    aria-label={`Remove ${GAME_LABELS[game]} filter`}
-                    title={`Remove ${GAME_LABELS[game]} filter`}
-                    className="rounded-sm hover:text-destructive"
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
-                </span>
-              ))}
-          </div>
-        )}
+        <span className="text-muted-foreground">
+          {selected.size === 0
+            ? "All games"
+            : `${selected.size} game filter${selected.size > 1 ? "s" : ""}`}
+        </span>
         <ChevronDown
           className={`h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`}
         />
       </button>
 
+      {selected.size > 0 && (
+        <fieldset className="mt-1 flex flex-wrap gap-1 border-0 p-0">
+          <legend className="sr-only">Selected game filters</legend>
+          {[...selected]
+            .sort((a, b) => GAME_LABELS[a].localeCompare(GAME_LABELS[b]))
+            .map((game) => (
+              <button
+                type="button"
+                key={game}
+                onClick={() => removeGame(game)}
+                aria-label={`Remove ${GAME_LABELS[game]} filter`}
+                className="inline-flex items-center gap-1 rounded-md bg-primary/10 px-2 py-1 text-xs font-medium text-primary hover:text-destructive"
+              >
+                <GameIcon gameType={game} className="h-3.5 w-3.5" />
+                {GAME_LABELS[game]}
+                <X className="h-3 w-3" />
+              </button>
+            ))}
+        </fieldset>
+      )}
+
       {open && (
-        <div className="absolute left-0 right-0 top-full z-20 mt-1 rounded-lg border border-border bg-card p-1 shadow-lg animate-fade-in">
+        <div
+          id="game-filter-options"
+          role="listbox"
+          aria-multiselectable="true"
+          className="absolute left-0 right-0 top-full z-20 mt-1 rounded-lg border border-border bg-card p-1 shadow-lg animate-fade-in"
+        >
           {sorted.map((game) => (
             <button
               type="button"
               key={game}
               onClick={() => toggleGame(game)}
+              role="option"
+              aria-selected={selected.has(game)}
               className={`flex w-full items-center gap-2 rounded-md px-3 py-1.5 text-xs transition-colors ${
                 selected.has(game)
                   ? "bg-primary/10 text-primary font-medium"

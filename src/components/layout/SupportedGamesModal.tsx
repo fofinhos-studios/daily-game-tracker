@@ -1,6 +1,7 @@
 import { ExternalLink, Gamepad2, X } from "lucide-react"
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import { GameIcon } from "@/components/input/GameIcon"
+import { useDialogFocus } from "@/hooks/useDialogFocus"
 import type { GameType } from "@/types/games"
 import { GAME_INFO, GAME_ORDER } from "@/types/games"
 
@@ -30,14 +31,8 @@ interface SupportedGamesModalProps {
 
 export function SupportedGamesModal({ onClose }: SupportedGamesModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") onClose()
-    }
-    document.addEventListener("keydown", handleKeyDown)
-    return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [onClose])
+  const dialogRef = useRef<HTMLDivElement>(null)
+  useDialogFocus(dialogRef, onClose)
 
   return (
     <div
@@ -49,11 +44,14 @@ export function SupportedGamesModal({ onClose }: SupportedGamesModalProps) {
       onClick={(e) => {
         if (e.target === overlayRef.current) onClose()
       }}
-      onKeyDown={(e) => {
-        if (e.key === "Escape") onClose()
+      onKeyDown={(event) => {
+        if (event.key === "Escape") onClose()
       }}
     >
-      <div className="card-surface mx-4 w-full max-w-lg rounded-2xl p-6 shadow-xl animate-fade-in-up">
+      <div
+        ref={dialogRef}
+        className="card-surface mx-4 w-full max-w-lg rounded-2xl p-6 shadow-xl animate-fade-in-up"
+      >
         <div className="mb-4 flex items-center justify-between">
           <h2 className="inline-flex items-center gap-2 text-sm font-bold text-foreground">
             <Gamepad2 aria-hidden="true" className="h-4 w-4" />
@@ -62,6 +60,7 @@ export function SupportedGamesModal({ onClose }: SupportedGamesModalProps) {
           <button
             type="button"
             onClick={onClose}
+            aria-label="Close supported games"
             className="rounded-md p-1 text-muted-foreground transition-colors hover:text-foreground"
           >
             <X className="h-4 w-4" />
