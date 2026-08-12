@@ -1,4 +1,5 @@
 import { CircleHelp } from "lucide-react"
+import { useI18n } from "@/i18n/I18nProvider"
 
 interface InfoTipProps {
   label: string
@@ -6,11 +7,12 @@ interface InfoTipProps {
 }
 
 export function InfoTip({ label, text }: InfoTipProps) {
+  const { t } = useI18n()
   return (
     <span className="group/info relative inline-flex">
       <button
         type="button"
-        aria-label={`About ${label}`}
+        aria-label={t.about(label)}
         className="rounded-full text-muted-foreground/60 transition-colors hover:text-primary focus-visible:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <CircleHelp className="h-3.5 w-3.5" />

@@ -9,9 +9,9 @@ export function formatDateBR(dateKey: string): string {
   return format(date, "dd/MM/yyyy")
 }
 
-export function formatDateDisplay(dateKey: string): string {
+export function formatDateDisplay(dateKey: string, locale = "en"): string {
   const date = parse(dateKey, "yyyy-MM-dd", new Date())
-  return format(date, "MMMM d, yyyy")
+  return new Intl.DateTimeFormat(locale, { dateStyle: "long" }).format(date)
 }
 
 export function parseBrazilianDate(dateStr: string): string {

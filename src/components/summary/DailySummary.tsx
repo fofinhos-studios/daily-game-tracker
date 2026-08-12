@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useI18n } from "@/i18n/I18nProvider"
 import type { DayEntry, GameResult, GameType } from "@/types/games"
 import { GAME_ORDER } from "@/types/games"
 import { EmptyState } from "./EmptyState"
@@ -41,6 +42,7 @@ interface DailySummaryProps {
 }
 
 export function DailySummary({ entry, onRemove, date, gameFilter, onMarkLoss }: DailySummaryProps) {
+  const { t } = useI18n()
   const [customOrder, setCustomOrder] = useState(loadOrder)
 
   useEffect(() => {
@@ -87,7 +89,7 @@ export function DailySummary({ entry, onRemove, date, gameFilter, onMarkLoss }: 
               <GameResultCard
                 result={result}
                 onRemove={(gameType) => {
-                  if (window.confirm("Remove this result?")) onRemove(date, gameType)
+                  if (window.confirm(t.results.removeConfirmation)) onRemove(date, gameType)
                 }}
                 canMoveUp={i > 0}
                 canMoveDown={i < sorted.length - 1}
