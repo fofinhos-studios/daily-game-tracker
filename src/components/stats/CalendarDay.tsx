@@ -1,3 +1,4 @@
+import { useI18n } from "@/i18n/I18nProvider"
 import { cn } from "@/lib/utils"
 
 interface CalendarDayProps {
@@ -19,6 +20,7 @@ const INTENSITY_CLASSES = [
 ]
 
 export function CalendarDay({ date, count, isToday, onClick }: CalendarDayProps) {
+  const { t } = useI18n()
   const intensity = Math.min(count, INTENSITY_CLASSES.length - 1)
 
   return (
@@ -28,8 +30,8 @@ export function CalendarDay({ date, count, isToday, onClick }: CalendarDayProps)
       className={cn(
         "flex h-5 w-5 items-center justify-center rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
       )}
-      title={`${date}: ${count} game${count !== 1 ? "s" : ""}`}
-      aria-label={`${date}: ${count} game${count !== 1 ? "s" : ""}`}
+      title={t.stats.gamesOnDate(date, count)}
+      aria-label={t.stats.gamesOnDate(date, count)}
     >
       <span
         className={cn(

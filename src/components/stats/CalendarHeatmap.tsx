@@ -1,8 +1,8 @@
 import { addDays, format, startOfWeek, subDays } from "date-fns"
 import { CalendarDays } from "lucide-react"
 import { useMemo } from "react"
-import { HELP_TEXT } from "@/components/help/helpContent"
 import { SectionHeading } from "@/components/help/SectionHeading"
+import { useI18n } from "@/i18n/I18nProvider"
 import { getGamesPlayedOnDate } from "@/lib/stats"
 import type { AppData, GameType } from "@/types/games"
 import { CalendarDay } from "./CalendarDay"
@@ -15,6 +15,7 @@ interface CalendarHeatmapProps {
 }
 
 export function CalendarHeatmap({ data, today, gameFilter, onSelectDate }: CalendarHeatmapProps) {
+  const { t } = useI18n()
   const calendar = useMemo(() => {
     const todayDate = new Date(`${today}T12:00:00`)
     const weeks = 20 // ~5 months
@@ -56,8 +57,8 @@ export function CalendarHeatmap({ data, today, gameFilter, onSelectDate }: Calen
 
   return (
     <div className="card-surface rounded-xl p-4">
-      <SectionHeading className="mb-3" help={HELP_TEXT.activity} icon={CalendarDays}>
-        Activity
+      <SectionHeading className="mb-3" help={t.help.activity} icon={CalendarDays}>
+        {t.app.activity}
       </SectionHeading>
       <div className="overflow-x-auto">
         <div className="inline-flex gap-px">
@@ -85,7 +86,7 @@ export function CalendarHeatmap({ data, today, gameFilter, onSelectDate }: Calen
             ))}
         </div>
         <div className="mt-2 flex items-center gap-1 text-[10px] text-muted-foreground/70">
-          <span>Less</span>
+          <span>{t.stats.less}</span>
           {[
             "bg-muted",
             "bg-orange-100",
@@ -96,7 +97,7 @@ export function CalendarHeatmap({ data, today, gameFilter, onSelectDate }: Calen
           ].map((cls, i) => (
             <div key={i} className={`h-2.5 w-2.5 rounded-sm ${cls}`} />
           ))}
-          <span>More</span>
+          <span>{t.stats.more}</span>
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowUp, ThumbsDown, Trash2, Trophy } from "lucide-react"
 import { GameBadge } from "@/components/input/GameBadge"
+import { useI18n } from "@/i18n/I18nProvider"
 import type { GameResult, GameType } from "@/types/games"
 import { GAME_LABELS } from "@/types/games"
 
@@ -30,6 +31,7 @@ export function GameResultCard({
   onMoveUp,
   onMoveDown,
 }: GameResultCardProps) {
+  const { t } = useI18n()
   return (
     <div
       className={`group card-surface rounded-xl border-l-[3px] p-3 transition-all hover:-translate-y-0.5 hover:shadow-md ${GAME_BORDER_COLORS[result.gameType]}`}
@@ -37,12 +39,12 @@ export function GameResultCard({
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <fieldset className="flex border-0 p-0">
-            <legend className="sr-only">Reorder result</legend>
+            <legend className="sr-only">{t.results.reorder}</legend>
             <button
               type="button"
               disabled={!canMoveUp}
               onClick={onMoveUp}
-              aria-label={`Move ${GAME_LABELS[result.gameType]} up`}
+              aria-label={t.results.moveUp(GAME_LABELS[result.gameType])}
               className="rounded p-1 text-muted-foreground hover:text-primary disabled:opacity-25"
             >
               <ArrowUp className="h-3.5 w-3.5" />
@@ -51,7 +53,7 @@ export function GameResultCard({
               type="button"
               disabled={!canMoveDown}
               onClick={onMoveDown}
-              aria-label={`Move ${GAME_LABELS[result.gameType]} down`}
+              aria-label={t.results.moveDown(GAME_LABELS[result.gameType])}
               className="rounded p-1 text-muted-foreground hover:text-primary disabled:opacity-25"
             >
               <ArrowDown className="h-3.5 w-3.5" />
@@ -68,8 +70,8 @@ export function GameResultCard({
           type="button"
           onClick={() => onRemove(result.gameType)}
           className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-all hover:bg-destructive/10 hover:text-destructive"
-          aria-label={`Remove ${GAME_LABELS[result.gameType]}`}
-          title={`Remove ${GAME_LABELS[result.gameType]} from this day`}
+          aria-label={t.results.remove(GAME_LABELS[result.gameType])}
+          title={t.results.removeHint(GAME_LABELS[result.gameType])}
         >
           <Trash2 className="h-3.5 w-3.5" />
         </button>

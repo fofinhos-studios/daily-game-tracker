@@ -1,8 +1,8 @@
 import { addDays, format, startOfWeek, subDays } from "date-fns"
 import { Target } from "lucide-react"
 import { useMemo } from "react"
-import { HELP_TEXT } from "@/components/help/helpContent"
 import { SectionHeading } from "@/components/help/SectionHeading"
+import { useI18n } from "@/i18n/I18nProvider"
 import { getWinRateForDate } from "@/lib/stats"
 import type { AppData, GameType } from "@/types/games"
 
@@ -34,6 +34,7 @@ function getAccuracyIntensity(rate: number | null): number {
 }
 
 export function AccuracyHeatmap({ data, today, gameFilter, onSelectDate }: AccuracyHeatmapProps) {
+  const { t } = useI18n()
   const calendar = useMemo(() => {
     const todayDate = new Date(`${today}T12:00:00`)
     const weeks = 20
@@ -80,8 +81,8 @@ export function AccuracyHeatmap({ data, today, gameFilter, onSelectDate }: Accur
 
   return (
     <div className="card-surface rounded-xl p-4">
-      <SectionHeading className="mb-3" help={HELP_TEXT.accuracy} icon={Target}>
-        Accuracy
+      <SectionHeading className="mb-3" help={t.help.accuracy} icon={Target}>
+        {t.app.accuracy}
       </SectionHeading>
       <div className="overflow-x-auto">
         <div className="inline-flex gap-px">
@@ -94,10 +95,7 @@ export function AccuracyHeatmap({ data, today, gameFilter, onSelectDate }: Accur
                   if (!day) {
                     return <div key={dow} className="h-5 w-5" />
                   }
-                  const tooltip =
-                    day.rate !== null
-                      ? `${day.date}: ${day.rate}% accuracy`
-                      : `${day.date}: no games`
+                  const tooltip = t.stats.accuracyOnDate(day.date, day.rate)
                   return (
                     <button
                       type="button"

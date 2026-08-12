@@ -1,5 +1,6 @@
 import { Plus } from "lucide-react"
 import { useCallback, useRef, useState } from "react"
+import { useI18n } from "@/i18n/I18nProvider"
 import { parseInput } from "@/parsers"
 import type { GameResult } from "@/types/games"
 import { GameBadge } from "./GameBadge"
@@ -14,6 +15,7 @@ function uniqueDates(results: GameResult[]): string[] {
 }
 
 export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
+  const { t } = useI18n()
   const [value, setValue] = useState("")
   const [detected, setDetected] = useState<GameResult[]>([])
   const [toast, setToast] = useState<string | null>(null)
@@ -39,14 +41,14 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
     (results: GameResult[]) => {
       const { added, replaced } = onResults(results)
       const parts: string[] = []
-      if (added > 0) parts.push(`${added} game${added > 1 ? "s" : ""} added`)
-      if (replaced > 0) parts.push(`${replaced} replaced`)
+      if (added > 0) parts.push(t.paste.added(added))
+      if (replaced > 0) parts.push(t.paste.replaced(replaced))
       showToast(`${parts.join(", ")}!`)
       onDatesAffected?.(uniqueDates(results))
       setValue("")
       setDetected([])
     },
-    [onResults, onDatesAffected, showToast],
+    [onResults, onDatesAffected, showToast, t],
   )
 
   const handlePaste = useCallback(
@@ -60,10 +62,10 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
       } else {
         setValue(text)
         setDetected([])
-        showToast("No games detected in pasted text")
+        showToast(t.paste.noGamesDetected)
       }
     },
-    [submitResults, showToast],
+    [submitResults, showToast, t],
   )
 
   const handleSubmit = useCallback(() => {
@@ -80,7 +82,7 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
           value={value}
           onChange={(e) => handleChange(e.target.value)}
           onPaste={handlePaste}
-          placeholder="Paste your game results here..."
+          placeholder={t.paste.placeholder}
           className="h-36 w-full resize-none rounded-xl border border-border bg-muted/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/70 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
         />
         {toast && (
@@ -92,7 +94,7 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
 
       {detected.length > 0 && (
         <div className="animate-fade-in flex items-center gap-2 flex-wrap">
-          <span className="text-xs text-muted-foreground">Detected:</span>
+          <span className="text-xs text-muted-foreground">{t.paste.detected}</span>
           {detected.map((r, i) => (
             <GameBadge
               key={`${r.gameType}-${i}`}
@@ -106,7 +108,7 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
             className="ml-auto inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-primary-foreground transition-colors hover:bg-primary/90"
           >
             <Plus aria-hidden="true" className="h-3.5 w-3.5" />
-            Add
+            {t.paste.add}
           </button>
         </div>
       )}

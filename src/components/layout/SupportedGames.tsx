@@ -1,5 +1,6 @@
 import { ExternalLink, Gamepad2 } from "lucide-react"
 import { GameIcon } from "@/components/input/GameIcon"
+import { useI18n } from "@/i18n/I18nProvider"
 import type { GameType } from "@/types/games"
 import { GAME_INFO, GAME_ORDER } from "@/types/games"
 
@@ -24,11 +25,12 @@ const GAME_NAME_COLORS: Record<GameType, string> = {
 }
 
 export function SupportedGames() {
+  const { t } = useI18n()
   return (
     <section className="mb-6 animate-fade-in-up delay-0">
       <h2 className="section-heading mb-3 inline-flex items-center gap-1.5">
         <Gamepad2 aria-hidden="true" className="h-3.5 w-3.5" />
-        Supported Games
+        {t.app.supportedGames}
       </h2>
       <div className="flex gap-2 overflow-x-auto pb-2 sm:flex-wrap sm:overflow-x-visible sm:pb-0">
         {GAME_ORDER.map((game, i) => {
@@ -46,7 +48,7 @@ export function SupportedGames() {
               <div className="min-w-0">
                 <span className={`text-sm font-bold ${GAME_NAME_COLORS[game]}`}>{info.label}</span>
                 <p className="text-[11px] text-muted-foreground whitespace-nowrap">
-                  {info.description}
+                  {t.gameDescriptions[game]}
                 </p>
               </div>
               <ExternalLink className="h-3 w-3 shrink-0 text-muted-foreground/40 group-hover:text-muted-foreground" />

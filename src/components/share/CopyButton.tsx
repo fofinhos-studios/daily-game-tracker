@@ -1,11 +1,13 @@
 import { Check, Copy } from "lucide-react"
 import { useCallback, useRef, useState } from "react"
+import { useI18n } from "@/i18n/I18nProvider"
 
 interface CopyButtonProps {
   text: string
 }
 
 export function CopyButton({ text }: CopyButtonProps) {
+  const { t } = useI18n()
   const [copied, setCopied] = useState(false)
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null)
 
@@ -35,18 +37,18 @@ export function CopyButton({ text }: CopyButtonProps) {
     <button
       type="button"
       onClick={handleCopy}
-      title="Copy the combined results message to your clipboard"
+      title={t.share.copyHint}
       className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90 active:scale-[0.98]"
     >
       {copied ? (
         <>
           <Check className="h-4 w-4 animate-pulse-once" />
-          Copied!
+          {t.share.copied}
         </>
       ) : (
         <>
           <Copy className="h-4 w-4" />
-          Copy message
+          {t.share.copy}
         </>
       )}
     </button>

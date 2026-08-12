@@ -2,6 +2,7 @@ import { ExternalLink, Gamepad2, X } from "lucide-react"
 import { useRef } from "react"
 import { GameIcon } from "@/components/input/GameIcon"
 import { useDialogFocus } from "@/hooks/useDialogFocus"
+import { useI18n } from "@/i18n/I18nProvider"
 import type { GameType } from "@/types/games"
 import { GAME_INFO, GAME_ORDER } from "@/types/games"
 
@@ -30,6 +31,7 @@ interface SupportedGamesModalProps {
 }
 
 export function SupportedGamesModal({ onClose }: SupportedGamesModalProps) {
+  const { t } = useI18n()
   const overlayRef = useRef<HTMLDivElement>(null)
   const dialogRef = useRef<HTMLDivElement>(null)
   useDialogFocus(dialogRef, onClose)
@@ -39,7 +41,7 @@ export function SupportedGamesModal({ onClose }: SupportedGamesModalProps) {
       ref={overlayRef}
       role="dialog"
       aria-modal="true"
-      aria-label="Supported Games"
+      aria-label={t.app.supportedGamesTitle}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm animate-fade-in"
       onClick={(e) => {
         if (e.target === overlayRef.current) onClose()
@@ -55,12 +57,12 @@ export function SupportedGamesModal({ onClose }: SupportedGamesModalProps) {
         <div className="mb-4 flex items-center justify-between">
           <h2 className="inline-flex items-center gap-2 text-sm font-bold text-foreground">
             <Gamepad2 aria-hidden="true" className="h-4 w-4" />
-            Supported Games
+            {t.app.supportedGamesTitle}
           </h2>
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close supported games"
+            aria-label={t.app.viewSupportedGames}
             className="rounded-md p-1 text-muted-foreground transition-colors hover:text-foreground"
           >
             <X className="h-4 w-4" />
@@ -83,7 +85,7 @@ export function SupportedGamesModal({ onClose }: SupportedGamesModalProps) {
                   <span className={`text-sm font-bold ${GAME_NAME_COLORS[game]}`}>
                     {info.label}
                   </span>
-                  <p className="text-xs text-muted-foreground">{info.description}</p>
+                  <p className="text-xs text-muted-foreground">{t.gameDescriptions[game]}</p>
                 </div>
                 <ExternalLink className="h-3.5 w-3.5 shrink-0 text-muted-foreground/40 group-hover:text-muted-foreground" />
               </a>

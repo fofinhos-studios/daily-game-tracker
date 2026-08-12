@@ -1,0 +1,323 @@
+import type { GameType } from "@/types/games"
+
+export const supportedLocales = ["en", "pt-BR"] as const
+export type Locale = (typeof supportedLocales)[number]
+
+type Strings = {
+  about: (label: string) => string
+  language: string
+  languageName: Record<Locale, string>
+  switchTheme: (theme: "light" | "dark") => string
+  backup: {
+    open: string
+    dialog: string
+    title: string
+    description: string
+    close: string
+    copied: string
+    copy: string
+    paste: string
+    merge: string
+    replace: string
+    copiedMessage: string
+    mergedMessage: string
+    replacedMessage: string
+    invalid: string
+    unsupportedVersion: string
+    replaceConfirmation: string
+  }
+  app: {
+    todayResults: string
+    results: string
+    activity: string
+    accuracy: string
+    pasteResults: string
+    supportedGames: string
+    supportedGamesTitle: string
+    supportedGamesDescription: string
+    backToToday: string
+    winRates: string
+    viewSupportedGames: string
+    reviewResults: string
+  }
+  paste: {
+    placeholder: string
+    detected: string
+    add: string
+    added: (count: number) => string
+    replaced: (count: number) => string
+    noGamesDetected: string
+  }
+  share: {
+    title: string
+    gameNamesOnly: string
+    gameNamesOnlyHint: string
+    copied: string
+    copy: string
+    copyHint: string
+  }
+  filter: {
+    title: string
+    allGames: string
+    selected: string
+    count: (count: number) => string
+    remove: (game: string) => string
+  }
+  results: {
+    emptyToday: string
+    emptyDay: string
+    emptyHint: string
+    paste: string
+    reorder: string
+    moveUp: (game: string) => string
+    moveDown: (game: string) => string
+    remove: (game: string) => string
+    removeHint: (game: string) => string
+    removeConfirmation: string
+    markLossTitle: string
+    markLossHint: string
+    markLossDescription: string
+    markLoss: (game: string) => string
+  }
+  stats: {
+    empty: string
+    best: (count: number) => string
+    streak: (count: number) => string
+    winRate: (game: string, rate: number) => string
+    gamesOnDate: (date: string, count: number) => string
+    accuracyOnDate: (date: string, rate: number | null) => string
+    less: string
+    more: string
+  }
+  help: {
+    pasteResults: string
+    share: string
+    winRates: string
+    activity: string
+    accuracy: string
+  }
+  gameDescriptions: Record<GameType, string>
+}
+
+export const strings: Record<Locale, Strings> = {
+  en: {
+    about: (label) => `About ${label}`,
+    language: "Language",
+    languageName: { en: "English", "pt-BR": "Português (Brasil)" },
+    switchTheme: (theme) => `Switch to ${theme} mode`,
+    backup: {
+      open: "Backup or restore progress",
+      dialog: "Backup progress",
+      title: "Backup progress",
+      description: "Copy your backup string or paste one to restore progress.",
+      close: "Close backup",
+      copied: "Copied",
+      copy: "Copy backup string",
+      paste: "Paste backup string here...",
+      merge: "Merge backup",
+      replace: "Replace progress",
+      copiedMessage: "Backup copied",
+      mergedMessage: "Backup merged",
+      replacedMessage: "Progress replaced",
+      invalid: "Invalid backup",
+      unsupportedVersion: "Unsupported backup version",
+      replaceConfirmation: "Replace all current progress with this backup? This cannot be undone.",
+    },
+    app: {
+      todayResults: "Today's Results",
+      results: "Results",
+      activity: "Activity",
+      accuracy: "Accuracy",
+      pasteResults: "Paste Results",
+      supportedGames: "Supported Games",
+      supportedGamesTitle: "Supported Games",
+      supportedGamesDescription: "View supported games and open their websites",
+      backToToday: "Back to today",
+      winRates: "Win Rates",
+      viewSupportedGames: "Close supported games",
+      reviewResults: "Review results recorded for the selected day",
+    },
+    paste: {
+      placeholder: "Paste your game results here...",
+      detected: "Detected:",
+      add: "Add",
+      added: (count) => `${count} game${count === 1 ? "" : "s"} added`,
+      replaced: (count) => `${count} replaced`,
+      noGamesDetected: "No games detected in pasted text",
+    },
+    share: {
+      title: "Share",
+      gameNamesOnly: "Game names only",
+      gameNamesOnlyHint: "Replace original game headers with game names",
+      copied: "Copied!",
+      copy: "Copy message",
+      copyHint: "Copy the combined results message to your clipboard",
+    },
+    filter: {
+      title: "Filter results, activity, accuracy, and win rates by game",
+      allGames: "All games",
+      selected: "Selected game filters",
+      count: (count) => `${count} game filter${count === 1 ? "" : "s"}`,
+      remove: (game) => `Remove ${game} filter`,
+    },
+    results: {
+      emptyToday: "No games recorded today",
+      emptyDay: "No games recorded for this day",
+      emptyHint: "Paste a result or mark a loss to get started",
+      paste: "Paste a result",
+      reorder: "Reorder result",
+      moveUp: (game) => `Move ${game} up`,
+      moveDown: (game) => `Move ${game} down`,
+      remove: (game) => `Remove ${game}`,
+      removeHint: (game) => `Remove ${game} from this day`,
+      removeConfirmation: "Remove this result?",
+      markLossTitle: "Mark a game as lost",
+      markLossHint: "Use this when a game has no result to paste",
+      markLossDescription: "Select a game to record for this day as a loss.",
+      markLoss: (game) => `Record ${game} as a loss`,
+    },
+    stats: {
+      empty: "Stats will appear after you add some games",
+      best: (count) => `Best: ${count}`,
+      streak: (count) => `${count} streak`,
+      winRate: (game, rate) => `${game} win rate: ${rate}%`,
+      gamesOnDate: (date, count) => `${date}: ${count} game${count === 1 ? "" : "s"}`,
+      accuracyOnDate: (date, rate) =>
+        rate === null ? `${date}: no games` : `${date}: ${rate}% accuracy`,
+      less: "Less",
+      more: "More",
+    },
+    help: {
+      pasteResults:
+        "Paste shared results from supported games. Recognized results are added automatically to their game date.",
+      share:
+        "Preview and copy today's combined results. Enable Game names only for a shorter message without original headers.",
+      winRates:
+        "Shows wins, games played, current streak, best streak, and overall success rate for each game.",
+      activity:
+        "Shows how many games you recorded each day. Hover a square for details or select it to open that date.",
+      accuracy:
+        "Shows daily win percentage. Red means fewer wins; green means higher accuracy. Select a day to review it.",
+    },
+    gameDescriptions: {
+      conexo: "Group words by connection",
+      expresso: "Find the popular expression",
+      framed: "Guess the movie from frames",
+      gamedle: "Guess the game from clues",
+      guessthegame: "Guess the game from screenshots",
+      letroso: "Brazilian word puzzle",
+      termo: "Portuguese Wordle",
+    },
+  },
+  "pt-BR": {
+    about: (label) => `Sobre ${label}`,
+    language: "Idioma",
+    languageName: { en: "English", "pt-BR": "Português (Brasil)" },
+    switchTheme: (theme) => `Alternar para o modo ${theme === "dark" ? "escuro" : "claro"}`,
+    backup: {
+      open: "Fazer backup ou restaurar o progresso",
+      dialog: "Backup do progresso",
+      title: "Backup do progresso",
+      description: "Copie sua sequência de backup ou cole uma para restaurar o progresso.",
+      close: "Fechar backup",
+      copied: "Copiado",
+      copy: "Copiar sequência de backup",
+      paste: "Cole a sequência de backup aqui...",
+      merge: "Mesclar backup",
+      replace: "Substituir progresso",
+      copiedMessage: "Backup copiado",
+      mergedMessage: "Backup mesclado",
+      replacedMessage: "Progresso substituído",
+      invalid: "Backup inválido",
+      unsupportedVersion: "Versão de backup não suportada",
+      replaceConfirmation:
+        "Substituir todo o progresso atual por este backup? Esta ação não pode ser desfeita.",
+    },
+    app: {
+      todayResults: "Resultados de hoje",
+      results: "Resultados",
+      activity: "Atividade",
+      accuracy: "Precisão",
+      pasteResults: "Colar resultados",
+      supportedGames: "Jogos compatíveis",
+      supportedGamesTitle: "Jogos compatíveis",
+      supportedGamesDescription: "Veja os jogos compatíveis e abra seus sites",
+      backToToday: "Voltar para hoje",
+      winRates: "Taxas de vitória",
+      viewSupportedGames: "Fechar jogos compatíveis",
+      reviewResults: "Revise os resultados registrados para o dia selecionado",
+    },
+    paste: {
+      placeholder: "Cole os resultados dos seus jogos aqui...",
+      detected: "Detectado:",
+      add: "Adicionar",
+      added: (count) =>
+        `${count} jogo${count === 1 ? "" : "s"} adicionado${count === 1 ? "" : "s"}`,
+      replaced: (count) => `${count} substituído${count === 1 ? "" : "s"}`,
+      noGamesDetected: "Nenhum jogo foi detectado no texto colado",
+    },
+    share: {
+      title: "Compartilhar",
+      gameNamesOnly: "Somente nomes dos jogos",
+      gameNamesOnlyHint: "Substitua os cabeçalhos originais pelos nomes dos jogos",
+      copied: "Copiado!",
+      copy: "Copiar mensagem",
+      copyHint: "Copie a mensagem combinada de resultados para a área de transferência",
+    },
+    filter: {
+      title: "Filtre resultados, atividade, precisão e taxas de vitória por jogo",
+      allGames: "Todos os jogos",
+      selected: "Filtros de jogos selecionados",
+      count: (count) => `${count} filtro${count === 1 ? "" : "s"} de jogo`,
+      remove: (game) => `Remover filtro de ${game}`,
+    },
+    results: {
+      emptyToday: "Nenhum jogo registrado hoje",
+      emptyDay: "Nenhum jogo registrado neste dia",
+      emptyHint: "Cole um resultado ou marque uma derrota para começar",
+      paste: "Colar um resultado",
+      reorder: "Reordenar resultado",
+      moveUp: (game) => `Mover ${game} para cima`,
+      moveDown: (game) => `Mover ${game} para baixo`,
+      remove: (game) => `Remover ${game}`,
+      removeHint: (game) => `Remover ${game} deste dia`,
+      removeConfirmation: "Remover este resultado?",
+      markLossTitle: "Marcar um jogo como perdido",
+      markLossHint: "Use esta opção quando um jogo não tiver um resultado para colar",
+      markLossDescription: "Selecione um jogo para registrar como derrota neste dia.",
+      markLoss: (game) => `Registrar ${game} como derrota`,
+    },
+    stats: {
+      empty: "As estatísticas aparecerão depois que você adicionar alguns jogos",
+      best: (count) => `Melhor: ${count}`,
+      streak: (count) => `${count} sequência`,
+      winRate: (game, rate) => `Taxa de vitória de ${game}: ${rate}%`,
+      gamesOnDate: (date, count) => `${date}: ${count} jogo${count === 1 ? "" : "s"}`,
+      accuracyOnDate: (date, rate) =>
+        rate === null ? `${date}: nenhum jogo` : `${date}: ${rate}% de precisão`,
+      less: "Menos",
+      more: "Mais",
+    },
+    help: {
+      pasteResults:
+        "Cole resultados compartilhados dos jogos compatíveis. Os resultados reconhecidos são adicionados automaticamente à data do jogo.",
+      share:
+        "Visualize e copie os resultados combinados de hoje. Ative Somente nomes dos jogos para uma mensagem menor, sem os cabeçalhos originais.",
+      winRates:
+        "Mostra vitórias, partidas jogadas, sequência atual, melhor sequência e taxa de sucesso geral de cada jogo.",
+      activity:
+        "Mostra quantos jogos você registrou por dia. Passe o cursor sobre um quadrado para ver detalhes ou selecione-o para abrir a data.",
+      accuracy:
+        "Mostra a porcentagem diária de vitórias. Vermelho indica menos vitórias; verde, maior precisão. Selecione um dia para revisá-lo.",
+    },
+    gameDescriptions: {
+      conexo: "Agrupe palavras pela conexão",
+      expresso: "Encontre a expressão popular",
+      framed: "Adivinhe o filme pelos quadros",
+      gamedle: "Adivinhe o jogo pelas pistas",
+      guessthegame: "Adivinhe o jogo pelas capturas de tela",
+      letroso: "Jogo brasileiro de palavras",
+      termo: "Wordle em português",
+    },
+  },
+}
