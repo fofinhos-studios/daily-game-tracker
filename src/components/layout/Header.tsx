@@ -70,7 +70,7 @@ export function Header({ today, onOpenBackup }: HeaderProps) {
               aria-haspopup="listbox"
               aria-label={t.language}
               title={t.language}
-              className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-primary-foreground/10 bg-primary-foreground/5 px-2 text-xs font-semibold text-primary-foreground/80 transition-colors hover:border-primary-foreground/20 hover:bg-primary-foreground/10 hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-primary-foreground/10 bg-primary-foreground/5 px-2 text-xs font-semibold text-primary-foreground transition-colors hover:border-primary-foreground/20 hover:bg-primary-foreground/10 hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <span aria-hidden="true" className="text-sm leading-none">
                 {language.flag}
@@ -78,7 +78,7 @@ export function Header({ today, onOpenBackup }: HeaderProps) {
               <span>{language.code}</span>
               <ChevronDown
                 aria-hidden="true"
-                className={`h-3.5 w-3.5 text-primary-foreground/60 transition-transform ${languageOpen ? "rotate-180" : ""}`}
+                className={`h-3.5 w-3.5 text-primary-foreground/70 transition-transform ${languageOpen ? "rotate-180" : ""}`}
               />
             </button>
 
