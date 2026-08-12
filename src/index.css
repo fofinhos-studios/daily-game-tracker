@@ -248,6 +248,60 @@ body {
   }
 }
 
+@keyframes title-shimmer {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -150% 0;
+  }
+}
+
+@keyframes title-wave {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.045em);
+  }
+}
+
+.title-shimmer {
+  --title-shimmer-ink: var(--color-primary-foreground);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+[data-theme="dark"] .title-shimmer {
+  --title-shimmer-ink: var(--color-foreground);
+}
+
+.title-shimmer-word {
+  display: inline-block;
+  color: transparent;
+  background-image: linear-gradient(
+    110deg,
+    var(--title-shimmer-ink) 32%,
+    color-mix(in oklch, var(--title-shimmer-ink) 76%, white) 47%,
+    var(--title-shimmer-ink) 62%
+  );
+  background-position: 150% 0;
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation:
+    title-shimmer 5.8s linear infinite,
+    title-wave 4.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  will-change: background-position, transform;
+}
+
+.title-shimmer-word-second {
+  animation-delay: -0.8s, -2.3s;
+}
+
 .animate-fade-in-up {
   animation: fade-in-up 0.5s ease-out both;
 }

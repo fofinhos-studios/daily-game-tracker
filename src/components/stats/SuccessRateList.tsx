@@ -1,3 +1,4 @@
+import { useI18n } from "@/i18n/I18nProvider"
 import { calculateSubGameStats, getAllSubGameKeys } from "@/lib/stats"
 import type { AppData, GameType } from "@/types/games"
 import { getSubGameLabel, parseSubGameKey } from "@/types/games"
@@ -9,6 +10,7 @@ interface SuccessRateListProps {
 }
 
 export function SuccessRateList({ data, gameFilter }: SuccessRateListProps) {
+  const { t } = useI18n()
   const subGameKeys = getAllSubGameKeys(data)
   const allStats = subGameKeys
     .map((key) => calculateSubGameStats(data, key))
@@ -23,7 +25,7 @@ export function SuccessRateList({ data, gameFilter }: SuccessRateListProps) {
   if (allStats.length === 0) {
     return (
       <p className="text-center text-xs font-light text-muted-foreground/60 py-2">
-        Stats will appear after you add some games
+        {t.stats.empty}
       </p>
     )
   }

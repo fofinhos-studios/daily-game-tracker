@@ -10,7 +10,6 @@ import {
 import { useMemo, useState } from "react"
 import { BackupModal } from "@/components/backup/BackupModal"
 import { GameFilter } from "@/components/filters/GameFilter"
-import { HELP_TEXT } from "@/components/help/helpContent"
 import { SectionHeading } from "@/components/help/SectionHeading"
 import { PasteInput } from "@/components/input/PasteInput"
 import { Header } from "@/components/layout/Header"
@@ -23,6 +22,7 @@ import { SuccessRateList } from "@/components/stats/SuccessRateList"
 import { DailySummary } from "@/components/summary/DailySummary"
 import { useGameStore } from "@/hooks/useGameStore"
 import { useToday } from "@/hooks/useToday"
+import { useI18n } from "@/i18n/I18nProvider"
 import { formatDateDisplay } from "@/lib/dates"
 import { createManualLoss, type GameType } from "@/types/games"
 
@@ -30,6 +30,7 @@ type Tab = "results" | "activity" | "accuracy"
 
 export default function App() {
   const today = useToday()
+  const { locale, t } = useI18n()
   const store = useGameStore()
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<Tab>("results")
@@ -67,9 +68,13 @@ export default function App() {
   }
 
   const tabs = [
-    { id: "results" as const, label: isToday ? "Today's Results" : "Results", icon: CheckCircle2 },
-    { id: "activity" as const, label: "Activity", icon: CalendarDays },
-    { id: "accuracy" as const, label: "Accuracy", icon: Target },
+    {
+      id: "results" as const,
+      label: isToday ? t.app.todayResults : t.app.results,
+      icon: CheckCircle2,
+    },
+    { id: "activity" as const, label: t.app.activity, icon: CalendarDays },
+    { id: "accuracy" as const, label: t.app.accuracy, icon: Target },
   ]
 
   return (
@@ -78,8 +83,8 @@ export default function App() {
 
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between animate-fade-in-up delay-1">
-          <SectionHeading help={HELP_TEXT.pasteResults} icon={ClipboardPaste}>
-            Paste Results
+          <SectionHeading help={t.help.pasteResults} icon={ClipboardPaste}>
+            {t.app.pasteResults}
           </SectionHeading>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-start">
             {availableGames.length > 0 && (
@@ -94,11 +99,11 @@ export default function App() {
             <button
               type="button"
               onClick={() => setShowSupportedGames(true)}
-              title="View supported games and open their websites"
+              title={t.app.supportedGamesDescription}
               className="inline-flex min-h-10 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 py-2 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/30 hover:text-foreground"
             >
               <Gamepad2 aria-hidden="true" className="h-3.5 w-3.5" />
-              Supported Games
+              {t.app.supportedGames}
             </button>
           </div>
         </div>
@@ -121,10 +126,10 @@ export default function App() {
                   onClick={() => setActiveTab(tab.id)}
                   title={
                     tab.id === "results"
-                      ? "Review results recorded for the selected day"
+                      ? t.app.reviewResults
                       : tab.id === "activity"
-                        ? HELP_TEXT.activity
-                        : HELP_TEXT.accuracy
+                        ? t.help.activity
+                        : t.help.accuracy
                   }
                   className={`flex flex-1 items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition-all ${
                     activeTab === tab.id
@@ -144,14 +149,16 @@ export default function App() {
                 <div className="space-y-4">
                   {!isToday && (
                     <div className="flex items-center justify-between">
-                      <p className="text-xs text-muted-foreground">{formatDateDisplay(viewDate)}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {formatDateDisplay(viewDate, locale)}
+                      </p>
                       <button
                         type="button"
                         onClick={() => setSelectedDate(null)}
                         className="text-xs text-primary hover:text-primary/80 font-bold"
                       >
                         <RotateCcw aria-hidden="true" className="mr-1 inline h-3.5 w-3.5" />
-                        Back to today
+                        {t.app.backToToday}
                       </button>
                     </div>
                   )}
@@ -165,8 +172,8 @@ export default function App() {
                     }
                   />
                   <div className="card-surface rounded-xl p-4">
-                    <SectionHeading className="mb-3" help={HELP_TEXT.winRates} icon={BarChart3}>
-                      Win Rates
+                    <SectionHeading className="mb-3" help={t.help.winRates} icon={BarChart3}>
+                      {t.app.winRates}
                     </SectionHeading>
                     <SuccessRateList data={store.data} gameFilter={gameFilter} />
                   </div>

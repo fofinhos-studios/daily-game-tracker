@@ -1,6 +1,7 @@
 import { ChevronDown, CircleX, Plus } from "lucide-react"
 import { useId, useState } from "react"
 import { GameIcon } from "@/components/input/GameIcon"
+import { useI18n } from "@/i18n/I18nProvider"
 import { GAME_LABELS, GAME_ORDER, type GameType } from "@/types/games"
 
 interface MarkLossProps {
@@ -9,6 +10,7 @@ interface MarkLossProps {
 }
 
 export function MarkLoss({ existingGames, onMarkLoss }: MarkLossProps) {
+  const { t } = useI18n()
   const [open, setOpen] = useState(false)
   const panelId = useId()
   const availableGames = GAME_ORDER.filter((game) => !existingGames.has(game))
@@ -24,7 +26,7 @@ export function MarkLoss({ existingGames, onMarkLoss }: MarkLossProps) {
         onClick={() => setOpen(!open)}
         aria-expanded={open}
         aria-controls={panelId}
-        title="Record a loss when a game has no shareable result"
+        title={t.results.markLossHint}
         className={`flex min-h-12 w-full items-center justify-between gap-3 px-4 py-3 text-left transition-colors hover:bg-muted/60 ${
           open ? "bg-muted/50 text-foreground" : "text-muted-foreground"
         }`}
@@ -38,9 +40,11 @@ export function MarkLoss({ existingGames, onMarkLoss }: MarkLossProps) {
             <Plus className={`h-4 w-4 transition-transform ${open ? "rotate-45" : ""}`} />
           </span>
           <span>
-            <span className="block text-xs font-bold text-foreground">Mark a game as lost</span>
+            <span className="block text-xs font-bold text-foreground">
+              {t.results.markLossTitle}
+            </span>
             <span className="mt-0.5 hidden text-[11px] font-normal text-muted-foreground sm:block">
-              Use this when a game has no result to paste
+              {t.results.markLossHint}
             </span>
           </span>
         </span>
@@ -53,14 +57,14 @@ export function MarkLoss({ existingGames, onMarkLoss }: MarkLossProps) {
       {open && (
         <div id={panelId} className="border-t border-border px-4 py-3 animate-fade-in">
           <p className="mb-2.5 text-[11px] font-medium text-muted-foreground">
-            Select a game to record for this day as a loss.
+            {t.results.markLossDescription}
           </p>
           <div className="flex flex-wrap gap-2">
             {availableGames.map((game) => (
               <button
                 type="button"
                 key={game}
-                title={`Record ${GAME_LABELS[game]} as a loss`}
+                title={t.results.markLoss(GAME_LABELS[game])}
                 onClick={() => {
                   onMarkLoss(game)
                   setOpen(false)

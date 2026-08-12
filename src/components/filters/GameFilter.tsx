@@ -1,5 +1,6 @@
 import { ChevronDown, SlidersHorizontal, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
+import { useI18n } from "@/i18n/I18nProvider"
 import { GAME_LABELS, type GameType } from "@/types/games"
 import { GameIcon } from "../input/GameIcon"
 
@@ -10,6 +11,7 @@ interface GameFilterProps {
 }
 
 export function GameFilter({ availableGames, selected, onChange }: GameFilterProps) {
+  const { t } = useI18n()
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
@@ -57,7 +59,7 @@ export function GameFilter({ availableGames, selected, onChange }: GameFilterPro
         aria-expanded={open}
         aria-controls="game-filter-options"
         aria-haspopup="listbox"
-        title="Filter results, activity, accuracy, and win rates by game"
+        title={t.filter.title}
         className="flex w-full items-center justify-between gap-2 rounded-lg border border-border bg-card px-3 py-2 text-xs transition-colors hover:border-primary/30"
       >
         <SlidersHorizontal
@@ -65,9 +67,7 @@ export function GameFilter({ availableGames, selected, onChange }: GameFilterPro
           className="h-3.5 w-3.5 shrink-0 text-muted-foreground"
         />
         <span className="text-muted-foreground">
-          {selected.size === 0
-            ? "All games"
-            : `${selected.size} game filter${selected.size > 1 ? "s" : ""}`}
+          {selected.size === 0 ? t.filter.allGames : t.filter.count(selected.size)}
         </span>
         <ChevronDown
           className={`h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`}
@@ -76,7 +76,7 @@ export function GameFilter({ availableGames, selected, onChange }: GameFilterPro
 
       {selected.size > 0 && (
         <fieldset className="mt-1 flex flex-wrap gap-1 border-0 p-0">
-          <legend className="sr-only">Selected game filters</legend>
+          <legend className="sr-only">{t.filter.selected}</legend>
           {[...selected]
             .sort((a, b) => GAME_LABELS[a].localeCompare(GAME_LABELS[b]))
             .map((game) => (
@@ -84,7 +84,7 @@ export function GameFilter({ availableGames, selected, onChange }: GameFilterPro
                 type="button"
                 key={game}
                 onClick={() => removeGame(game)}
-                aria-label={`Remove ${GAME_LABELS[game]} filter`}
+                aria-label={t.filter.remove(GAME_LABELS[game])}
                 className="inline-flex items-center gap-1 rounded-md bg-primary/10 px-2 py-1 text-xs font-medium text-primary hover:text-destructive"
               >
                 <GameIcon gameType={game} className="h-3.5 w-3.5" />

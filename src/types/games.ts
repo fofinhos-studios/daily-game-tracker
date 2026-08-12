@@ -19,56 +19,49 @@ export const GAME_LABELS: Record<GameType, string> = {
 
 export const GAME_INFO: Record<
   GameType,
-  { label: string; url: string; favicon: string; emoji: string; description: string }
+  { label: string; url: string; favicon: string; emoji: string }
 > = {
   conexo: {
     label: "Conexo",
     url: "https://conexo.ws",
     favicon: "/favicons/conexo.ico",
     emoji: "🔗",
-    description: "Group words by connection",
   },
   expresso: {
     label: "Expresso",
     url: "https://expresso.ac",
     favicon: "/favicons/expresso.ico",
     emoji: "💬",
-    description: "Find the popular expression",
   },
   framed: {
     label: "Framed",
     url: "https://framed.wtf",
     favicon: "/favicons/framed.ico",
     emoji: "🎬",
-    description: "Guess the movie from frames",
   },
   gamedle: {
     label: "Gamedle",
     url: "https://gamedle.wtf",
     favicon: "/favicons/gamedle.ico",
     emoji: "🕹️",
-    description: "Guess the game from clues",
   },
   guessthegame: {
     label: "GuessTheGame",
     url: "https://guessthe.game",
     favicon: "/favicons/guessthegame.ico",
     emoji: "🎮",
-    description: "Guess the game from screenshots",
   },
   letroso: {
     label: "Letroso",
     url: "https://letroso.com",
     favicon: "/favicons/letroso.ico",
     emoji: "🔤",
-    description: "Brazilian word puzzle",
   },
   termo: {
     label: "Termo",
     url: "https://term.ooo",
     favicon: "/favicons/termo.ico",
     emoji: "🟩",
-    description: "Portuguese Wordle",
   },
 }
 
