@@ -263,20 +263,17 @@ body {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-0.045em);
+    transform: translateY(-1px);
   }
 }
 
 .title-shimmer {
-  --title-shimmer-ink: var(--color-primary-foreground);
+  --title-shimmer-base: rgb(255 255 255 / 0.78);
+  --title-shimmer-highlight: rgb(255 255 255 / 1);
   display: inline-flex;
   align-items: baseline;
   gap: 0.35rem;
   white-space: nowrap;
-}
-
-[data-theme="dark"] .title-shimmer {
-  --title-shimmer-ink: var(--color-foreground);
 }
 
 .title-shimmer-word {
@@ -284,22 +281,23 @@ body {
   color: transparent;
   background-image: linear-gradient(
     110deg,
-    var(--title-shimmer-ink) 32%,
-    color-mix(in oklch, var(--title-shimmer-ink) 76%, white) 47%,
-    var(--title-shimmer-ink) 62%
+    var(--title-shimmer-base) 32%,
+    var(--title-shimmer-highlight) 47%,
+    var(--title-shimmer-highlight) 53%,
+    var(--title-shimmer-base) 68%
   );
   background-position: 150% 0;
   background-size: 250% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   animation:
-    title-shimmer 5.8s linear infinite,
-    title-wave 4.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    title-shimmer 3.8s linear infinite,
+    title-wave 3.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
   will-change: background-position, transform;
 }
 
 .title-shimmer-word-second {
-  animation-delay: -0.8s, -2.3s;
+  animation-delay: -0.6s, -1.7s;
 }
 
 .animate-fade-in-up {
