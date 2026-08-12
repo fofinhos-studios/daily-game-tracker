@@ -42,7 +42,7 @@ export function SupportedGamesModal({ onClose }: SupportedGamesModalProps) {
       role="dialog"
       aria-modal="true"
       aria-label={t.app.supportedGamesTitle}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/45 px-2 pt-2 sm:items-center sm:p-4 motion-safe:animate-fade-in-fast"
       onClick={(e) => {
         if (e.target === overlayRef.current) onClose()
       }}
@@ -52,7 +52,7 @@ export function SupportedGamesModal({ onClose }: SupportedGamesModalProps) {
     >
       <div
         ref={dialogRef}
-        className="card-surface mx-4 w-full max-w-lg rounded-2xl p-6 shadow-xl animate-fade-in-up"
+        className="card-surface flex max-h-[calc(100dvh-1rem)] w-full max-w-lg flex-col rounded-t-2xl p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-xl sm:rounded-2xl sm:p-6 motion-safe:animate-dialog-in"
       >
         <div className="mb-4 flex items-center justify-between">
           <h2 className="inline-flex items-center gap-2 text-sm font-bold text-foreground">
@@ -63,13 +63,13 @@ export function SupportedGamesModal({ onClose }: SupportedGamesModalProps) {
             type="button"
             onClick={onClose}
             aria-label={t.app.viewSupportedGames}
-            className="rounded-md p-1 text-muted-foreground transition-colors hover:text-foreground"
+            className="touch-manipulation rounded-md p-2 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="space-y-2">
+        <div className="min-h-0 space-y-2 overflow-y-auto overscroll-contain pr-1">
           {GAME_ORDER.map((game) => {
             const info = GAME_INFO[game]
             return (
@@ -78,7 +78,7 @@ export function SupportedGamesModal({ onClose }: SupportedGamesModalProps) {
                 href={info.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`group flex items-center gap-3 rounded-lg border-l-[3px] bg-muted/30 px-3 py-2.5 transition-all hover:bg-muted/60 ${GAME_BORDER_COLORS[game]}`}
+                className={`group flex touch-manipulation items-center gap-3 rounded-lg border-l-[3px] bg-muted/30 px-3 py-2.5 transition-colors hover:bg-muted/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${GAME_BORDER_COLORS[game]}`}
               >
                 <GameIcon gameType={game} className="h-6 w-6" />
                 <div className="min-w-0 flex-1">

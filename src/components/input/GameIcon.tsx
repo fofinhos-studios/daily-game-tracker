@@ -25,6 +25,7 @@ export function GameIcon({ gameType, className }: GameIconProps) {
       src={info.favicon}
       alt=""
       aria-hidden="true"
+      decoding="async"
       onError={() => setFailed(true)}
       className={cn("inline-block shrink-0 rounded-sm object-contain", className)}
     />
