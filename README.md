@@ -14,7 +14,15 @@ Your small home for daily puzzle wins. Paste the share cards from your favourite
 
 ## Supported games
 
-Conexo · Expresso · Framed · Gamedle · GuessTheGame · Letroso · Termo
+| Game | Play |
+| --- | --- |
+| Conexo | [Open Conexo](https://conexo.ws) |
+| Expresso | [Open Expresso](https://expresso.ac) |
+| Framed | [Open Framed](https://framed.wtf) |
+| Gamedle | [Open Gamedle](https://gamedle.wtf) |
+| GuessTheGame | [Open GuessTheGame](https://guessthe.game) |
+| Letroso | [Open Letroso](https://letroso.com) |
+| Termo | [Open Termo](https://term.ooo) |
 
 ## Data sources
 
