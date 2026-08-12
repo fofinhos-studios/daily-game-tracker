@@ -84,11 +84,19 @@ src/
 
 ## Design System
 
-- **Dark-only theme** defined via `@theme` in `src/index.css` using OKLCH colors
+- **Light and dark themes** defined via `@theme` and `[data-theme="dark"]` in `src/index.css` using OKLCH colors
 - **Key colors:** `primary` (warm amber), `accent` (teal-ish), `card` (dark slate)
 - **Font:** Bricolage Grotesque (loaded via Google Fonts in `index.html`)
 - **Animations:** `animate-fade-in-up`, `animate-fade-in`, `animate-pulse-once` with `delay-0` through `delay-4` classes (0.1s increments)
 - **Per-game colors** defined in `GameBadge.tsx` (`GAME_COLORS`) and `SupportedGames.tsx` (`GAME_NAME_COLORS`): blue (Conexo), red (Framed), purple (Gamedle), emerald (GuessTheGame), yellow (Letroso), orange (Termo)
+
+## Visual QA Requirements
+
+- Check text, icon, border, hover, active, and focus-state contrast against their actual surfaces in both light and dark themes before marking a UI task complete.
+- Verify both themes in the running app, including responsive layouts and interactive states such as dropdowns, menus, dialogs, and buttons. Do not rely on a single static screenshot or on color tokens alone.
+- When a theme-specific issue is found, fix the component or shared theme token at the source and re-check the opposite theme for regressions.
+- Run the relevant build, typecheck, lint, and tests after visual verification when those checks are available.
+- After completing a task, commit the intended changes and push them to the configured remote branch. When unrelated work is present, stage only the files changed for the task and leave the unrelated changes untouched.
 
 ## Parser Architecture
 
