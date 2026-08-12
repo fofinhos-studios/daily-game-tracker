@@ -300,6 +300,15 @@ body {
   animation-delay: -0.6s, -1.7s;
 }
 
+.title-shimmer-word-first {
+  font-family: "Hina Mincho", serif;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1;
+}
+
 .animate-fade-in-up {
   animation: fade-in-up 0.5s ease-out both;
 }
