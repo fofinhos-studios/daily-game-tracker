@@ -7,7 +7,7 @@ import {
   RotateCcw,
   Target,
 } from "lucide-react"
-import { useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { BackupModal } from "@/components/backup/BackupModal"
 import { GameFilter } from "@/components/filters/GameFilter"
 import { SectionHeading } from "@/components/help/SectionHeading"
@@ -37,6 +37,8 @@ export default function App() {
   const [gameFilter, setGameFilter] = useState<Set<GameType>>(new Set())
   const [showSupportedGames, setShowSupportedGames] = useState(false)
   const [showBackup, setShowBackup] = useState(false)
+
+  const closeSupportedGames = useCallback(() => setShowSupportedGames(false), [])
 
   const viewDate = selectedDate || today
   const entry = store.getEntry(viewDate)
@@ -202,7 +204,7 @@ export default function App() {
         </div>
       </main>
 
-      {showSupportedGames && <SupportedGamesModal onClose={() => setShowSupportedGames(false)} />}
+      {showSupportedGames && <SupportedGamesModal onClose={closeSupportedGames} />}
       {showBackup && (
         <BackupModal
           data={store.data}
