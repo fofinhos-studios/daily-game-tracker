@@ -38,6 +38,8 @@ The workspace is at most 1440 px, two columns from 1024 px. On smaller screens, 
 
 Hover lifts tickets by 2 px with 1.015 scale and a soft shadow; primary interactive surfaces use 1.03 scale. Press uses .97. Durations are 160–240 ms with the shared easing; ticket entry is 280 ms. Only devices with pointer hover get ticket elevation. Reduced motion disables animation, transitions and transforms while retaining the static hover shadow.
 
+The shared `Wordmark` uses an 1800 ms lilac edge shimmer on entry and pointer re-entry. A masked decorative outline layer sweeps over the unchanged text and symbol, then fades completely. Its duration and glow color are tokens in `theme.css`. The layer is hidden from assistive technology, ignores pointer input, and is removed under reduced motion. It does not loop; the catalog includes the same component on a black preview surface.
+
 ## Result integrity
 
 Every ticket reserves the large figures beneath its title for performance (points or attempts, with units). Multi-mode games list attempts per mode in this same area. Edition identifiers live in the colored stub, with mode names where needed; omit the entire edition field when unavailable, including unknown editions among otherwise numbered modes. Keep this content accessible to screen readers. On mobile, editions follow the identity within the top strip. Dates belong to the surrounding day view, not individual cards. Never substitute an edition or a mode count for a score. Guess counts can be read from played cells; Termo keeps explicit attempts or board keycaps, falling back to played rows. These are display-only interpretations.

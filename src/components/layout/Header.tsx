@@ -1,5 +1,4 @@
 import {
-  AsteriskSimpleIcon,
   CaretDownIcon as ChevronDown,
   DatabaseIcon as DatabaseBackup,
   MoonIcon as Moon,
@@ -12,6 +11,7 @@ import { useTheme } from "@/hooks/useTheme"
 import { useI18n } from "@/i18n/I18nProvider"
 import { type Locale, supportedLocales } from "@/i18n/strings"
 import { formatDateDisplay } from "@/lib/dates"
+import { Wordmark } from "./Wordmark"
 
 interface HeaderProps {
   today: string
@@ -46,14 +46,8 @@ export function Header({ today, onOpenBackup }: HeaderProps) {
   return (
     <header className="app-header">
       <div className="header-inner">
-        <h1 className="wordmark">
-          <AsteriskSimpleIcon className="brand-symbol" weight="bold" aria-hidden="true" />
-          <span>
-            <span className="wordmark-jp" lang="ja">
-              ミニゲーム
-            </span>
-            <span className="wordmark-latin">(MINIGĒMU)</span>
-          </span>
+        <h1>
+          <Wordmark />
         </h1>
         <div className="flex items-center gap-2">
           <time dateTime={today} className="mr-3 hidden font-mono text-xs lg:block">

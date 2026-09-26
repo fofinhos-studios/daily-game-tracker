@@ -67,3 +67,10 @@ Removed promotional headings, ticket record labels, repeated brand/year stamps, 
 - [Mobile, light](ticket-actions-mobile.png) and [desktop, dark](ticket-actions-desktop.png). Checked 360, 768, 1024 and 1440 px in both themes: three header actions per card, targets at least 44 px, no page overflow. Long titles wrap without separating the actions.
 - Verified move down/up using Enter, disabled first-position up arrow and removal in the isolated catalog. Axe reported zero violations; the existing desktop notch/background contrast review limitation remains documented above.
 - Lint, typecheck, build and all 82 tests passed (420 assertions).
+
+## Wordmark edge shimmer
+
+- Shared header/catalog wordmark adds a lilac outline sweep over the unchanged lettering and icon. [Catalog frame at 600 ms](wordmark-shimmer.png).
+- Verified entry animation and pointer re-entry: 1800 ms, one iteration, opacity returns to zero. Decorative duplicate is `aria-hidden`; reduced motion removes the overlay and produces zero overlay animations.
+- App inspected at 360 and 1440 px in both themes, without overflow or axe violations. Catalog also audited without violations; the previously documented ticket-notch contrast limitation remains unrelated to this effect.
+- Lint, typecheck, build and all 82 tests passed (420 assertions).

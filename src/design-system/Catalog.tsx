@@ -10,6 +10,7 @@ import { GameFilter } from "@/components/filters/GameFilter"
 import { GameBadge } from "@/components/input/GameBadge"
 import { PasteInput } from "@/components/input/PasteInput"
 import { SupportedGamesModal } from "@/components/layout/SupportedGamesModal"
+import { Wordmark } from "@/components/layout/Wordmark"
 import { CopyButton } from "@/components/share/CopyButton"
 import { AccuracyHeatmap } from "@/components/stats/AccuracyHeatmap"
 import { CalendarHeatmap } from "@/components/stats/CalendarHeatmap"
@@ -82,6 +83,9 @@ export default function Catalog() {
           {locale === "en" ? "Type & identity" : "Tipografia e identidade"}
         </h2>
         <Panel>
+          <div className="wordmark-preview mb-6">
+            <Wordmark />
+          </div>
           <div className="flex flex-wrap items-center gap-6">
             <AsteriskSimpleIcon size={56} aria-hidden="true" />
             <span className="font-japanese text-3xl">ミニゲーム</span>

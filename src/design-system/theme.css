@@ -55,6 +55,8 @@
   --ease-juice: cubic-bezier(0.2, 0.8, 0.2, 1.15);
   --hover-ticket: 1.015;
   --ticket-hover-shadow: 0 10px 24px -12px rgb(0 0 0 / 24%);
+  --wordmark-glow-color: #dac4ff;
+  --wordmark-shimmer-duration: 1800ms;
   --hover-control: 1.03;
   --press-scale: 0.97;
   --game-conexo: #c4a1ff;
@@ -314,9 +316,53 @@
   padding: 18px 32px;
 }
 .wordmark {
-  display: flex;
+  position: relative;
+  display: inline-flex;
   align-items: center;
   gap: 14px;
+}
+.wordmark-glow {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: inherit;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+  filter: drop-shadow(0 0 2px var(--wordmark-glow-color))
+    drop-shadow(0 0 6px var(--color-header-accent));
+  mask-image: linear-gradient(110deg, transparent 40%, #000 48%, #000 52%, transparent 60%);
+  mask-size: 300% 100%;
+  mask-repeat: no-repeat;
+  animation: wordmark-shimmer var(--wordmark-shimmer-duration) cubic-bezier(0.25, 0.1, 0.25, 1) both;
+}
+.wordmark-glow .wordmark-jp,
+.wordmark-glow .wordmark-latin {
+  color: transparent;
+  -webkit-text-stroke: 0.75px var(--wordmark-glow-color);
+}
+.wordmark-glow .brand-symbol {
+  color: var(--wordmark-glow-color);
+}
+.wordmark-preview {
+  padding: 24px;
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+@keyframes wordmark-shimmer {
+  0% {
+    mask-position: 100% 0;
+    opacity: 0;
+  }
+  18%,
+  72% {
+    opacity: 1;
+  }
+  100% {
+    mask-position: 0% 0;
+    opacity: 0;
+  }
 }
 .wordmark-jp {
   font-family: var(--font-japanese);
@@ -763,6 +809,9 @@ button:not(:disabled):active {
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .wordmark-glow {
+    display: none;
+  }
   *,
   *::before,
   *::after {
