@@ -30,6 +30,8 @@ Keep interface copy functional: game names, metric units, dates, actions and sta
 
 Use `Button` variants (`primary`, `secondary`, `danger`, `ghost`), `Panel`, `TextArea`, `Label`, `Message`, `Tabs`, `Dialog`, and `ScrollRegion`. Labels are semantic content; buttons retain native HTML behavior and accessible names. Tabs support arrows/Home/End. Dialogs trap focus, close on Escape, restore focus, and lock background scrolling. Scrollable result/text regions remain keyboard accessible.
 
+Ticket actions belong in one header group: move up, move down, then delete. Keep the reorder fieldset and accessible names, disabled boundary states, and 44 px targets. The group can wrap below a long title on narrow screens; do not add a separate action footer.
+
 Phosphor defaults come from IconContext: bold outlines, currentColor, no duotone. Custom game marks use a 32-unit grid with a 2-unit stroke and no fill. Keep the marks recognizable at 16–48 px.
 
 The workspace is at most 1440 px, two columns from 1024 px. On smaller screens, input precedes results and sharing. At 640 px, ticket stubs move from the side to the top. Wide gameplay rows scroll within the ticket rather than changing their grouping or causing page overflow.

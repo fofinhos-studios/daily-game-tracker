@@ -60,15 +60,38 @@ export function GameResultCard({
       <div className="ticket-body">
         <div className="ticket-top">
           <h3 className="ticket-title">{name}</h3>
-          <Button
-            variant="ghost"
-            className="ds-icon-button"
-            onClick={() => onRemove(result.gameType)}
-            aria-label={t.results.remove(name)}
-            title={t.results.removeHint(name)}
-          >
-            <TrashIcon size={18} />
-          </Button>
+          <div className="ticket-toolbar">
+            <fieldset className="ticket-actions">
+              <legend className="sr-only">{t.results.reorder}</legend>
+              <Button
+                variant="ghost"
+                className="ds-icon-button"
+                disabled={!canMoveUp}
+                onClick={onMoveUp}
+                aria-label={t.results.moveUp(name)}
+              >
+                <ArrowUpIcon size={18} />
+              </Button>
+              <Button
+                variant="ghost"
+                className="ds-icon-button"
+                disabled={!canMoveDown}
+                onClick={onMoveDown}
+                aria-label={t.results.moveDown(name)}
+              >
+                <ArrowDownIcon size={18} />
+              </Button>
+            </fieldset>
+            <Button
+              variant="ghost"
+              className="ds-icon-button"
+              onClick={() => onRemove(result.gameType)}
+              aria-label={t.results.remove(name)}
+              title={t.results.removeHint(name)}
+            >
+              <TrashIcon size={18} />
+            </Button>
+          </div>
         </div>
         <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
           <div className="ticket-performance">
@@ -91,29 +114,6 @@ export function GameResultCard({
           </p>
         )}
         <ResultGrid result={result} />
-        <div className="ticket-bottom">
-          <fieldset className="ticket-actions">
-            <legend className="sr-only">{t.results.reorder}</legend>
-            <Button
-              variant="ghost"
-              className="ds-icon-button"
-              disabled={!canMoveUp}
-              onClick={onMoveUp}
-              aria-label={t.results.moveUp(name)}
-            >
-              <ArrowUpIcon size={18} />
-            </Button>
-            <Button
-              variant="ghost"
-              className="ds-icon-button"
-              disabled={!canMoveDown}
-              onClick={onMoveDown}
-              aria-label={t.results.moveDown(name)}
-            >
-              <ArrowDownIcon size={18} />
-            </Button>
-          </fieldset>
-        </div>
       </div>
     </article>
   )

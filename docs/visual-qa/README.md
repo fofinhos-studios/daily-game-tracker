@@ -60,3 +60,10 @@ Removed promotional headings, ticket record labels, repeated brand/year stamps, 
 - [Desktop, light/PT](ticket-edition-desktop.png) and [mobile, dark/EN](ticket-edition-mobile.png). Checked 360, 768, 1024 and 1440 px in both themes: no overflow, no ticket dates, no edition placeholders, and edition content is exposed to assistive technology.
 - Axe reported no WCAG 2 A/AA violations. Desktop edition contrast required manual review because notch pseudo-elements prevented background detection; verified black ink on the actual pastel stub surfaces in both themes.
 - Lint, typecheck, build and all **82 tests passed** (420 assertions).
+
+## Compact header actions
+
+- Reorder arrows now sit immediately before delete in the ticket header. Removed the action footer and its divider/spacing.
+- [Mobile, light](ticket-actions-mobile.png) and [desktop, dark](ticket-actions-desktop.png). Checked 360, 768, 1024 and 1440 px in both themes: three header actions per card, targets at least 44 px, no page overflow. Long titles wrap without separating the actions.
+- Verified move down/up using Enter, disabled first-position up arrow and removal in the isolated catalog. Axe reported zero violations; the existing desktop notch/background contrast review limitation remains documented above.
+- Lint, typecheck, build and all 82 tests passed (420 assertions).
