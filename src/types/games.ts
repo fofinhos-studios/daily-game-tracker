@@ -1,9 +1,12 @@
+import type { KrillionTier } from "@/lib/krillion"
+
 export type GameType =
   | "conexo"
   | "expresso"
   | "framed"
   | "gamedle"
   | "guessthegame"
+  | "krillion"
   | "letroso"
   | "termo"
 
@@ -13,6 +16,7 @@ export const GAME_LABELS: Record<GameType, string> = {
   framed: "Framed",
   gamedle: "Gamedle",
   guessthegame: "GuessTheGame",
+  krillion: "Krillion",
   letroso: "Letroso",
   termo: "Termo",
 }
@@ -51,6 +55,12 @@ export const GAME_INFO: Record<
     favicon: "/favicons/guessthegame.ico",
     emoji: "🎮",
   },
+  krillion: {
+    label: "Krillion",
+    url: "https://krillion.io",
+    favicon: "/favicons/krillion.png",
+    emoji: "🦐",
+  },
   letroso: {
     label: "Letroso",
     url: "https://letroso.com",
@@ -71,6 +81,7 @@ export const GAME_ORDER: GameType[] = [
   "framed",
   "gamedle",
   "guessthegame",
+  "krillion",
   "letroso",
   "termo",
 ]
@@ -117,6 +128,13 @@ export interface GuessTheGameResult extends BaseResult {
   gameNumber: number
 }
 
+export interface KrillionResult extends BaseResult {
+  gameType: "krillion"
+  gameNumber: number
+  score: number
+  tiers: KrillionTier[]
+}
+
 export interface LetrosoResult extends BaseResult {
   gameType: "letroso"
   attempts: number
@@ -141,6 +159,7 @@ export type GameResult =
   | FramedResult
   | GamedleResult
   | GuessTheGameResult
+  | KrillionResult
   | LetrosoResult
   | TermoResult
 
@@ -176,6 +195,8 @@ export function createManualLoss(gameType: GameType, date: string): GameResult {
     case "framed":
     case "guessthegame":
       return { ...base, gameType, gameNumber: 0 }
+    case "krillion":
+      return { ...base, gameType, gameNumber: 0, score: 0, tiers: [] }
     case "gamedle":
     case "termo":
       return { ...base, gameType, modes: [] }

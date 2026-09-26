@@ -1,3 +1,4 @@
+import { isKrillionTier, krillionDate, krillionScore } from "@/lib/krillion"
 import type { AppData, DayEntry, GameResult, GameType } from "@/types/games"
 import { GAME_ORDER } from "@/types/games"
 
@@ -28,6 +29,26 @@ function isGameResult(value: unknown): value is GameResult {
     case "framed":
     case "guessthegame":
       return typeof value.gameNumber === "number"
+    case "krillion": {
+      if (
+        typeof value.gameNumber !== "number" ||
+        !Number.isSafeInteger(value.gameNumber) ||
+        typeof value.score !== "number" ||
+        !Number.isSafeInteger(value.score) ||
+        !Array.isArray(value.tiers) ||
+        !value.tiers.every(isKrillionTier)
+      ) {
+        return false
+      }
+      if (!value.won) {
+        return value.gameNumber === 0 && value.score === 0 && value.tiers.length === 0
+      }
+      return (
+        value.tiers.length === 7 &&
+        value.score === krillionScore(value.tiers) &&
+        value.date === krillionDate(value.gameNumber)
+      )
+    }
     case "gamedle":
       return (
         Array.isArray(value.modes) &&

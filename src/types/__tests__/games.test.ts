@@ -3,7 +3,7 @@ import { createManualLoss, GAME_INFO, GAME_ORDER, getSubGameEntries } from "../g
 
 test("every game has a local favicon path", () => {
   for (const game of GAME_ORDER) {
-    expect(GAME_INFO[game].favicon).toBe(`/favicons/${game}.ico`)
+    expect(GAME_INFO[game].favicon).toBe(`/favicons/${game}.${game === "krillion" ? "png" : "ico"}`)
   }
 })
 
@@ -26,5 +26,18 @@ describe("createManualLoss", () => {
     expect(getSubGameEntries(createManualLoss("termo", "2026-06-13"))).toEqual([
       { key: "termo", won: false },
     ])
+  })
+
+  test("can mark Krillion as a manual loss", () => {
+    expect(createManualLoss("krillion", "2026-09-26")).toEqual({
+      gameType: "krillion",
+      date: "2026-09-26",
+      won: false,
+      grid: ["❌"],
+      rawText: "Krillion ❌",
+      gameNumber: 0,
+      score: 0,
+      tiers: [],
+    })
   })
 })

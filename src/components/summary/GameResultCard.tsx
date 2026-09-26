@@ -1,6 +1,7 @@
 import { ArrowDown, ArrowUp, ThumbsDown, Trash2, Trophy } from "lucide-react"
 import { GameBadge } from "@/components/input/GameBadge"
 import { useI18n } from "@/i18n/I18nProvider"
+import { cn } from "@/lib/utils"
 import type { GameResult, GameType } from "@/types/games"
 import { GAME_LABELS } from "@/types/games"
 
@@ -10,6 +11,7 @@ const GAME_BORDER_COLORS: Record<GameType, string> = {
   framed: "border-l-red-500",
   gamedle: "border-l-purple-500",
   guessthegame: "border-l-emerald-500",
+  krillion: "border-l-teal-500",
   letroso: "border-l-yellow-500",
   termo: "border-l-orange-500",
 }
@@ -79,7 +81,12 @@ export function GameResultCard({
 
       <div className="space-y-0.5 font-mono text-sm leading-tight">
         {result.grid.map((row, i) => (
-          <div key={i} className="whitespace-pre">
+          <div
+            key={i}
+            className={cn(
+              result.gameType === "krillion" ? "whitespace-pre-wrap" : "whitespace-pre",
+            )}
+          >
             {row}
           </div>
         ))}

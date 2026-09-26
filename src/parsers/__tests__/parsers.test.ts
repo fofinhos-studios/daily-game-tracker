@@ -7,6 +7,7 @@ import type {
   FramedResult,
   GamedleResult,
   GuessTheGameResult,
+  KrillionResult,
   LetrosoResult,
   TermoResult,
 } from "../../types/games"
@@ -23,7 +24,7 @@ function readSample(name: string): string {
 function splitBlocks(text: string | undefined): string[] {
   if (!text) return []
   return text
-    .split(/\n---\n/)
+    .split(/(?:\r?\n)+---(?:\r?\n)+/)
     .map((b) => b.trim())
     .filter(Boolean)
 }
@@ -332,6 +333,61 @@ describe("expresso parser", () => {
     expect(r.attempts).toBe(6)
     expect(r.won).toBe(true)
     expect(r.grid[0]).toBe("⬛🟩⬛ ⬛⬛ ⬛⬛🟪⬛🟪🟨")
+  })
+})
+
+describe("krillion parser", () => {
+  const example = "Krillion #73 🦐\n345\n\n🦑🫧🦑🦑🏮🫧🦑"
+
+  test("parses the shared example and uses the edition date", () => {
+    const results = parseInput(example)
+    expect(results).toHaveLength(1)
+    const result = results[0] as KrillionResult
+    expect(result.gameNumber).toBe(73)
+    expect(result.date).toBe("2026-09-26")
+    expect(result.score).toBe(345)
+    expect(result.won).toBe(true)
+    expect(result.tiers).toEqual([
+      "rare",
+      "plankton",
+      "rare",
+      "rare",
+      "deepCut",
+      "plankton",
+      "rare",
+    ])
+    expect(result.grid.at(-1)).toBe("Total: 345 pts — Rare (251–350)")
+  })
+
+  test("accepts archive headers, optional links, and zero-point completed games", () => {
+    const result = parseInput(
+      "Krillion ⟲ #1 🦐\n0\n\n⬛⬛⬛⬛⬛⬛⬛\n\nhttps://krillion.io/archive",
+    )[0] as KrillionResult
+    expect(result.date).toBe("2026-07-16")
+    expect(result.won).toBe(true)
+    expect(result.score).toBe(0)
+    expect(result.tiers).toHaveLength(7)
+    expect(result.rawText).toContain("https://krillion.io/archive")
+  })
+
+  test("rejects unknown, incomplete, extra, and mismatched rounds without losing the next game", () => {
+    const invalid = [
+      "Krillion #73 🦐\n345\n\n🦑🫧🦑🦑🏮🫧",
+      "Krillion #73 🦐\n345\n\n🦑🫧🦑🦑🏮🫧🦑🦑",
+      "Krillion #73 🦐\n345\n\n🦑🫧🦑🦑🏮🫧🐙",
+      "Krillion #73 🦐\n344\n\n🦑🫧🦑🦑🏮🫧🦑",
+      "Krillion ∞ #73 🦐\n345\n\n🦑🫧🦑🦑🏮🫧🦑",
+    ]
+    for (const text of invalid) {
+      const results = parseInput(`${text}\n\n${example}`)
+      expect(results).toHaveLength(1)
+      expect((results[0] as KrillionResult).score).toBe(345)
+    }
+  })
+
+  test("coexists with other pasted games", () => {
+    const results = parseInput(`${example}\n\n${splitBlocks(readSample("conexo.txt"))[0]}`)
+    expect(results.map((result) => result.gameType)).toEqual(["krillion", "conexo"])
   })
 })
 

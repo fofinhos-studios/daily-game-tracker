@@ -10,6 +10,7 @@ const GAME_BAR_COLORS: Record<GameType, string> = {
   framed: "bg-red-500",
   gamedle: "bg-purple-500",
   guessthegame: "bg-emerald-500",
+  krillion: "bg-teal-500",
   letroso: "bg-yellow-500",
   termo: "bg-orange-500",
 }

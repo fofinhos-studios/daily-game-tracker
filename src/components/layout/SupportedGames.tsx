@@ -10,6 +10,7 @@ const GAME_BORDER_COLORS: Record<GameType, string> = {
   framed: "border-l-red-500",
   gamedle: "border-l-purple-500",
   guessthegame: "border-l-emerald-500",
+  krillion: "border-l-teal-500",
   letroso: "border-l-yellow-500",
   termo: "border-l-orange-500",
 }
@@ -20,6 +21,7 @@ const GAME_NAME_COLORS: Record<GameType, string> = {
   framed: "text-red-700",
   gamedle: "text-purple-700",
   guessthegame: "text-emerald-700",
+  krillion: "text-teal-700",
   letroso: "text-yellow-700",
   termo: "text-orange-700",
 }

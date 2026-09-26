@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test"
+import { parseInput } from "@/parsers"
 import type { DayEntry } from "@/types/games"
 import { createManualLoss } from "@/types/games"
 import { generateShareMessage } from "../message"
@@ -34,5 +35,35 @@ Framed ❌`)
   test("keeps original headers by default", () => {
     expect(generateShareMessage(entry)).toStartWith("ミニゲーム (Minigēmu) - 13/06/2026")
     expect(generateShareMessage(entry)).toContain("Joguei expresso.ac 13/06/2026")
+  })
+
+  test("details Krillion rounds and total in both sharing modes", () => {
+    const [result] = parseInput("Krillion #73 🦐\n345\n\n🦑🫧🦑🦑🏮🫧🦑")
+    const krillionEntry: DayEntry = { date: "2026-09-26", results: [result!] }
+    const rounds = [
+      "1. 🦑 Rare — 60 pts",
+      "2. 🫧 Plankton — 10 pts",
+      "3. 🦑 Rare — 60 pts",
+      "4. 🦑 Rare — 60 pts",
+      "5. 🏮 Deep Cut — 85 pts",
+      "6. 🫧 Plankton — 10 pts",
+      "7. 🦑 Rare — 60 pts",
+      "Total: 345 pts — Rare (251–350)",
+    ].join("\n")
+    expect(generateShareMessage(krillionEntry)).toBe(
+      `ミニゲーム (Minigēmu) - 26/09/2026\n\nKrillion #73 🦐\n${rounds}`,
+    )
+    expect(generateShareMessage(krillionEntry, { gameNamesOnly: true })).toBe(
+      `ミニゲーム (Minigēmu) - 26/09/2026\n\nKrillion\n${rounds}`,
+    )
+  })
+
+  test("keeps a manually marked Krillion loss compact", () => {
+    const krillionEntry: DayEntry = {
+      date: "2026-09-26",
+      results: [createManualLoss("krillion", "2026-09-26")],
+    }
+    expect(generateShareMessage(krillionEntry)).toContain("Krillion ❌")
+    expect(generateShareMessage(krillionEntry, { gameNamesOnly: true })).toContain("Krillion ❌")
   })
 })

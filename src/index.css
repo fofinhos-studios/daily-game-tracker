@@ -113,6 +113,11 @@ body {
   color: oklch(0.8 0.12 160);
 }
 
+[data-theme="dark"] .text-teal-700,
+[data-theme="dark"] .text-teal-600 {
+  color: oklch(0.82 0.11 185);
+}
+
 [data-theme="dark"] .text-yellow-700,
 [data-theme="dark"] .text-yellow-600 {
   color: oklch(0.86 0.14 90);
@@ -152,6 +157,12 @@ body {
 }
 [data-theme="dark"] .border-emerald-200 {
   border-color: oklch(0.5 0.09 160);
+}
+[data-theme="dark"] .bg-teal-50 {
+  background-color: oklch(0.3 0.06 185);
+}
+[data-theme="dark"] .border-teal-200 {
+  border-color: oklch(0.5 0.09 185);
 }
 [data-theme="dark"] .bg-yellow-50 {
   background-color: oklch(0.3 0.06 90);

@@ -1,4 +1,5 @@
 import { formatDateBR } from "@/lib/dates"
+import { formatKrillionGrid } from "@/lib/krillion"
 import type { DayEntry } from "@/types/games"
 import { GAME_LABELS, GAME_ORDER } from "@/types/games"
 
@@ -15,6 +16,11 @@ export function generateShareMessage(entry: DayEntry, options: ShareMessageOptio
   })
 
   const blocks = sorted.map((r) => {
+    if (r.gameType === "krillion" && r.won) {
+      const header = options.gameNamesOnly ? "Krillion" : r.rawText.split("\n")[0]!.trim()
+      return [header, ...formatKrillionGrid(r.tiers)].join("\n")
+    }
+
     if (options.gameNamesOnly) {
       if (!r.won && r.rawText === `${GAME_LABELS[r.gameType]} ❌`) return r.rawText
       return [GAME_LABELS[r.gameType], ...r.grid].join("\n")
