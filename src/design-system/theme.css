@@ -516,6 +516,22 @@
   font-weight: 700;
   letter-spacing: -0.04em;
 }
+.ticket-performance {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  min-width: 0;
+}
+.ticket-metadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.ticket-metadata dt {
+  margin-bottom: 4px;
+}
 .ticket-status {
   display: flex;
   align-items: center;

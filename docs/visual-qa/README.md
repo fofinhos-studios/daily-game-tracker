@@ -30,3 +30,12 @@ The running application and development catalog were both checked at **360, 768,
 - Development catalog/sample code is excluded from the production bundle.
 
 Result presentation tests verify unchanged stored results and share messages, all nine games, grapheme preservation, manual losses, zero-point completions, mode labels, side-by-side boards and scoring rounds.
+
+## Ticket performance and edition consistency
+
+Follow-up validation: large figures now show points or attempts, including attempts per mode. All editions appear in footer metadata beside the date. Missing values remain explicit em dashes.
+
+- [Light, Gamedle](ticket-performance-light.png) and [dark, Termo](ticket-performance-dark.png): multi-mode tickets at 360 px.
+- Catalog checked at 360, 768, 1024 and 1440 px in both themes, plus English at 360 px. App checked at 360 and 1440 px in both themes. No page or ticket overflow; axe WCAG 2 A/AA audits reported zero violations.
+- Added tests for edition placement across all nine games, played guesses versus unused cells, mode-specific editions and Termo board keycaps. Existing data/share invariants still pass.
+- Lint, typecheck and build passed; **81 tests passed**, 404 assertions.

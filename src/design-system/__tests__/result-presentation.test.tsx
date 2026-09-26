@@ -7,7 +7,7 @@ import { I18nProvider } from "@/i18n/I18nProvider"
 import { generateShareMessage } from "@/lib/message"
 import { parseInput } from "@/parsers"
 import { createManualLoss, GAME_ORDER, type GameResult } from "@/types/games"
-import { resultMetric, tokenizeGrid } from "../result-presentation"
+import { resultEditions, resultMetrics, tokenizeGrid } from "../result-presentation"
 
 const fixture = (name: string) =>
   readFileSync(new URL(`../../../samples/${name}.txt`, import.meta.url), "utf8")
@@ -58,13 +58,14 @@ describe("graphical results preserve gameplay information", () => {
   test("does not display sentinel editions or scores for any manual loss", () => {
     for (const game of GAME_ORDER) {
       const result = createManualLoss(game, "2026-09-26")
-      expect(resultMetric(result)).toEqual({ value: "—", label: "manual" })
+      expect(resultMetrics(result)).toEqual([{ value: "—", label: "manual" }])
+      expect(resultEditions(result)).toEqual([{ value: "—" }])
       expect(render(result)).toContain("Derrota manual")
     }
   })
   test("retains zero-point completed games as a real score", () => {
     const result = parseInput("Krillion #4 🦐\n0\n⬛⬛⬛⬛⬛⬛⬛")[0]!
-    expect(resultMetric(result)).toEqual({ value: 0, label: "points" })
+    expect(resultMetrics(result)).toEqual([{ value: 0, label: "points" }])
     expect(render(result)).toContain("Concluído")
   })
   test("keeps all modes and side-by-side Termo boards", () => {
@@ -89,7 +90,9 @@ describe("graphical results preserve gameplay information", () => {
       </I18nProvider>,
     )
     expect(html).toContain("duet")
-    expect(html).toContain("#1251")
+    expect(resultEditions(result)).toEqual([{ mode: "duet", value: "#1251" }])
+    expect(resultMetrics(result)).toEqual([{ mode: "duet", value: "4/7", label: "attempts" }])
+    expect(html).not.toContain("#1251")
     expect(html).toContain("4️⃣6️⃣")
     expect(html.match(/class="result-cell"/g)?.length).toBe(10)
     expect(html).toContain("<span>  </span>")
@@ -109,5 +112,65 @@ describe("graphical results preserve gameplay information", () => {
         /class="result-round"/g,
       )?.length,
     ).toBe(5)
+  })
+  test("reserves the same footer for editions and the large figures for performance in every game", () => {
+    for (const result of samples) {
+      const html = render(result)
+      const footerStart = html.indexOf('class="ticket-bottom"')
+      const body = html.slice(0, footerStart)
+      const footer = html.slice(footerStart)
+      expect(body).toContain('class="ticket-performance"')
+      expect(footer).toContain("Edição")
+      expect(footer).toContain("Data")
+      for (const edition of resultEditions(result)) {
+        expect(footer).toContain(edition.value)
+        if (edition.value !== "—") expect(body).not.toContain(edition.value)
+      }
+      expect(
+        resultMetrics(result).every((metric) => ["attempts", "points"].includes(metric.label)),
+      ).toBe(true)
+    }
+  })
+  test("counts only played guesses, independently of edition and unused cells", () => {
+    const framed = samples.find((result) => result.gameType === "framed")!
+    for (const gameType of ["framed", "guessthegame"] as const) {
+      const base = { ...framed, gameType, gameNumber: 818 }
+      for (const [grid, expected] of [
+        ["🎥 🟥 🟩 ⬜ ⬜ ⬜ ⬜", 2],
+        ["🎮 🟥 🟥 🟥 🟥 🟥 🟥", 6],
+        ["🎮 🟥 🟥 ⬜ ⬜ ⬜ ⬜", 2],
+        ["🎮 ⬜ ⬜ ❔", "—"],
+      ] as const) {
+        expect(resultMetrics({ ...base, grid: [grid] })).toEqual([
+          { value: expected, label: "attempts" },
+        ])
+        expect(resultEditions(base)).toEqual([{ value: "#818" }])
+      }
+    }
+    const gamedle = parseInput(fixture("gamedle").split("---")[0]!)[0]!
+    expect(resultMetrics(gamedle).map((metric) => metric.value)).toEqual([2, 6, 4, 6])
+    expect(resultEditions(gamedle).map((edition) => edition.value)).toEqual([
+      "#1377",
+      "#1136",
+      "#229",
+      "#936",
+    ])
+  })
+  test("uses stored Termo attempts, board keycaps or played rows without inventing a score", () => {
+    const result = samples.find((item) => item.gameType === "termo")!
+    if (result.gameType !== "termo") throw new Error("fixture")
+    const mode = result.modes[0]!
+    const modes = [
+      { ...mode, attempts: "4/6", grid: ["🟩🟩🟩🟩🟩"] },
+      { ...mode, attempts: "", grid: ["4️⃣6️⃣"] },
+      { ...mode, attempts: "", grid: ["⬛🟨⬛⬛🟩", "🟩🟩🟩🟩🟩"] },
+      { ...mode, attempts: "", grid: [] },
+    ]
+    expect(resultMetrics({ ...result, modes }).map((metric) => metric.value)).toEqual([
+      "4/6",
+      "4 · 6",
+      2,
+      "—",
+    ])
   })
 })

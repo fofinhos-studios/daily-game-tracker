@@ -9,7 +9,7 @@ import { GameIcon } from "@/components/input/GameIcon"
 import { industrialCopy } from "@/design-system/copy"
 import { GAME_VISUALS, gameStyle } from "@/design-system/games"
 import { Button, Label } from "@/design-system/primitives"
-import { resultMetric } from "@/design-system/result-presentation"
+import { resultEditions, resultMetrics } from "@/design-system/result-presentation"
 import { useI18n } from "@/i18n/I18nProvider"
 import { GAME_LABELS, type GameResult, type GameType } from "@/types/games"
 import { ResultGrid } from "./ResultGrid"
@@ -32,7 +32,8 @@ export function GameResultCard({
 }: GameResultCardProps) {
   const { t, locale } = useI18n()
   const copy = industrialCopy[locale]
-  const metric = resultMetric(result)
+  const metrics = resultMetrics(result)
+  const editions = resultEditions(result)
   const Status = result.won ? CheckCircleIcon : XCircleIcon
   const name = GAME_LABELS[result.gameType]
   return (
@@ -67,9 +68,14 @@ export function GameResultCard({
           </Button>
         </div>
         <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <p className="ticket-metric">{metric.value}</p>
-            <Label className="text-muted-foreground">{copy[metric.label]}</Label>
+          <div className="ticket-performance">
+            {metrics.map((metric, index) => (
+              <div key={metric.mode ?? index}>
+                {metric.mode && <p className="mb-1 font-mono text-xs">{metric.mode}</p>}
+                <p className="ticket-metric">{metric.value}</p>
+                <Label className="text-muted-foreground">{copy[metric.label]}</Label>
+              </div>
+            ))}
           </div>
           <span className={`ticket-status ${result.won ? "text-success" : "text-destructive"}`}>
             <Status size={18} aria-hidden="true" />
@@ -83,9 +89,25 @@ export function GameResultCard({
         )}
         <ResultGrid result={result} />
         <div className="ticket-bottom">
-          <time dateTime={result.date} className="font-mono text-xs">
-            {result.date.split("-").reverse().join(".")}
-          </time>
+          <dl className="ticket-metadata font-mono text-xs">
+            <div>
+              <dt className="text-muted-foreground">{copy.edition}</dt>
+              <dd>
+                {editions.map((edition, index) => (
+                  <span className="block" key={edition.mode ?? index}>
+                    {edition.mode && `${edition.mode}: `}
+                    {edition.value}
+                  </span>
+                ))}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-muted-foreground">{copy.date}</dt>
+              <dd>
+                <time dateTime={result.date}>{result.date.split("-").reverse().join(".")}</time>
+              </dd>
+            </div>
+          </dl>
           <fieldset className="ticket-actions">
             <legend className="sr-only">{t.results.reorder}</legend>
             <Button

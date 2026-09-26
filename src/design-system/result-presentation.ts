@@ -1,4 +1,4 @@
-import { GAME_LABELS, type GameResult } from "@/types/games"
+import { GAME_LABELS, type GameResult, type TermoMode } from "@/types/games"
 
 export type GridToken = {
   text: string
@@ -43,29 +43,66 @@ export function isManualLoss(result: GameResult): boolean {
   return !result.won && result.rawText === `${GAME_LABELS[result.gameType]} ❌`
 }
 // Metadata is a view of stored results. Never infer wins or invent missing numbers.
-export function resultMetric(result: GameResult): {
+export interface ResultMetric {
   value: number | string
-  label: "attempts" | "edition" | "points" | "modes" | "manual" | "result"
-} {
-  if (isManualLoss(result)) return { value: "—", label: "manual" }
+  label: "attempts" | "points" | "manual"
+  mode?: string
+}
+
+function gridAttempts(rows: string[]): number | string {
+  const attempts = rows
+    .flatMap(tokenizeGrid)
+    .filter((token) => ["🟥", "🟨", "🟩"].includes(token.text.replace(/\uFE0F/g, ""))).length
+  return attempts || "—"
+}
+
+function termoAttempts(mode: TermoMode): number | string {
+  if (mode.attempts) return mode.attempts
+  const boards = [...mode.grid.join(" ").matchAll(/(\d)\uFE0F?\u20E3/g)]
+  if (boards.length) return boards.map((match) => match[1]).join(" · ")
+  return mode.grid.filter((row) => /[🟩🟨⬛⬜]/u.test(row)).length || "—"
+}
+
+export function resultMetrics(result: GameResult): ResultMetric[] {
+  if (isManualLoss(result)) return [{ value: "—", label: "manual" }]
   switch (result.gameType) {
     case "conexo":
     case "expresso":
     case "letroso":
-      return result.attempts > 0
-        ? { value: result.attempts, label: "attempts" }
-        : { value: "—", label: "result" }
+      return [{ value: result.attempts > 0 ? result.attempts : "—", label: "attempts" }]
     case "framed":
     case "guessthegame":
-      return result.gameNumber > 0
-        ? { value: `#${result.gameNumber}`, label: "edition" }
-        : { value: "—", label: "result" }
+      return [{ value: gridAttempts(result.grid), label: "attempts" }]
     case "krillion":
-      return { value: result.score, label: "points" }
+      return [{ value: result.score, label: "points" }]
     case "sizeitup":
-      return { value: result.overallScore, label: "points" }
+      return [{ value: result.overallScore, label: "points" }]
     case "gamedle":
+      return result.modes.length
+        ? result.modes.map((mode) => ({
+            mode: mode.mode,
+            value: gridAttempts([mode.grid]),
+            label: "attempts",
+          }))
+        : [{ value: "—", label: "attempts" }]
     case "termo":
-      return { value: result.modes.length, label: "modes" }
+      return result.modes.length
+        ? result.modes.map((mode) => ({
+            mode: mode.mode,
+            value: termoAttempts(mode),
+            label: "attempts",
+          }))
+        : [{ value: "—", label: "attempts" }]
   }
+}
+
+export function resultEditions(result: GameResult): { mode?: string; value: string }[] {
+  const edition = (number: number) => (number > 0 ? `#${number}` : "—")
+  if (isManualLoss(result)) return [{ value: "—" }]
+  if (result.gameType === "gamedle" || result.gameType === "termo") {
+    return result.modes.length
+      ? result.modes.map((mode) => ({ mode: mode.mode, value: edition(mode.gameNumber) }))
+      : [{ value: "—" }]
+  }
+  return [{ value: "gameNumber" in result ? edition(result.gameNumber) : "—" }]
 }

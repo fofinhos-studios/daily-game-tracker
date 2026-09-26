@@ -74,10 +74,6 @@ export function ResultGrid({ result }: { result: GameResult }) {
           <div key={`${mode.mode}-${index}`}>
             <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2 font-mono text-xs">
               <span className="font-bold">{mode.mode}</span>
-              <span className="text-muted-foreground">
-                {mode.gameNumber > 0 && `#${mode.gameNumber}`}
-                {"attempts" in mode && mode.attempts ? ` · ${copy.attempts}: ${mode.attempts}` : ""}
-              </span>
             </div>
             <GridRows
               rows={Array.isArray(mode.grid) ? mode.grid : [mode.grid]}
