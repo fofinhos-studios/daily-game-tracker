@@ -20,7 +20,7 @@ The theme stylesheet is the authority for visual values. Its commented sections 
 - Archivo 400/600/700: body and controls. Chakra Petch 500/700: headings and ticket numbers. IBM Plex Mono 400/500: dates and metadata. Noto Sans JP 700: the Japanese wordmark only.
 - All fonts are served locally with `font-display: swap`. `python scripts/fetch_fonts.py` refreshes Latin/Latin Extended subsets, a wordmark-only Japanese subset, and OFL licenses. Identical font URLs are downloaded once. If the Japanese brand text changes, update the subset query too.
 - Body 14–16 px, metadata 12 px, headings 24–40 px, ticket metrics 38 px. Uppercase is reserved for short labels.
-- Rectangular surfaces, 1 px rules, 2 px ticket boundaries, dashed perforation, short shadows without blur. Pastel backgrounds always use black ink.
+- Rectangular surfaces, 1 px rules, 2 px ticket boundaries and dashed perforation. Tickets have no resting shadow, preserving both notch openings; pointer hover adds a soft shadow using `--ticket-hover-shadow`. Other raised surfaces use short, hard shadows. Pastel backgrounds always use black ink.
 - Light theme starts with gray paper, white surfaces and black text. Dark theme uses black background, charcoal surfaces and white text. Use semantic tokens rather than conditionals on component colors.
 - Game text uses `--game-*-ink`; colored areas use `--game-*` with `--color-ink`. Names and distinct symbols accompany every game color.
 
@@ -34,7 +34,7 @@ Phosphor defaults come from IconContext: bold outlines, currentColor, no duotone
 
 The workspace is at most 1440 px, two columns from 1024 px. On smaller screens, input precedes results and sharing. At 640 px, ticket stubs move from the side to the top. Wide gameplay rows scroll within the ticket rather than changing their grouping or causing page overflow.
 
-Hover uses 1.015 scale for tickets and 1.03 for primary interactive surfaces. Press uses .97. Durations are 160–240 ms with the shared easing; ticket entry is 280 ms. Only devices with pointer hover get hover scaling. Reduced motion disables animation, transitions and scaling.
+Hover lifts tickets by 2 px with 1.015 scale and a soft shadow; primary interactive surfaces use 1.03 scale. Press uses .97. Durations are 160–240 ms with the shared easing; ticket entry is 280 ms. Only devices with pointer hover get ticket elevation. Reduced motion disables animation, transitions and transforms while retaining the static hover shadow.
 
 ## Result integrity
 

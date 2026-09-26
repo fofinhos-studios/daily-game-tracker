@@ -54,6 +54,7 @@
   --motion-enter: 280ms;
   --ease-juice: cubic-bezier(0.2, 0.8, 0.2, 1.15);
   --hover-ticket: 1.015;
+  --ticket-hover-shadow: 0 10px 24px -12px rgb(0 0 0 / 24%);
   --hover-control: 1.03;
   --press-scale: 0.97;
   --game-conexo: #c4a1ff;
@@ -424,7 +425,7 @@
   border: var(--rule-strong) solid var(--color-foreground);
   background: var(--color-card);
   color: var(--color-foreground);
-  box-shadow: 3px 3px 0 var(--color-foreground);
+  box-shadow: none;
   isolation: isolate;
 }
 .ticket-stub {
@@ -608,7 +609,8 @@ a,
     transform var(--motion-normal) var(--ease-juice),
     background-color var(--motion-fast),
     color var(--motion-fast),
-    border-color var(--motion-fast);
+    border-color var(--motion-fast),
+    box-shadow var(--motion-normal) var(--ease-juice);
 }
 button:not(.heat-cell) {
   min-width: var(--control-height);
@@ -627,7 +629,8 @@ button:disabled {
     transform: scale(var(--hover-control));
   }
   .ticket:hover {
-    transform: scale(var(--hover-ticket));
+    transform: translateY(-2px) scale(var(--hover-ticket));
+    box-shadow: var(--ticket-hover-shadow);
     z-index: 2;
   }
   .ds-tab:not([aria-selected="true"]):hover {
