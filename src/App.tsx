@@ -84,7 +84,7 @@ export default function App() {
       <Header today={today} onOpenBackup={() => setShowBackup(true)} />
 
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between animate-fade-in-up delay-1">
+        <div className="relative z-10 mb-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between animate-fade-in-up delay-1">
           <SectionHeading help={t.help.pasteResults} icon={ClipboardPaste}>
             {t.app.pasteResults}
           </SectionHeading>
