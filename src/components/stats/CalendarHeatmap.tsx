@@ -1,5 +1,5 @@
+import { CalendarDotsIcon as CalendarDays } from "@phosphor-icons/react"
 import { addDays, format, startOfWeek, subDays } from "date-fns"
-import { CalendarDays } from "lucide-react"
 import { useMemo } from "react"
 import { SectionHeading } from "@/components/help/SectionHeading"
 import { useI18n } from "@/i18n/I18nProvider"
@@ -69,7 +69,7 @@ export function CalendarHeatmap({ data, today, gameFilter, onSelectDate }: Calen
                 {Array.from({ length: 7 }).map((_, dow) => {
                   const day = days.find((d) => d.dayOfWeek === dow)
                   if (!day) {
-                    return <div key={dow} className="h-5 w-5" />
+                    return <div key={dow} className="h-6 w-6" />
                   }
                   return (
                     <CalendarDay
@@ -85,17 +85,14 @@ export function CalendarHeatmap({ data, today, gameFilter, onSelectDate }: Calen
               </div>
             ))}
         </div>
-        <div className="mt-2 flex items-center gap-1 text-[10px] text-muted-foreground/70">
+        <div className="mt-2 flex items-center gap-1 text-xs text-muted-foreground">
           <span>{t.stats.less}</span>
-          {[
-            "bg-muted",
-            "bg-orange-100",
-            "bg-orange-200",
-            "bg-red-300",
-            "bg-red-400",
-            "bg-red-500",
-          ].map((cls, i) => (
-            <div key={i} className={`h-2.5 w-2.5 rounded-sm ${cls}`} />
+          {Array.from({ length: 7 }, (_, i) => (
+            <div
+              key={i}
+              className="h-3 w-3 border border-border"
+              style={{ background: `var(--activity-${i})` }}
+            />
           ))}
           <span>{t.stats.more}</span>
         </div>

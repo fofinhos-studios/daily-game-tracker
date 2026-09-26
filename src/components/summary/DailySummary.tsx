@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
+import { industrialCopy } from "@/design-system/copy"
+import { Button, Dialog } from "@/design-system/primitives"
 import { useI18n } from "@/i18n/I18nProvider"
 import type { DayEntry, GameResult, GameType } from "@/types/games"
-import { GAME_ORDER } from "@/types/games"
+import { GAME_LABELS, GAME_ORDER } from "@/types/games"
 import { EmptyState } from "./EmptyState"
 import { GameResultCard } from "./GameResultCard"
 import { MarkLoss } from "./MarkLoss"
@@ -42,7 +44,8 @@ interface DailySummaryProps {
 }
 
 export function DailySummary({ entry, onRemove, date, gameFilter, onMarkLoss }: DailySummaryProps) {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
+  const [pendingRemoval, setPendingRemoval] = useState<GameType | null>(null)
   const [customOrder, setCustomOrder] = useState(loadOrder)
 
   useEffect(() => {
@@ -75,11 +78,11 @@ export function DailySummary({ entry, onRemove, date, gameFilter, onMarkLoss }: 
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-5">
       {sorted.length === 0 ? (
         <EmptyState isToday={date === new Date().toLocaleDateString("en-CA")} />
       ) : (
-        <ul className="space-y-2">
+        <ul className="space-y-5">
           {sorted.map((result, i) => (
             <li
               key={result.gameType}
@@ -89,7 +92,7 @@ export function DailySummary({ entry, onRemove, date, gameFilter, onMarkLoss }: 
               <GameResultCard
                 result={result}
                 onRemove={(gameType) => {
-                  if (window.confirm(t.results.removeConfirmation)) onRemove(date, gameType)
+                  setPendingRemoval(gameType)
                 }}
                 canMoveUp={i > 0}
                 canMoveDown={i < sorted.length - 1}
@@ -101,6 +104,26 @@ export function DailySummary({ entry, onRemove, date, gameFilter, onMarkLoss }: 
         </ul>
       )}
       <MarkLoss existingGames={existingGames} onMarkLoss={onMarkLoss} />
+      {pendingRemoval && (
+        <Dialog
+          title={t.results.removeConfirmation}
+          closeLabel={industrialCopy[locale].close}
+          onClose={() => setPendingRemoval(null)}
+        >
+          <div className="flex flex-wrap justify-end gap-3">
+            <Button onClick={() => setPendingRemoval(null)}>{industrialCopy[locale].cancel}</Button>
+            <Button
+              variant="danger"
+              onClick={() => {
+                onRemove(date, pendingRemoval)
+                setPendingRemoval(null)
+              }}
+            >
+              {t.results.remove(GAME_LABELS[pendingRemoval])}
+            </Button>
+          </div>
+        </Dialog>
+      )}
     </div>
   )
 }

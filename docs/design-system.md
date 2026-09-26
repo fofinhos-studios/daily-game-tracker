@@ -1,0 +1,49 @@
+# Minigēmu Industrial
+
+An operational dashboard built around boarding-pass results. Black and white establish hierarchy; pastel neon identifies games. Gameplay colors remain independent from game identity.
+
+## Where to edit
+
+| Concern | Source |
+| --- | --- |
+| Colors, spacing, type, borders, layers, motion and responsive recipes | `src/design-system/theme.css` |
+| Game codes, outline marks and references to color tokens | `src/design-system/games.ts` |
+| Shared UI components | `src/design-system/primitives.tsx` |
+| Display-only result interpretation | `src/design-system/result-presentation.ts` and `ResultGrid.tsx` |
+| New PT/EN interface copy | `src/design-system/copy.ts` |
+| Fonts and licenses | `public/fonts` and generated `fonts.css` |
+
+The theme stylesheet is the authority for visual values. Its commented sections can become separate modules without changing consumer names. Do not redefine colors inside components or create another map of game colors. Tailwind handles local layout; shared recipes handle appearance and interaction.
+
+## Foundations
+
+- Archivo 400/600/700: body and controls. Chakra Petch 500/700: headings and ticket numbers. IBM Plex Mono 400/500: dates and metadata. Noto Sans JP 700: the Japanese wordmark only.
+- All fonts are served locally with `font-display: swap`. `python scripts/fetch_fonts.py` refreshes Latin/Latin Extended subsets, a wordmark-only Japanese subset, and OFL licenses. Identical font URLs are downloaded once. If the Japanese brand text changes, update the subset query too.
+- Body 14–16 px, metadata 12 px, headings 24–40 px, ticket metrics 38 px. Uppercase is reserved for short labels.
+- Rectangular surfaces, 1 px rules, 2 px ticket boundaries, dashed perforation, short shadows without blur. Pastel backgrounds always use black ink.
+- Light theme starts with gray paper, white surfaces and black text. Dark theme uses black background, charcoal surfaces and white text. Use semantic tokens rather than conditionals on component colors.
+- Game text uses `--game-*-ink`; colored areas use `--game-*` with `--color-ink`. Names and distinct symbols accompany every game color.
+
+## Components and interaction
+
+Use `Button` variants (`primary`, `secondary`, `danger`, `ghost`), `Panel`, `TextArea`, `Label`, `Message`, `Tabs`, `Dialog`, and `ScrollRegion`. Labels are semantic content; buttons retain native HTML behavior and accessible names. Tabs support arrows/Home/End. Dialogs trap focus, close on Escape, restore focus, and lock background scrolling. Scrollable result/text regions remain keyboard accessible.
+
+Phosphor defaults come from IconContext: bold outlines, currentColor, no duotone. Custom game marks use a 32-unit grid with a 2-unit stroke and no fill. Keep the marks recognizable at 16–48 px.
+
+The workspace is at most 1440 px, two columns from 1024 px. On smaller screens, input precedes results and sharing. At 640 px, ticket stubs move from the side to the top. Wide gameplay rows scroll within the ticket rather than changing their grouping or causing page overflow.
+
+Hover uses 1.015 scale for tickets and 1.03 for primary interactive surfaces. Press uses .97. Durations are 160–240 ms with the shared easing; ticket entry is 280 ms. Only devices with pointer hover get hover scaling. Reduced motion disables animation, transitions and scaling.
+
+## Result integrity
+
+`GameResult`, localStorage, parsers, win calculations and share generation remain the data authority. The new renderer does not write transformed grids back to storage. It tokenizes by grapheme, retains unknown symbols and whitespace, separates game modes, and displays scoring rounds from existing data. Zero-point completed games remain completed; manual losses omit sentinel metrics.
+
+Add a game's identity to the typed registry and CSS palette, then validate its result renderer and catalog sample. Domain/parser changes remain a separate concern.
+
+## Catalog and verification
+
+Run `bun run dev` and open `/?design-system`. The catalog is lazy-loaded only in development and is omitted from production builds. Its controls, tickets, dialogs, paste area, copy action and heatmaps are real components. Samples and mutations stay in component state; language and theme do not overwrite saved preferences.
+
+Inspect both themes at 360, 768, 1024 and 1440 px in PT and EN. Exercise focus, hover, active, disabled, empty, error, filtering, manual loss, reorder, copy, history and backup confirmation states. Check actual surface contrast, not token values alone. Then run `bun run lint`, `bun run typecheck`, `bun test`, and `bun run build`.
+
+Presentation tests cover all nine games, unchanged sharing/data, manual losses, zero scores, unknown graphemes, multiple modes and side-by-side boards. Existing parser and backup tests remain in place.

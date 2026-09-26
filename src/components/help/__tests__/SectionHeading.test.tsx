@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { ClipboardPaste } from "lucide-react"
+import { ClipboardTextIcon as ClipboardPaste } from "@phosphor-icons/react"
 import { SectionHeading } from "../SectionHeading"
 
 describe("SectionHeading", () => {

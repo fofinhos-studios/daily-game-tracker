@@ -1,5 +1,5 @@
+import { TargetIcon as Target } from "@phosphor-icons/react"
 import { addDays, format, startOfWeek, subDays } from "date-fns"
-import { Target } from "lucide-react"
 import { useMemo } from "react"
 import { SectionHeading } from "@/components/help/SectionHeading"
 import { useI18n } from "@/i18n/I18nProvider"
@@ -15,12 +15,12 @@ interface AccuracyHeatmapProps {
 
 const ACCURACY_CLASSES = [
   "bg-muted",
-  "bg-red-400",
-  "bg-orange-400",
-  "bg-yellow-400",
-  "bg-lime-400",
-  "bg-emerald-400",
-  "bg-green-500",
+  "bg-[var(--cell-red)]",
+  "bg-[var(--cell-orange)]",
+  "bg-[var(--cell-yellow)]",
+  "bg-[var(--cell-green)] opacity-60",
+  "bg-[var(--cell-green)] opacity-80",
+  "bg-[var(--cell-green)]",
 ]
 
 function getAccuracyIntensity(rate: number | null): number {
@@ -93,7 +93,7 @@ export function AccuracyHeatmap({ data, today, gameFilter, onSelectDate }: Accur
                 {Array.from({ length: 7 }).map((_, dow) => {
                   const day = days.find((d) => d.dayOfWeek === dow)
                   if (!day) {
-                    return <div key={dow} className="h-5 w-5" />
+                    return <div key={dow} className="h-6 w-6" />
                   }
                   const tooltip = t.stats.accuracyOnDate(day.date, day.rate)
                   return (
@@ -101,7 +101,7 @@ export function AccuracyHeatmap({ data, today, gameFilter, onSelectDate }: Accur
                       type="button"
                       key={day.date}
                       onClick={() => onSelectDate?.(day.date)}
-                      className="flex h-5 w-5 items-center justify-center rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="heat-cell flex h-6 w-6 items-center justify-center rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       title={tooltip}
                       aria-label={tooltip}
                     >
@@ -114,10 +114,10 @@ export function AccuracyHeatmap({ data, today, gameFilter, onSelectDate }: Accur
               </div>
             ))}
         </div>
-        <div className="mt-2 flex items-center gap-1 text-[10px] text-muted-foreground/70">
+        <div className="mt-2 flex items-center gap-1 text-xs text-muted-foreground">
           <span>0%</span>
           {ACCURACY_CLASSES.slice(1).map((cls, i) => (
-            <div key={i} className={`h-2.5 w-2.5 rounded-sm ${cls}`} />
+            <div key={i} className={`h-3 w-3 border border-border ${cls}`} />
           ))}
           <span>100%</span>
         </div>

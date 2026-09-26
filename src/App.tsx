@@ -1,12 +1,15 @@
 import {
-  BarChart3,
-  CalendarDays,
-  CheckCircle2,
-  ClipboardPaste,
-  Gamepad2,
-  RotateCcw,
-  Target,
-} from "lucide-react"
+  ArrowDownRightIcon,
+  ArrowUpRightIcon,
+  ChartBarIcon as BarChart3,
+  CalendarDotsIcon as CalendarDays,
+  CheckCircleIcon as CheckCircle2,
+  ClipboardTextIcon as ClipboardPaste,
+  GameControllerIcon as Gamepad2,
+  HardDrivesIcon,
+  ArrowCounterClockwiseIcon as RotateCcw,
+  TargetIcon as Target,
+} from "@phosphor-icons/react"
 import { useCallback, useMemo, useState } from "react"
 import { BackupModal } from "@/components/backup/BackupModal"
 import { GameFilter } from "@/components/filters/GameFilter"
@@ -20,6 +23,8 @@ import { AccuracyHeatmap } from "@/components/stats/AccuracyHeatmap"
 import { CalendarHeatmap } from "@/components/stats/CalendarHeatmap"
 import { SuccessRateList } from "@/components/stats/SuccessRateList"
 import { DailySummary } from "@/components/summary/DailySummary"
+import { industrialCopy } from "@/design-system/copy"
+import { Button, Label, Panel, Tabs } from "@/design-system/primitives"
 import { useGameStore } from "@/hooks/useGameStore"
 import { useToday } from "@/hooks/useToday"
 import { useI18n } from "@/i18n/I18nProvider"
@@ -79,18 +84,19 @@ export default function App() {
     { id: "accuracy" as const, label: t.app.accuracy, icon: Target },
   ]
 
+  const copy = industrialCopy[locale]
   return (
     <PageShell>
       <Header today={today} onOpenBackup={() => setShowBackup(true)} />
-
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="relative z-10 mb-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between animate-fade-in-up delay-1">
-          <SectionHeading help={t.help.pasteResults} icon={ClipboardPaste}>
-            {t.app.pasteResults}
-          </SectionHeading>
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-start">
+      <main className="workspace">
+        <div className="workspace-heading">
+          <div>
+            <Label className="text-muted-foreground">{copy.subtitle}</Label>
+            <h2 className="mt-2">{copy.dashboard}</h2>
+          </div>
+          <div className="workspace-tools">
             {availableGames.length > 0 && (
-              <div className="w-full sm:w-64">
+              <div className="w-52 max-w-full">
                 <GameFilter
                   availableGames={availableGames}
                   selected={gameFilter}
@@ -98,72 +104,48 @@ export default function App() {
                 />
               </div>
             )}
-            <button
-              type="button"
+            <Button
               onClick={() => setShowSupportedGames(true)}
               title={t.app.supportedGamesDescription}
-              className="inline-flex min-h-10 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 py-2 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/30 hover:text-foreground"
             >
-              <Gamepad2 aria-hidden="true" className="h-3.5 w-3.5" />
+              <Gamepad2 size={18} aria-hidden="true" />
               {t.app.supportedGames}
-            </button>
+              <ArrowUpRightIcon size={16} aria-hidden="true" />
+            </Button>
           </div>
         </div>
-        <div className="grid gap-6 lg:grid-cols-2">
-          {/* Left column: Paste + Share preview */}
-          <div className="space-y-6 animate-fade-in-up delay-1">
-            <PasteInput onResults={store.addResults} onDatesAffected={handleDatesAffected} />
-
-            <SharePreview entry={todayEntry} />
-          </div>
-
-          {/* Right column: Results overview with tabs */}
-          <div className="space-y-4 animate-fade-in-up delay-2">
-            {/* Tabs */}
-            <div className="flex gap-1 rounded-lg border border-border bg-muted p-1">
-              {tabs.map((tab) => (
-                <button
-                  type="button"
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  title={
-                    tab.id === "results"
-                      ? t.app.reviewResults
-                      : tab.id === "activity"
-                        ? t.help.activity
-                        : t.help.accuracy
-                  }
-                  className={`flex flex-1 items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition-all ${
-                    activeTab === tab.id
-                      ? "bg-card text-primary shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  <tab.icon aria-hidden="true" className="h-3.5 w-3.5" />
-                  {tab.label}
-                </button>
-              ))}
+        <div className="workspace-grid">
+          <Panel className="workspace-input paste-panel">
+            <SectionHeading help={t.help.pasteResults} icon={ClipboardPaste}>
+              {t.app.pasteResults}
+            </SectionHeading>
+            <div className="paste-sign">
+              <p className="ds-display">{copy.input}</p>
+              <ArrowDownRightIcon aria-hidden="true" />
             </div>
-
-            {/* Tab content */}
-            <div className="animate-fade-in">
+            <PasteInput onResults={store.addResults} onDatesAffected={handleDatesAffected} />
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{copy.inputHint}</p>
+          </Panel>
+          <section className="workspace-results space-y-5" aria-label={t.app.reviewResults}>
+            <Tabs
+              id="overview"
+              label={t.app.reviewResults}
+              items={tabs}
+              value={activeTab}
+              onChange={setActiveTab}
+            />
+            <div id="overview-panel" role="tabpanel" aria-labelledby={`overview-${activeTab}`}>
               {activeTab === "results" && (
-                <div className="space-y-4">
-                  {!isToday && (
-                    <div className="flex items-center justify-between">
-                      <p className="text-xs text-muted-foreground">
-                        {formatDateDisplay(viewDate, locale)}
-                      </p>
-                      <button
-                        type="button"
-                        onClick={() => setSelectedDate(null)}
-                        className="text-xs text-primary hover:text-primary/80 font-bold"
-                      >
-                        <RotateCcw aria-hidden="true" className="mr-1 inline h-3.5 w-3.5" />
+                <div className="space-y-6">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <Label>{formatDateDisplay(viewDate, locale)}</Label>
+                    {!isToday && (
+                      <Button variant="ghost" onClick={() => setSelectedDate(null)}>
+                        <RotateCcw size={16} aria-hidden="true" />
                         {t.app.backToToday}
-                      </button>
-                    </div>
-                  )}
+                      </Button>
+                    )}
+                  </div>
                   <DailySummary
                     entry={entry}
                     onRemove={store.removeResult}
@@ -173,15 +155,14 @@ export default function App() {
                       store.addResults([createManualLoss(gameType, viewDate)])
                     }
                   />
-                  <div className="card-surface rounded-xl p-4">
-                    <SectionHeading className="mb-3" help={t.help.winRates} icon={BarChart3}>
+                  <Panel>
+                    <SectionHeading className="mb-4" help={t.help.winRates} icon={BarChart3}>
                       {t.app.winRates}
                     </SectionHeading>
                     <SuccessRateList data={store.data} gameFilter={gameFilter} />
-                  </div>
+                  </Panel>
                 </div>
               )}
-
               {activeTab === "activity" && (
                 <CalendarHeatmap
                   data={store.data}
@@ -190,7 +171,6 @@ export default function App() {
                   onSelectDate={handleSelectDate}
                 />
               )}
-
               {activeTab === "accuracy" && (
                 <AccuracyHeatmap
                   data={store.data}
@@ -200,10 +180,19 @@ export default function App() {
                 />
               )}
             </div>
+          </section>
+          <div className="workspace-share">
+            <SharePreview entry={todayEntry} />
           </div>
         </div>
       </main>
-
+      <footer className="app-footer">
+        <span>MINIGĒMU / DAILY GAME TRACKER</span>
+        <span className="inline-flex items-center gap-2">
+          <HardDrivesIcon size={16} aria-hidden="true" />
+          {copy.local}
+        </span>
+      </footer>
       {showSupportedGames && <SupportedGamesModal onClose={closeSupportedGames} />}
       {showBackup && (
         <BackupModal

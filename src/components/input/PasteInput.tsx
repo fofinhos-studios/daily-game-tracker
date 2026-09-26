@@ -1,5 +1,6 @@
-import { Plus } from "lucide-react"
+import { PlusIcon as Plus } from "@phosphor-icons/react"
 import { useCallback, useRef, useState } from "react"
+import { Button, Message, TextArea } from "@/design-system/primitives"
 import { useI18n } from "@/i18n/I18nProvider"
 import { parseInput } from "@/parsers"
 import type { GameResult } from "@/types/games"
@@ -77,18 +78,16 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
   return (
     <div className="space-y-3">
       <div className="relative">
-        <textarea
+        <TextArea
           id="game-results-input"
           value={value}
           onChange={(e) => handleChange(e.target.value)}
           onPaste={handlePaste}
+          aria-label={t.app.pasteResults}
           placeholder={t.paste.placeholder}
-          className="h-36 w-full resize-none rounded-xl border border-border bg-muted/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/70 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
         />
         {toast && (
-          <output className="animate-fade-in absolute -bottom-1 left-0 z-10 translate-y-full card-surface rounded-lg px-3 py-1.5 text-xs font-bold text-primary">
-            {toast}
-          </output>
+          <Message tone={toast === t.paste.noGamesDetected ? "error" : "success"}>{toast}</Message>
         )}
       </div>
 
@@ -102,14 +101,15 @@ export function PasteInput({ onResults, onDatesAffected }: PasteInputProps) {
               className="animate-pulse-once"
             />
           ))}
-          <button
+          <Button
+            variant="primary"
             type="button"
             onClick={handleSubmit}
             className="ml-auto inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-primary-foreground transition-colors hover:bg-primary/90"
           >
             <Plus aria-hidden="true" className="h-3.5 w-3.5" />
             {t.paste.add}
-          </button>
+          </Button>
         </div>
       )}
     </div>

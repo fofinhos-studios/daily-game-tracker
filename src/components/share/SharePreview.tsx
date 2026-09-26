@@ -1,4 +1,5 @@
-import { ListRestart, Share2 } from "lucide-react"
+import { ListChecksIcon as ListRestart, ShareNetworkIcon as Share2 } from "@phosphor-icons/react"
+import { ScrollRegion } from "@/design-system/primitives"
 import { useLocalStorage } from "@/hooks/useLocalStorage"
 import { useI18n } from "@/i18n/I18nProvider"
 import { generateShareMessage } from "@/lib/message"
@@ -24,7 +25,7 @@ export function SharePreview({ entry }: SharePreviewProps) {
 
   return (
     <div className="card-surface rounded-xl p-4 space-y-3">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <SectionHeading help={t.help.share} icon={Share2}>
           {t.share.title}
         </SectionHeading>
@@ -42,9 +43,12 @@ export function SharePreview({ entry }: SharePreviewProps) {
           {t.share.gameNamesOnly}
         </label>
       </div>
-      <pre className="whitespace-pre-wrap font-mono text-xs leading-relaxed text-foreground/80">
+      <ScrollRegion
+        label={t.share.title}
+        className="share-text whitespace-pre-wrap font-mono text-xs leading-relaxed text-foreground"
+      >
         {message}
-      </pre>
+      </ScrollRegion>
       <CopyButton text={message} />
     </div>
   )

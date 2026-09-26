@@ -1,20 +1,8 @@
 import { GameBadge } from "@/components/input/GameBadge"
+import { gameStyle } from "@/design-system/games"
 import { useI18n } from "@/i18n/I18nProvider"
 import type { GameStats } from "@/lib/stats"
-import type { GameType } from "@/types/games"
 import { GAME_LABELS } from "@/types/games"
-
-const GAME_BAR_COLORS: Record<GameType, string> = {
-  conexo: "bg-blue-500",
-  expresso: "bg-cyan-500",
-  framed: "bg-red-500",
-  gamedle: "bg-purple-500",
-  guessthegame: "bg-emerald-500",
-  krillion: "bg-teal-500",
-  letroso: "bg-yellow-500",
-  sizeitup: "bg-fuchsia-500",
-  termo: "bg-orange-500",
-}
 
 interface SuccessRateBarProps {
   stats: GameStats
@@ -40,10 +28,10 @@ export function SuccessRateBar({ stats, label }: SuccessRateBarProps) {
           )}
         </div>
       </div>
-      <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+      <div className="h-1.5 w-full overflow-hidden rounded-none bg-muted">
         <div
-          className={`h-full rounded-full transition-all duration-500 ${GAME_BAR_COLORS[stats.gameType]}`}
-          style={{ width: `${stats.winRate}%` }}
+          className={`h-full rounded-none transition-all duration-500 bg-[var(--game-color)]`}
+          style={{ ...gameStyle(stats.gameType), width: `${stats.winRate}%` }}
           role="progressbar"
           aria-valuenow={stats.winRate}
           aria-valuemin={0}

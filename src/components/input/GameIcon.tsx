@@ -1,33 +1,20 @@
-import { useState } from "react"
+import { GAME_VISUALS } from "@/design-system/games"
 import { cn } from "@/lib/utils"
 import type { GameType } from "@/types/games"
-import { GAME_INFO } from "@/types/games"
 
-interface GameIconProps {
-  gameType: GameType
-  className?: string
-}
-
-export function GameIcon({ gameType, className }: GameIconProps) {
-  const [failed, setFailed] = useState(false)
-  const info = GAME_INFO[gameType]
-
-  if (failed) {
-    return (
-      <span className={cn("inline-flex shrink-0 items-center justify-center text-xs", className)}>
-        {info.emoji}
-      </span>
-    )
-  }
-
+export function GameIcon({ gameType, className }: { gameType: GameType; className?: string }) {
   return (
-    <img
-      src={info.favicon}
-      alt=""
+    <svg
+      viewBox="0 0 32 32"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="square"
+      strokeLinejoin="miter"
       aria-hidden="true"
-      decoding="async"
-      onError={() => setFailed(true)}
-      className={cn("inline-block shrink-0 rounded-sm object-contain", className)}
-    />
+      className={cn("game-mark h-5 w-5", className)}
+    >
+      <path d={GAME_VISUALS[gameType].path} />
+    </svg>
   )
 }

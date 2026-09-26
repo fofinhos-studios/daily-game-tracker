@@ -24,9 +24,7 @@ export function SuccessRateList({ data, gameFilter }: SuccessRateListProps) {
 
   if (allStats.length === 0) {
     return (
-      <p className="text-center text-xs font-light text-muted-foreground/60 py-2">
-        {t.stats.empty}
-      </p>
+      <p className="text-center text-xs font-light text-muted-foreground py-2">{t.stats.empty}</p>
     )
   }
 

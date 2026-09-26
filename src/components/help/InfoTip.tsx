@@ -1,4 +1,4 @@
-import { CircleHelp } from "lucide-react"
+import { QuestionIcon as CircleHelp } from "@phosphor-icons/react"
 import { useCallback, useId, useLayoutEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import { useI18n } from "@/i18n/I18nProvider"
@@ -63,7 +63,7 @@ export function InfoTip({ label, text }: InfoTipProps) {
         onMouseLeave={() => setOpen(false)}
         onFocus={() => setOpen(true)}
         onBlur={() => setOpen(false)}
-        className="rounded-full text-muted-foreground/60 transition-colors hover:text-primary focus-visible:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="rounded-none text-muted-foreground transition-colors hover:text-primary focus-visible:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <CircleHelp className="h-3.5 w-3.5" />
       </button>

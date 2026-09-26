@@ -10,7 +10,7 @@ A single-page React app for tracking daily word/puzzle game results. Users paste
 - **Framework:** React 19 + TypeScript 5.9
 - **Bundler:** Vite 7 (with `@vitejs/plugin-react`)
 - **CSS:** Tailwind CSS 4 (via `@tailwindcss/vite` plugin, no `tailwind.config` — uses CSS-first `@theme` config)
-- **Utilities:** clsx + tailwind-merge (`cn()` helper in `src/lib/utils.ts`), date-fns, lucide-react icons
+- **Utilities:** clsx + tailwind-merge (`cn()` helper in `src/lib/utils.ts`), date-fns, @phosphor-icons/react icons
 - **Testing:** Bun's built-in test runner (`bun test`)
 - **Linting / Formatting:** Biome
 - **Task runner:** Just (`justfile`)
@@ -84,11 +84,14 @@ src/
 
 ## Design System
 
-- **Light and dark themes** defined via `@theme` and `[data-theme="dark"]` in `src/index.css` using OKLCH colors
-- **Key colors:** `primary` (warm amber), `accent` (teal-ish), `card` (dark slate)
-- **Font:** Bricolage Grotesque (loaded via Google Fonts in `index.html`)
-- **Animations:** `animate-fade-in-up`, `animate-fade-in`, `animate-pulse-once` with `delay-0` through `delay-4` classes (0.1s increments)
-- **Per-game colors** defined in `GameBadge.tsx` (`GAME_COLORS`) and `SupportedGames.tsx` (`GAME_NAME_COLORS`): blue (Conexo), red (Framed), purple (Gamedle), emerald (GuessTheGame), yellow (Letroso), orange (Termo)
+- Industrial, high-contrast UI. `src/design-system/theme.css` owns all visual tokens and shared recipes; no per-component palette maps.
+- `src/design-system/games.ts` maps every GameType to its outline SVG mark, code, and CSS token references. Use `gameStyle()` and `GameIcon` everywhere.
+- Archivo for body, Chakra Petch for display/numbers, IBM Plex Mono for data, Noto Sans JP for the wordmark. Local fonts and OFL licenses live in `public/fonts`; refresh with `python scripts/fetch_fonts.py`.
+- Use shared Button, Panel, Label, TextArea, ScrollRegion, Tabs, Message, and Dialog from `src/design-system/primitives.tsx`.
+- Phosphor icons use bold outlines and currentColor. No Lucide, duotone, gradients, blurred shadows, or continuous animations.
+- Results use boarding-pass tickets. ResultGrid is presentation-only: do not change stored grids, rawText, parser rules, or share messages for styling.
+- Development catalog: `/?design-system`. It uses in-memory sample results and does not persist language or theme. See `docs/design-system.md`.
+- The existing theme preference remains under `theme`, with light as the default. New copy supports PT/EN.
 
 ## Visual QA Requirements
 
@@ -130,4 +133,4 @@ interface ParseResult {
 - **Component pattern:** Named exports, one component per file, props interface co-located
 - **No state management library** — `useGameStore` hook wraps `useLocalStorage`
 - **Tailwind only** — no CSS modules or styled-components; use `cn()` for conditional classes
-- **Section headings:** `text-xs font-bold uppercase tracking-widest text-muted-foreground`
+- **Section headings:** `Label` or `.section-heading` from the design system

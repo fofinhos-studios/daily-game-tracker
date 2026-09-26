@@ -1,5 +1,6 @@
-import { Check, Copy } from "lucide-react"
+import { CheckIcon as Check, CopyIcon as Copy } from "@phosphor-icons/react"
 import { useCallback, useRef, useState } from "react"
+import { Button } from "@/design-system/primitives"
 import { useI18n } from "@/i18n/I18nProvider"
 
 interface CopyButtonProps {
@@ -34,11 +35,12 @@ export function CopyButton({ text }: CopyButtonProps) {
   }, [text])
 
   return (
-    <button
+    <Button
+      variant="primary"
       type="button"
       onClick={handleCopy}
       title={t.share.copyHint}
-      className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90 active:scale-[0.98]"
+      className="w-full"
     >
       {copied ? (
         <>
@@ -51,6 +53,6 @@ export function CopyButton({ text }: CopyButtonProps) {
           {t.share.copy}
         </>
       )}
-    </button>
+    </Button>
   )
 }

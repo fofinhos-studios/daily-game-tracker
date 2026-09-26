@@ -1,4 +1,8 @@
-import { ChevronDown, SlidersHorizontal, X } from "lucide-react"
+import {
+  CaretDownIcon as ChevronDown,
+  SlidersHorizontalIcon as SlidersHorizontal,
+  XIcon as X,
+} from "@phosphor-icons/react"
 import { useEffect, useRef, useState } from "react"
 import { useI18n } from "@/i18n/I18nProvider"
 import { GAME_LABELS, type GameType } from "@/types/games"
@@ -58,9 +62,8 @@ export function GameFilter({ availableGames, selected, onChange }: GameFilterPro
         onClick={() => setOpen(!open)}
         aria-expanded={open}
         aria-controls="game-filter-options"
-        aria-haspopup="listbox"
         title={t.filter.title}
-        className="flex w-full items-center justify-between gap-2 rounded-lg border border-border bg-card px-3 py-2 text-xs transition-colors hover:border-primary/30"
+        className="flex w-full items-center justify-between gap-2 rounded-lg border border-border bg-card px-3 py-2 text-xs transition-colors hover:border-primary"
       >
         <SlidersHorizontal
           aria-hidden="true"
@@ -96,19 +99,17 @@ export function GameFilter({ availableGames, selected, onChange }: GameFilterPro
       )}
 
       {open && (
-        <div
+        <fieldset
           id="game-filter-options"
-          role="listbox"
-          aria-multiselectable="true"
-          className="absolute left-0 right-0 top-full z-20 mt-1 rounded-lg border border-border bg-card p-1 shadow-lg animate-fade-in"
+          aria-label={t.filter.title}
+          className="absolute left-0 right-0 top-full z-30 max-h-96 overflow-y-auto mt-1 rounded-lg border border-border bg-card p-1 shadow-lg animate-fade-in"
         >
           {sorted.map((game) => (
             <button
               type="button"
               key={game}
               onClick={() => toggleGame(game)}
-              role="option"
-              aria-selected={selected.has(game)}
+              aria-pressed={selected.has(game)}
               className={`flex w-full items-center gap-2 rounded-md px-3 py-1.5 text-xs transition-colors ${
                 selected.has(game)
                   ? "bg-primary/10 text-primary font-medium"
@@ -119,7 +120,7 @@ export function GameFilter({ availableGames, selected, onChange }: GameFilterPro
               {GAME_LABELS[game]}
             </button>
           ))}
-        </div>
+        </fieldset>
       )}
     </div>
   )

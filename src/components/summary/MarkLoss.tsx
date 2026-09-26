@@ -1,4 +1,8 @@
-import { ChevronDown, CircleX, Plus } from "lucide-react"
+import {
+  CaretDownIcon as ChevronDown,
+  XCircleIcon as CircleX,
+  PlusIcon as Plus,
+} from "@phosphor-icons/react"
 import { useId, useState } from "react"
 import { GameIcon } from "@/components/input/GameIcon"
 import { useI18n } from "@/i18n/I18nProvider"
@@ -19,7 +23,7 @@ export function MarkLoss({ existingGames, onMarkLoss }: MarkLossProps) {
 
   return (
     <div
-      className={`card-surface overflow-hidden rounded-xl transition-colors ${open ? "border-destructive/25" : ""}`}
+      className={`card-surface overflow-hidden rounded-xl transition-colors ${open ? "border-destructive" : ""}`}
     >
       <button
         type="button"
@@ -33,7 +37,7 @@ export function MarkLoss({ existingGames, onMarkLoss }: MarkLossProps) {
       >
         <span className="flex min-w-0 items-center gap-2.5">
           <span
-            className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-colors ${
+            className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-none transition-colors ${
               open ? "bg-destructive/10 text-destructive" : "bg-muted text-muted-foreground"
             }`}
           >
@@ -43,7 +47,7 @@ export function MarkLoss({ existingGames, onMarkLoss }: MarkLossProps) {
             <span className="block text-xs font-bold text-foreground">
               {t.results.markLossTitle}
             </span>
-            <span className="mt-0.5 hidden text-[11px] font-normal text-muted-foreground sm:block">
+            <span className="mt-0.5 hidden text-xs font-normal text-muted-foreground sm:block">
               {t.results.markLossHint}
             </span>
           </span>
@@ -56,7 +60,7 @@ export function MarkLoss({ existingGames, onMarkLoss }: MarkLossProps) {
 
       {open && (
         <div id={panelId} className="border-t border-border px-4 py-3 animate-fade-in">
-          <p className="mb-2.5 text-[11px] font-medium text-muted-foreground">
+          <p className="mb-2.5 text-xs font-medium text-muted-foreground">
             {t.results.markLossDescription}
           </p>
           <div className="flex flex-wrap gap-2">
@@ -69,11 +73,11 @@ export function MarkLoss({ existingGames, onMarkLoss }: MarkLossProps) {
                   onMarkLoss(game)
                   setOpen(false)
                 }}
-                className="group inline-flex min-h-9 items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-xs font-medium text-foreground transition-colors hover:border-destructive/40 hover:bg-destructive/5 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="group inline-flex min-h-9 items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-xs font-medium text-foreground transition-colors hover:border-destructive hover:bg-destructive/5 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <GameIcon gameType={game} className="h-3.5 w-3.5" />
                 {GAME_LABELS[game]}
-                <CircleX className="h-3.5 w-3.5 text-muted-foreground/50 transition-colors group-hover:text-destructive" />
+                <CircleX className="h-3.5 w-3.5 text-muted-foreground transition-colors group-hover:text-destructive" />
               </button>
             ))}
           </div>

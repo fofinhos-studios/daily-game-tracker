@@ -1,6 +1,12 @@
-import { Check, Copy, DatabaseBackup, Merge, Replace, X } from "lucide-react"
-import { useRef, useState } from "react"
-import { useDialogFocus } from "@/hooks/useDialogFocus"
+import {
+  CheckIcon as Check,
+  CopyIcon as Copy,
+  GitMergeIcon as Merge,
+  ArrowsClockwiseIcon as Replace,
+} from "@phosphor-icons/react"
+import { useState } from "react"
+import { industrialCopy } from "@/design-system/copy"
+import { Button, Dialog, Message, TextArea } from "@/design-system/primitives"
 import { useI18n } from "@/i18n/I18nProvider"
 import { exportBackup, importBackup } from "@/lib/backup"
 import type { AppData } from "@/types/games"
@@ -13,14 +19,11 @@ interface BackupModalProps {
 }
 
 export function BackupModal({ data, onClose, onMerge, onReplace }: BackupModalProps) {
-  const { t } = useI18n()
-  const overlayRef = useRef<HTMLDivElement>(null)
-  const dialogRef = useRef<HTMLDivElement>(null)
+  const { t, locale } = useI18n()
+  const [pendingReplacement, setPendingReplacement] = useState<AppData | null>(null)
   const [value, setValue] = useState("")
   const [message, setMessage] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
-
-  useDialogFocus(dialogRef, onClose)
 
   const parseValue = (): AppData | null => {
     try {
@@ -63,89 +66,68 @@ export function BackupModal({ data, onClose, onMerge, onReplace }: BackupModalPr
   const handleReplace = () => {
     const imported = parseValue()
     if (!imported) return
-    if (!window.confirm(t.backup.replaceConfirmation)) return
-    onReplace(imported)
-    setMessage(t.backup.replacedMessage)
+    setPendingReplacement(imported)
   }
 
-  return (
-    <div
-      ref={overlayRef}
-      role="dialog"
-      aria-modal="true"
-      aria-label={t.backup.dialog}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm animate-fade-in"
-      onClick={(event) => {
-        if (event.target === overlayRef.current) onClose()
-      }}
-      onKeyDown={(event) => {
-        if (event.key === "Escape") onClose()
-      }}
-    >
-      <div
-        ref={dialogRef}
-        className="card-surface mx-4 w-full max-w-xl rounded-2xl p-6 shadow-xl animate-fade-in-up"
+  if (pendingReplacement)
+    return (
+      <Dialog
+        title={t.backup.replace}
+        closeLabel={t.backup.close}
+        onClose={() => setPendingReplacement(null)}
       >
-        <div className="mb-4 flex items-center justify-between">
-          <div>
-            <h2 className="inline-flex items-center gap-2 text-sm font-bold text-foreground">
-              <DatabaseBackup aria-hidden="true" className="h-4 w-4" />
-              {t.backup.title}
-            </h2>
-            <p className="mt-1 text-xs text-muted-foreground">{t.backup.description}</p>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label={t.backup.close}
-            className="rounded-md p-1 text-muted-foreground transition-colors hover:text-foreground"
+        <p className="mb-6 text-sm">{t.backup.replaceConfirmation}</p>
+        <div className="flex flex-wrap justify-end gap-3">
+          <Button onClick={() => setPendingReplacement(null)}>
+            {industrialCopy[locale].cancel}
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              onReplace(pendingReplacement)
+              setPendingReplacement(null)
+              setMessage(t.backup.replacedMessage)
+            }}
           >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-
-        <button
-          type="button"
-          onClick={handleCopy}
-          className="mb-4 flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-3 py-2 text-xs font-bold text-primary-foreground"
-        >
-          {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-          {copied ? t.backup.copied : t.backup.copy}
-        </button>
-
-        <textarea
-          value={value}
-          onChange={(event) => {
-            setValue(event.target.value)
-            setMessage(null)
-          }}
-          placeholder={t.backup.paste}
-          className="h-40 w-full resize-none rounded-xl border border-border bg-muted/50 px-3 py-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/70 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-        />
-
-        <div className="mt-3 flex gap-2">
-          <button
-            type="button"
-            onClick={handleMerge}
-            disabled={!value.trim()}
-            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-border px-3 py-2 text-xs font-bold text-foreground transition-colors hover:border-primary disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <Merge aria-hidden="true" className="h-3.5 w-3.5" />
-            {t.backup.merge}
-          </button>
-          <button
-            type="button"
-            onClick={handleReplace}
-            disabled={!value.trim()}
-            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-destructive/40 px-3 py-2 text-xs font-bold text-destructive transition-colors hover:bg-destructive/10 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <Replace aria-hidden="true" className="h-3.5 w-3.5" />
             {t.backup.replace}
-          </button>
+          </Button>
         </div>
-
-        {message && <p className="mt-3 text-xs font-bold text-primary">{message}</p>}
+      </Dialog>
+    )
+  const invalid = message === t.backup.invalid || message === t.backup.unsupportedVersion
+  return (
+    <Dialog title={t.backup.title} closeLabel={t.backup.close} onClose={onClose}>
+      <p className="mb-5 text-sm text-muted-foreground">{t.backup.description}</p>
+      <Button variant="primary" className="mb-5 w-full" onClick={handleCopy}>
+        {copied ? <Check size={18} /> : <Copy size={18} />}
+        {copied ? t.backup.copied : t.backup.copy}
+      </Button>
+      <TextArea
+        aria-label={t.backup.paste}
+        aria-invalid={invalid}
+        value={value}
+        onChange={(event) => {
+          setValue(event.target.value)
+          setMessage(null)
+        }}
+        placeholder={t.backup.paste}
+      />
+      <div className="my-4 flex flex-wrap gap-2">
+        <Button className="flex-1" onClick={handleMerge} disabled={!value.trim()}>
+          <Merge size={18} aria-hidden="true" />
+          {t.backup.merge}
+        </Button>
+        <Button
+          variant="danger"
+          className="flex-1"
+          onClick={handleReplace}
+          disabled={!value.trim()}
+        >
+          <Replace size={18} aria-hidden="true" />
+          {t.backup.replace}
+        </Button>
       </div>
-    </div>
+      {message && <Message tone={invalid ? "error" : "success"}>{message}</Message>}
+    </Dialog>
   )
 }

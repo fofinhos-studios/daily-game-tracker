@@ -27,15 +27,23 @@ interface I18nContextValue {
 
 const I18nContext = createContext<I18nContextValue | null>(null)
 
-export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(getInitialLocale)
+export function I18nProvider({
+  children,
+  persistent = true,
+}: {
+  children: ReactNode
+  persistent?: boolean
+}) {
+  const [locale, setLocaleState] = useState<Locale>(() =>
+    persistent ? getInitialLocale() : "pt-BR",
+  )
 
   useEffect(() => {
     document.documentElement.lang = locale
   }, [locale])
 
   const setLocale = (nextLocale: Locale) => {
-    window.localStorage.setItem(LANGUAGE_STORAGE_KEY, nextLocale)
+    if (persistent) window.localStorage.setItem(LANGUAGE_STORAGE_KEY, nextLocale)
     setLocaleState(nextLocale)
   }
 

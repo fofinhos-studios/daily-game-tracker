@@ -1,10 +1,16 @@
-import { type RefObject, useEffect } from "react"
+import { type RefObject, useEffect, useRef } from "react"
 
 const FOCUSABLE =
   'button:not([disabled]), a[href], textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
 export function useDialogFocus(ref: RefObject<HTMLElement | null>, onClose: () => void) {
+  const closeRef = useRef(onClose)
   useEffect(() => {
+    closeRef.current = onClose
+  }, [onClose])
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
     const previousFocus = document.activeElement as HTMLElement | null
     const dialog = ref.current
     const focusable = dialog?.querySelectorAll<HTMLElement>(FOCUSABLE)
@@ -12,7 +18,7 @@ export function useDialogFocus(ref: RefObject<HTMLElement | null>, onClose: () =
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        onClose()
+        closeRef.current()
         return
       }
       if (event.key !== "Tab" || !dialog) return
@@ -32,7 +38,9 @@ export function useDialogFocus(ref: RefObject<HTMLElement | null>, onClose: () =
     document.addEventListener("keydown", handleKeyDown)
     return () => {
       document.removeEventListener("keydown", handleKeyDown)
-      previousFocus?.focus()
+      document.body.style.overflow = previousOverflow
+      if (previousFocus?.isConnected) previousFocus.focus()
+      else document.getElementById("game-results-input")?.focus()
     }
-  }, [onClose, ref])
+  }, [ref])
 }
