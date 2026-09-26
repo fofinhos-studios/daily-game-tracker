@@ -23,10 +23,14 @@ export function generateShareMessage(entry: DayEntry, options: ShareMessageOptio
 
     if (options.gameNamesOnly) {
       if (!r.won && r.rawText === `${GAME_LABELS[r.gameType]} ❌`) return r.rawText
+      if (r.gameType === "sizeitup") {
+        return [GAME_LABELS[r.gameType], `Overall Score ${r.overallScore}`, ...r.grid].join("\n")
+      }
       return [GAME_LABELS[r.gameType], ...r.grid].join("\n")
     }
 
     return r.rawText
+      .replace(/\[https?:\/\/[^\]]+\]\(https?:\/\/[^)]+\)/g, "")
       .replace(/\s*>\s*https?:\/\/\S+/g, "")
       .replace(/https?:\/\/\S+/g, "")
       .replace(/[ \t]+$/gm, "")

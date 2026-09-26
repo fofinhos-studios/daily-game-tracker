@@ -7,6 +7,7 @@ import { gamedleParser } from "./gamedle"
 import { guessTheGameParser } from "./guessthegame"
 import { krillionParser } from "./krillion"
 import { letrosoParser } from "./letroso"
+import { sizeItUpParser } from "./sizeitup"
 import { termoParser } from "./termo"
 import type { GameParser } from "./types"
 
@@ -18,6 +19,7 @@ const parsers: GameParser[] = [
   guessTheGameParser,
   krillionParser,
   letrosoParser,
+  sizeItUpParser,
   termoParser,
 ]
 

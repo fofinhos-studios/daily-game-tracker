@@ -72,4 +72,42 @@ describe("backup", () => {
     }
     expect(() => importBackup(exportBackup(data))).toThrow("Invalid backup")
   })
+
+  test("round trips a scored Size It Up result and its manual loss", () => {
+    const scored: AppData = {
+      version: 1,
+      entries: {
+        "2026-09-26": {
+          date: "2026-09-26",
+          results: [
+            {
+              gameType: "sizeitup",
+              date: "2026-09-26",
+              won: true,
+              overallScore: 323,
+              roundScores: [90, 46, 100, 1, 86],
+              grid: [
+                "🟥🟥🟥🟥🟥 90",
+                "🟥🟥⬜⬜⬜ 46",
+                "🟥🟥🟥🟥🟥 100",
+                "⬜⬜⬜⬜⬜ 1",
+                "🟥🟥🟥🟥⬜ 86",
+              ],
+              rawText: "Size It Up\nOverall Score 323",
+            },
+          ],
+        },
+        "2026-09-25": {
+          date: "2026-09-25",
+          results: [createManualLoss("sizeitup", "2026-09-25")],
+        },
+      },
+    }
+    expect(importBackup(exportBackup(scored))).toEqual(scored)
+
+    const inconsistent = structuredClone(scored)
+    const result = inconsistent.entries["2026-09-26"]!.results[0]!
+    if (result.gameType === "sizeitup") result.overallScore = 324
+    expect(() => importBackup(exportBackup(inconsistent))).toThrow("Invalid backup")
+  })
 })

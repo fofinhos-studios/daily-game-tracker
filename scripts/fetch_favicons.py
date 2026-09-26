@@ -20,6 +20,7 @@ GAMES = {
     "gamedle": "https://gamedle.wtf",
     "guessthegame": "https://guessthe.game",
     "letroso": "https://letroso.com",
+    "sizeitup": "https://magnitudle.com/size-it-up",
     "termo": "https://term.ooo",
 }
 
@@ -73,11 +74,18 @@ def main() -> int:
     failures = 0
 
     for game, site_url in GAMES.items():
-        target = OUTPUT_DIR / f"{game}.ico"
-        for candidate in icon_candidates(site_url):
+        target = OUTPUT_DIR / ("sizeitup.png" if game == "sizeitup" else f"{game}.ico")
+        candidates = (
+            ["https://magnitudle.com/icon-magnitude.png"]
+            if game == "sizeitup"
+            else icon_candidates(site_url)
+        )
+        for candidate in candidates:
             try:
                 data, content_type = fetch(candidate)
                 if not data or not is_image(data, content_type):
+                    continue
+                if game == "sizeitup" and not data.startswith(b"\x89PNG\r\n\x1a\n"):
                     continue
                 target.write_bytes(data)
                 print(f"{game}: {candidate} -> {target.relative_to(ROOT)}")

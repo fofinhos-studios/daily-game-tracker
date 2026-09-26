@@ -78,6 +78,7 @@ type Strings = {
     markLossHint: string
     markLossDescription: string
     markLoss: (game: string) => string
+    overallScore: (score: number) => string
   }
   stats: {
     empty: string
@@ -175,6 +176,7 @@ export const strings: Record<Locale, Strings> = {
       markLossHint: "Use this when a game has no result to paste",
       markLossDescription: "Select a game to record for this day as a loss.",
       markLoss: (game) => `Record ${game} as a loss`,
+      overallScore: (score) => `Score: ${score}/500`,
     },
     stats: {
       empty: "Stats will appear after you add some games",
@@ -207,6 +209,7 @@ export const strings: Record<Locale, Strings> = {
       guessthegame: "Guess the game from screenshots",
       krillion: "Find rare answers in seven prompts",
       letroso: "Brazilian word puzzle",
+      sizeitup: "Estimate sizes in five rounds",
       termo: "Portuguese Wordle",
     },
   },
@@ -287,6 +290,7 @@ export const strings: Record<Locale, Strings> = {
       markLossHint: "Use esta opção quando um jogo não tiver um resultado para colar",
       markLossDescription: "Selecione um jogo para registrar como derrota neste dia.",
       markLoss: (game) => `Registrar ${game} como derrota`,
+      overallScore: (score) => `Pontuação: ${score}/500`,
     },
     stats: {
       empty: "As estatísticas aparecerão depois que você adicionar alguns jogos",
@@ -319,6 +323,7 @@ export const strings: Record<Locale, Strings> = {
       guessthegame: "Adivinhe o jogo pelas capturas de tela",
       krillion: "Encontre respostas raras em sete perguntas",
       letroso: "Jogo brasileiro de palavras",
+      sizeitup: "Estime tamanhos em cinco rodadas",
       termo: "Wordle em português",
     },
   },

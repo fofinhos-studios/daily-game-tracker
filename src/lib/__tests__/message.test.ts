@@ -66,4 +66,33 @@ Framed ❌`)
     expect(generateShareMessage(krillionEntry)).toContain("Krillion ❌")
     expect(generateShareMessage(krillionEntry, { gameNamesOnly: true })).toContain("Krillion ❌")
   })
+
+  test("preserves Size It Up total in names-only mode and removes its URL by default", () => {
+    const sizeEntry: DayEntry = {
+      date: "2026-09-26",
+      results: [
+        {
+          gameType: "sizeitup",
+          date: "2026-09-26",
+          won: true,
+          overallScore: 323,
+          roundScores: [90, 46, 100, 1, 86],
+          grid: [
+            "🟥🟥🟥🟥🟥 90",
+            "🟥🟥⬜⬜⬜ 46",
+            "🟥🟥🟥🟥🟥 100",
+            "⬜⬜⬜⬜⬜ 1",
+            "🟥🟥🟥🟥⬜ 86",
+          ],
+          rawText:
+            "Size It Up\nOverall Score 323\n🟥🟥🟥🟥🟥 90\n🟥🟥⬜⬜⬜ 46\n🟥🟥🟥🟥🟥 100\n⬜⬜⬜⬜⬜ 1\n🟥🟥🟥🟥⬜ 86\nhttps://magnitudle.com/size-it-up",
+        },
+      ],
+    }
+    const namesOnly = generateShareMessage(sizeEntry, { gameNamesOnly: true })
+    expect(namesOnly).toContain("Size It Up\nOverall Score 323\n🟥🟥🟥🟥🟥 90")
+    const original = generateShareMessage(sizeEntry)
+    expect(original).toContain("Overall Score 323")
+    expect(original).not.toContain("magnitudle.com")
+  })
 })

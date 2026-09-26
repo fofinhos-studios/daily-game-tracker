@@ -12,6 +12,7 @@ const GAME_BAR_COLORS: Record<GameType, string> = {
   guessthegame: "bg-emerald-500",
   krillion: "bg-teal-500",
   letroso: "bg-yellow-500",
+  sizeitup: "bg-fuchsia-500",
   termo: "bg-orange-500",
 }
 

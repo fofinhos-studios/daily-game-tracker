@@ -49,6 +49,27 @@ function isGameResult(value: unknown): value is GameResult {
         value.date === krillionDate(value.gameNumber)
       )
     }
+    case "sizeitup": {
+      if (
+        typeof value.overallScore !== "number" ||
+        !Number.isInteger(value.overallScore) ||
+        value.overallScore < 0 ||
+        value.overallScore > 500 ||
+        !Array.isArray(value.roundScores) ||
+        !value.roundScores.every((score) => Number.isInteger(score) && score >= 0 && score <= 100)
+      ) {
+        return false
+      }
+      if (!value.won) {
+        return value.overallScore === 0 && value.roundScores.length === 0
+      }
+      return (
+        value.roundScores.length === 5 &&
+        Array.isArray(value.grid) &&
+        value.grid.length === 5 &&
+        value.roundScores.reduce((sum, score) => sum + score, 0) === value.overallScore
+      )
+    }
     case "gamedle":
       return (
         Array.isArray(value.modes) &&

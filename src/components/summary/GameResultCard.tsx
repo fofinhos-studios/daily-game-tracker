@@ -13,6 +13,7 @@ const GAME_BORDER_COLORS: Record<GameType, string> = {
   guessthegame: "border-l-emerald-500",
   krillion: "border-l-teal-500",
   letroso: "border-l-yellow-500",
+  sizeitup: "border-l-fuchsia-500",
   termo: "border-l-orange-500",
 }
 
@@ -78,6 +79,12 @@ export function GameResultCard({
           <Trash2 className="h-3.5 w-3.5" />
         </button>
       </div>
+
+      {result.gameType === "sizeitup" && result.won && (
+        <p className="mb-2 text-sm font-bold text-foreground">
+          {t.results.overallScore(result.overallScore)}
+        </p>
+      )}
 
       <div className="space-y-0.5 font-mono text-sm leading-tight">
         {result.grid.map((row, i) => (

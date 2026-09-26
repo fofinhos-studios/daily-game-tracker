@@ -8,6 +8,7 @@ export type GameType =
   | "guessthegame"
   | "krillion"
   | "letroso"
+  | "sizeitup"
   | "termo"
 
 export const GAME_LABELS: Record<GameType, string> = {
@@ -18,6 +19,7 @@ export const GAME_LABELS: Record<GameType, string> = {
   guessthegame: "GuessTheGame",
   krillion: "Krillion",
   letroso: "Letroso",
+  sizeitup: "Size It Up",
   termo: "Termo",
 }
 
@@ -67,6 +69,12 @@ export const GAME_INFO: Record<
     favicon: "/favicons/letroso.ico",
     emoji: "🔤",
   },
+  sizeitup: {
+    label: "Size It Up",
+    url: "https://magnitudle.com/size-it-up",
+    favicon: "/favicons/sizeitup.png",
+    emoji: "📏",
+  },
   termo: {
     label: "Termo",
     url: "https://term.ooo",
@@ -83,6 +91,7 @@ export const GAME_ORDER: GameType[] = [
   "guessthegame",
   "krillion",
   "letroso",
+  "sizeitup",
   "termo",
 ]
 
@@ -140,6 +149,12 @@ export interface LetrosoResult extends BaseResult {
   attempts: number
 }
 
+export interface SizeItUpResult extends BaseResult {
+  gameType: "sizeitup"
+  overallScore: number
+  roundScores: number[]
+}
+
 export interface TermoMode {
   mode: string
   gameNumber: number
@@ -161,6 +176,7 @@ export type GameResult =
   | GuessTheGameResult
   | KrillionResult
   | LetrosoResult
+  | SizeItUpResult
   | TermoResult
 
 export interface DayEntry {
@@ -197,6 +213,8 @@ export function createManualLoss(gameType: GameType, date: string): GameResult {
       return { ...base, gameType, gameNumber: 0 }
     case "krillion":
       return { ...base, gameType, gameNumber: 0, score: 0, tiers: [] }
+    case "sizeitup":
+      return { ...base, gameType, overallScore: 0, roundScores: [] }
     case "gamedle":
     case "termo":
       return { ...base, gameType, modes: [] }

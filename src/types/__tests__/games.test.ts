@@ -3,7 +3,9 @@ import { createManualLoss, GAME_INFO, GAME_ORDER, getSubGameEntries } from "../g
 
 test("every game has a local favicon path", () => {
   for (const game of GAME_ORDER) {
-    expect(GAME_INFO[game].favicon).toBe(`/favicons/${game}.${game === "krillion" ? "png" : "ico"}`)
+    expect(GAME_INFO[game].favicon).toBe(
+      `/favicons/${game}.${game === "krillion" || game === "sizeitup" ? "png" : "ico"}`,
+    )
   }
 })
 
@@ -38,6 +40,18 @@ describe("createManualLoss", () => {
       gameNumber: 0,
       score: 0,
       tiers: [],
+    })
+  })
+
+  test("creates a manual Size It Up loss without round data", () => {
+    expect(createManualLoss("sizeitup", "2026-09-26")).toEqual({
+      gameType: "sizeitup",
+      date: "2026-09-26",
+      won: false,
+      grid: ["❌"],
+      rawText: "Size It Up ❌",
+      overallScore: 0,
+      roundScores: [],
     })
   })
 })
