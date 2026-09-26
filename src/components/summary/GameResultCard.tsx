@@ -37,14 +37,25 @@ export function GameResultCard({
   const Status = result.won ? CheckCircleIcon : XCircleIcon
   const name = GAME_LABELS[result.gameType]
   return (
-    <article
-      className="ticket"
-      style={gameStyle(result.gameType)}
-      aria-label={`${name} / ${result.date}`}
-    >
-      <div className="ticket-stub" aria-hidden="true">
+    <article className="ticket" style={gameStyle(result.gameType)} aria-label={name}>
+      <div className="ticket-stub">
         <GameIcon gameType={result.gameType} />
-        <span className="ticket-code">{GAME_VISUALS[result.gameType].code}</span>
+        <span className="ticket-code" aria-hidden="true">
+          {GAME_VISUALS[result.gameType].code}
+        </span>
+        {editions.length > 0 && (
+          <div className="ticket-editions" data-multiple={editions.length > 1}>
+            <Label>{copy.edition}</Label>
+            <ul className="ticket-edition-list">
+              {editions.map((edition, index) => (
+                <li key={`${edition.mode ?? "edition"}-${index}`}>
+                  {edition.mode && <span className="block">{edition.mode}</span>}
+                  <strong>{edition.value}</strong>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       <div className="ticket-body">
         <div className="ticket-top">
@@ -81,25 +92,6 @@ export function GameResultCard({
         )}
         <ResultGrid result={result} />
         <div className="ticket-bottom">
-          <dl className="ticket-metadata font-mono text-xs">
-            <div>
-              <dt className="text-muted-foreground">{copy.edition}</dt>
-              <dd>
-                {editions.map((edition, index) => (
-                  <span className="block" key={edition.mode ?? index}>
-                    {edition.mode && `${edition.mode}: `}
-                    {edition.value}
-                  </span>
-                ))}
-              </dd>
-            </div>
-            <div>
-              <dt className="text-muted-foreground">{copy.date}</dt>
-              <dd>
-                <time dateTime={result.date}>{result.date.split("-").reverse().join(".")}</time>
-              </dd>
-            </div>
-          </dl>
           <fieldset className="ticket-actions">
             <legend className="sr-only">{t.results.reorder}</legend>
             <Button

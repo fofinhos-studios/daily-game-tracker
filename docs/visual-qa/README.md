@@ -53,3 +53,10 @@ Removed promotional headings, ticket record labels, repeated brand/year stamps, 
 - [At rest](ticket-shadow-rest.png): no shadow; both notch openings remain clear. [Hovered](ticket-shadow-hover.png): 2 px lift, 1.015 scale and a soft 24% black shadow with negative spread.
 - Inspected both themes at desktop width and the mobile layout at 360 px. Moving the pointer away restores `box-shadow: none`. Reduced motion retains `transform: none` and `transition-duration: 0s`; mobile has no page overflow.
 - Lint, typecheck, build and all 81 tests passed (404 assertions).
+
+## Editions in the stub
+
+- Dates removed from individual tickets; available editions moved to the colored stub. Missing editions, including individual unknown modes and manual losses, render no field or placeholder. Score placement is unchanged.
+- [Desktop, light/PT](ticket-edition-desktop.png) and [mobile, dark/EN](ticket-edition-mobile.png). Checked 360, 768, 1024 and 1440 px in both themes: no overflow, no ticket dates, no edition placeholders, and edition content is exposed to assistive technology.
+- Axe reported no WCAG 2 A/AA violations. Desktop edition contrast required manual review because notch pseudo-elements prevented background detection; verified black ink on the actual pastel stub surfaces in both themes.
+- Lint, typecheck, build and all **82 tests passed** (420 assertions).

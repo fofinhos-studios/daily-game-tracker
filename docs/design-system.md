@@ -38,7 +38,7 @@ Hover lifts tickets by 2 px with 1.015 scale and a soft shadow; primary interact
 
 ## Result integrity
 
-Every ticket reserves the large figures beneath its title for performance (points or attempts, with units). Multi-mode games list attempts per mode in this same area. Edition identifiers always live in the footer metadata beside the date, with mode names where needed; unavailable editions use an em dash. Never substitute an edition or a mode count for a score. Guess counts can be read from played cells; Termo keeps explicit attempts or board keycaps, falling back to played rows. These are display-only interpretations.
+Every ticket reserves the large figures beneath its title for performance (points or attempts, with units). Multi-mode games list attempts per mode in this same area. Edition identifiers live in the colored stub, with mode names where needed; omit the entire edition field when unavailable, including unknown editions among otherwise numbered modes. Keep this content accessible to screen readers. On mobile, editions follow the identity within the top strip. Dates belong to the surrounding day view, not individual cards. Never substitute an edition or a mode count for a score. Guess counts can be read from played cells; Termo keeps explicit attempts or board keycaps, falling back to played rows. These are display-only interpretations.
 
 `GameResult`, localStorage, parsers, win calculations and share generation remain the data authority. The new renderer does not write transformed grids back to storage. It tokenizes by grapheme, retains unknown symbols and whitespace, separates game modes, and displays scoring rounds from existing data. Zero-point completed games remain completed; manual losses omit sentinel metrics.
 

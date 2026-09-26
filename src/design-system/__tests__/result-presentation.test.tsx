@@ -50,7 +50,7 @@ describe("graphical results preserve gameplay information", () => {
       const message = generateShareMessage(entry)
       const html = render(result)
       expect(html).toContain("ticket-stub")
-      expect(html).toContain(result.date)
+      expect(html).not.toContain("<time")
       expect(JSON.stringify(result)).toBe(before)
       expect(generateShareMessage(entry)).toBe(message)
     }
@@ -59,7 +59,7 @@ describe("graphical results preserve gameplay information", () => {
     for (const game of GAME_ORDER) {
       const result = createManualLoss(game, "2026-09-26")
       expect(resultMetrics(result)).toEqual([{ value: "—", label: "manual" }])
-      expect(resultEditions(result)).toEqual([{ value: "—" }])
+      expect(resultEditions(result)).toEqual([])
       expect(render(result)).toContain("Derrota manual")
     }
   })
@@ -113,23 +113,34 @@ describe("graphical results preserve gameplay information", () => {
       )?.length,
     ).toBe(5)
   })
-  test("reserves the same footer for editions and the large figures for performance in every game", () => {
+  test("shows only available editions in the stub, without card dates or placeholders", () => {
     for (const result of samples) {
       const html = render(result)
-      const footerStart = html.indexOf('class="ticket-bottom"')
-      const body = html.slice(0, footerStart)
-      const footer = html.slice(footerStart)
+      const bodyStart = html.indexOf('class="ticket-body"')
+      const stub = html.slice(0, bodyStart)
+      const body = html.slice(bodyStart)
       expect(body).toContain('class="ticket-performance"')
-      expect(footer).toContain("Edição")
-      expect(footer).toContain("Data")
+      expect(html).not.toContain("<time")
+      expect(html).not.toContain(result.date)
+      expect(stub).not.toContain("—")
+      expect(stub.includes("Edição")).toBe(resultEditions(result).length > 0)
       for (const edition of resultEditions(result)) {
-        expect(footer).toContain(edition.value)
-        if (edition.value !== "—") expect(body).not.toContain(edition.value)
+        expect(stub).toContain(edition.value)
+        expect(body).not.toContain(edition.value)
       }
       expect(
         resultMetrics(result).every((metric) => ["attempts", "points"].includes(metric.label)),
       ).toBe(true)
     }
+  })
+  test("omits unknown editions without dropping the other modes", () => {
+    const result = samples.find((item) => item.gameType === "gamedle")!
+    if (result.gameType !== "gamedle") throw new Error("fixture")
+    const modes = result.modes
+      .slice(0, 2)
+      .map((mode, index) => ({ ...mode, gameNumber: index === 0 ? 0 : 1136 }))
+    expect(resultEditions({ ...result, modes })).toEqual([{ mode: modes[1]!.mode, value: "#1136" }])
+    expect(resultEditions({ ...result, modes: [] })).toEqual([])
   })
   test("counts only played guesses, independently of edition and unused cells", () => {
     const framed = samples.find((result) => result.gameType === "framed")!

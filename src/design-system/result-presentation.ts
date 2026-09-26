@@ -97,12 +97,11 @@ export function resultMetrics(result: GameResult): ResultMetric[] {
 }
 
 export function resultEditions(result: GameResult): { mode?: string; value: string }[] {
-  const edition = (number: number) => (number > 0 ? `#${number}` : "—")
-  if (isManualLoss(result)) return [{ value: "—" }]
+  if (isManualLoss(result)) return []
   if (result.gameType === "gamedle" || result.gameType === "termo") {
-    return result.modes.length
-      ? result.modes.map((mode) => ({ mode: mode.mode, value: edition(mode.gameNumber) }))
-      : [{ value: "—" }]
+    return result.modes
+      .filter((mode) => mode.gameNumber > 0)
+      .map((mode) => ({ mode: mode.mode, value: `#${mode.gameNumber}` }))
   }
-  return [{ value: "gameNumber" in result ? edition(result.gameNumber) : "—" }]
+  return "gameNumber" in result && result.gameNumber > 0 ? [{ value: `#${result.gameNumber}` }] : []
 }
