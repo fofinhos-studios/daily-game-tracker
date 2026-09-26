@@ -79,6 +79,7 @@ export function DailySummary({ entry, onRemove, date, gameFilter, onMarkLoss }: 
 
   return (
     <div className="space-y-5">
+      <MarkLoss existingGames={existingGames} onMarkLoss={onMarkLoss} />
       {sorted.length === 0 ? (
         <EmptyState isToday={date === new Date().toLocaleDateString("en-CA")} />
       ) : (
@@ -103,7 +104,6 @@ export function DailySummary({ entry, onRemove, date, gameFilter, onMarkLoss }: 
           ))}
         </ul>
       )}
-      <MarkLoss existingGames={existingGames} onMarkLoss={onMarkLoss} />
       {pendingRemoval && (
         <Dialog
           title={t.results.removeConfirmation}

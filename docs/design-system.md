@@ -32,6 +32,8 @@ Use `Button` variants (`primary`, `secondary`, `danger`, `ghost`), `Panel`, `Tex
 
 Ticket actions belong in one header group: move up, move down, then delete. Keep the reorder fieldset and accessible names, disabled boundary states, and 44 px targets. The group can wrap below a long title on narrow screens; do not add a separate action footer.
 
+The results view puts manual-loss entry before its tickets. Win rates have their own fourth tab, alongside results, activity and accuracy, and use the same game filter. Tabs form two columns on mobile. Statistics use a game row followed by an indented nested list of its modes; show mode names without repeating the game name, while retaining full accessible labels on progress bars. Parent rates use the stored daily game outcome; children use only their own recorded mode outcomes. A manual loss affects the parent and does not invent losses for unrecorded modes.
+
 Phosphor defaults come from IconContext: bold outlines, currentColor, no duotone. Custom game marks use a 32-unit grid with a 2-unit stroke and no fill. Keep the marks recognizable at 16–48 px.
 
 The workspace is at most 1440 px, two columns from 1024 px. On smaller screens, input precedes results and sharing. At 640 px, ticket stubs move from the side to the top. Wide gameplay rows scroll within the ticket rather than changing their grouping or causing page overflow.

@@ -7,17 +7,24 @@ import { GAME_LABELS } from "@/types/games"
 interface SuccessRateBarProps {
   stats: GameStats
   label?: string
+  nested?: boolean
 }
 
-export function SuccessRateBar({ stats, label }: SuccessRateBarProps) {
+export function SuccessRateBar({ stats, label, nested = false }: SuccessRateBarProps) {
   const { t } = useI18n()
-  const displayLabel = label || GAME_LABELS[stats.gameType]
+  const displayLabel = label
+    ? `${GAME_LABELS[stats.gameType]} — ${label}`
+    : GAME_LABELS[stats.gameType]
 
   return (
     <div className="space-y-1.5">
-      <div className="flex items-center justify-between">
-        <GameBadge gameType={stats.gameType} label={label} />
-        <div className="flex items-center gap-3 text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        {nested ? (
+          <span className="font-mono text-xs font-medium">{label}</span>
+        ) : (
+          <GameBadge gameType={stats.gameType} label={label} />
+        )}
+        <div className="flex flex-wrap items-center gap-3 text-xs">
           <span className="text-muted-foreground">
             {stats.winRate}% ({stats.totalWon}/{stats.totalPlayed})
           </span>

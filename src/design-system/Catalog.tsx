@@ -1,12 +1,14 @@
 import {
   AsteriskSimpleIcon,
   CalendarDotsIcon,
+  ChartBarIcon,
   CheckCircleIcon,
   TargetIcon,
 } from "@phosphor-icons/react"
 import { useCallback, useEffect, useState } from "react"
 import { BackupModal } from "@/components/backup/BackupModal"
 import { GameFilter } from "@/components/filters/GameFilter"
+import { SectionHeading } from "@/components/help/SectionHeading"
 import { GameBadge } from "@/components/input/GameBadge"
 import { PasteInput } from "@/components/input/PasteInput"
 import { SupportedGamesModal } from "@/components/layout/SupportedGamesModal"
@@ -14,8 +16,10 @@ import { Wordmark } from "@/components/layout/Wordmark"
 import { CopyButton } from "@/components/share/CopyButton"
 import { AccuracyHeatmap } from "@/components/stats/AccuracyHeatmap"
 import { CalendarHeatmap } from "@/components/stats/CalendarHeatmap"
+import { SuccessRateList } from "@/components/stats/SuccessRateList"
 import { EmptyState } from "@/components/summary/EmptyState"
 import { GameResultCard } from "@/components/summary/GameResultCard"
+import { MarkLoss } from "@/components/summary/MarkLoss"
 import { ScrollRegion } from "@/design-system/primitives"
 import { useI18n } from "@/i18n/I18nProvider"
 import { generateShareMessage } from "@/lib/message"
@@ -138,43 +142,50 @@ export default function Catalog() {
           { id: "results", label: t.app.results, icon: CheckCircleIcon },
           { id: "activity", label: t.app.activity, icon: CalendarDotsIcon },
           { id: "accuracy", label: t.app.accuracy, icon: TargetIcon },
+          { id: "win-rates", label: t.app.winRates, icon: ChartBarIcon },
         ]}
         value={tab}
         onChange={setTab}
       />
       <div id="catalog-panel" role="tabpanel" aria-labelledby={`catalog-${tab}`}>
         {tab === "results" && (
-          <div className="catalog-tickets">
-            {results
-              .filter((result) => !filter.size || filter.has(result.gameType))
-              .map((result) => {
-                const index = results.indexOf(result)
-                return (
-                  <GameResultCard
-                    key={result.gameType}
-                    result={result}
-                    onRemove={(game) =>
-                      setResults((current) => current.filter((item) => item.gameType !== game))
-                    }
-                    canMoveUp={index > 0}
-                    canMoveDown={index < results.length - 1}
-                    onMoveUp={() =>
-                      setResults((current) => {
-                        const next = [...current]
-                        ;[next[index - 1], next[index]] = [next[index]!, next[index - 1]!]
-                        return next
-                      })
-                    }
-                    onMoveDown={() =>
-                      setResults((current) => {
-                        const next = [...current]
-                        ;[next[index], next[index + 1]] = [next[index + 1]!, next[index]!]
-                        return next
-                      })
-                    }
-                  />
-                )
-              })}
+          <div className="space-y-5">
+            <MarkLoss
+              existingGames={new Set(results.map((result) => result.gameType))}
+              onMarkLoss={(game) => addResults([createManualLoss(game, DEMO_DATE)])}
+            />
+            <div className="catalog-tickets">
+              {results
+                .filter((result) => !filter.size || filter.has(result.gameType))
+                .map((result) => {
+                  const index = results.indexOf(result)
+                  return (
+                    <GameResultCard
+                      key={result.gameType}
+                      result={result}
+                      onRemove={(game) =>
+                        setResults((current) => current.filter((item) => item.gameType !== game))
+                      }
+                      canMoveUp={index > 0}
+                      canMoveDown={index < results.length - 1}
+                      onMoveUp={() =>
+                        setResults((current) => {
+                          const next = [...current]
+                          ;[next[index - 1], next[index]] = [next[index]!, next[index - 1]!]
+                          return next
+                        })
+                      }
+                      onMoveDown={() =>
+                        setResults((current) => {
+                          const next = [...current]
+                          ;[next[index], next[index + 1]] = [next[index + 1]!, next[index]!]
+                          return next
+                        })
+                      }
+                    />
+                  )
+                })}
+            </div>
           </div>
         )}
         {tab === "activity" && (
@@ -182,6 +193,14 @@ export default function Catalog() {
         )}
         {tab === "accuracy" && (
           <AccuracyHeatmap data={data} today={DEMO_DATE} gameFilter={filter} />
+        )}
+        {tab === "win-rates" && (
+          <Panel>
+            <SectionHeading className="mb-5" help={t.help.winRates} icon={ChartBarIcon}>
+              {t.app.winRates}
+            </SectionHeading>
+            <SuccessRateList data={data} gameFilter={filter} />
+          </Panel>
         )}
       </div>
       <section className="catalog-section">

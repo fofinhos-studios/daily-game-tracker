@@ -30,7 +30,7 @@ import { useI18n } from "@/i18n/I18nProvider"
 import { formatDateDisplay } from "@/lib/dates"
 import { createManualLoss, type GameType } from "@/types/games"
 
-type Tab = "results" | "activity" | "accuracy"
+type Tab = "results" | "activity" | "accuracy" | "win-rates"
 
 export default function App() {
   const today = useToday()
@@ -81,6 +81,7 @@ export default function App() {
     },
     { id: "activity" as const, label: t.app.activity, icon: CalendarDays },
     { id: "accuracy" as const, label: t.app.accuracy, icon: Target },
+    { id: "win-rates" as const, label: t.app.winRates, icon: BarChart3 },
   ]
 
   const copy = industrialCopy[locale]
@@ -143,12 +144,6 @@ export default function App() {
                       store.addResults([createManualLoss(gameType, viewDate)])
                     }
                   />
-                  <Panel>
-                    <SectionHeading className="mb-4" help={t.help.winRates} icon={BarChart3}>
-                      {t.app.winRates}
-                    </SectionHeading>
-                    <SuccessRateList data={store.data} gameFilter={gameFilter} />
-                  </Panel>
                 </div>
               )}
               {activeTab === "activity" && (
@@ -166,6 +161,14 @@ export default function App() {
                   gameFilter={gameFilter}
                   onSelectDate={handleSelectDate}
                 />
+              )}
+              {activeTab === "win-rates" && (
+                <Panel>
+                  <SectionHeading className="mb-5" help={t.help.winRates} icon={BarChart3}>
+                    {t.app.winRates}
+                  </SectionHeading>
+                  <SuccessRateList data={store.data} gameFilter={gameFilter} />
+                </Panel>
               )}
             </div>
           </section>

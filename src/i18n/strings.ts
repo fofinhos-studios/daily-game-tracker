@@ -191,7 +191,7 @@ export const strings: Record<Locale, Strings> = {
       share:
         "Preview and copy today's combined results. Enable Game names only for a shorter message without original headers.",
       winRates:
-        "Shows wins, games played, current streak, best streak, and overall success rate for each game.",
+        "Each game shows its recorded daily win rate and streak. Indented modes show their own results. Manual losses count toward the game total without adding a result to a specific mode.",
       activity:
         "Shows how many games you recorded each day. Hover a square for details or select it to open that date.",
       accuracy:
@@ -303,7 +303,7 @@ export const strings: Record<Locale, Strings> = {
       share:
         "Visualize e copie os resultados combinados de hoje. Ative Somente nomes dos jogos para uma mensagem menor, sem os cabeçalhos originais.",
       winRates:
-        "Mostra vitórias, partidas jogadas, sequência atual, melhor sequência e taxa de sucesso geral de cada jogo.",
+        "Cada jogo mostra a taxa de vitória e a sequência dos resultados diários registrados. Os modos recuados mostram seus próprios resultados. Derrotas manuais contam no total do jogo sem adicionar um resultado a um modo específico.",
       activity:
         "Mostra quantos jogos você registrou por dia. Passe o cursor sobre um quadrado para ver detalhes ou selecione-o para abrir a data.",
       accuracy:

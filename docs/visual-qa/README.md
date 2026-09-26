@@ -74,3 +74,10 @@ Removed promotional headings, ticket record labels, repeated brand/year stamps, 
 - Verified entry animation and pointer re-entry: 1800 ms, one iteration, opacity returns to zero. Decorative duplicate is `aria-hidden`; reduced motion removes the overlay and produces zero overlay animations.
 - App inspected at 360 and 1440 px in both themes, without overflow or axe violations. Catalog also audited without violations; the previously documented ticket-notch contrast limitation remains unrelated to this effect.
 - Lint, typecheck, build and all 82 tests passed (420 assertions).
+
+## Results organization and hierarchical win rates
+
+- [Manual-loss entry above cards](manual-loss-top.png); separate win-rate tab on [desktop](win-rates-desktop.png) and [mobile](win-rates-mobile.png). Parent rows show game totals; indented mode rows retain their individual outcomes and full accessible progress labels.
+- Checked app at 360, 768, 1024 and 1440 px, light/EN and dark/PT. All axe WCAG 2 A/AA audits passed without incomplete checks or page overflow. Catalog also includes the new tab and manual-loss control.
+- Verified saving a manual loss from the top control, End-key navigation to the fourth tab, absence of win-rate content in Results, and filtering to one game with all four of its modes retained.
+- Added coverage for parent totals with manual losses, independent mode outcomes, complete-group filtering and empty filtered data. Lint, typecheck and build passed; **84 tests passed**, 430 assertions.
