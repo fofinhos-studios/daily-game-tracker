@@ -26,6 +26,8 @@ The theme stylesheet is the authority for visual values. Its commented sections 
 
 ## Components and interaction
 
+Keep interface copy functional: game names, metric units, dates, actions and state messages. Avoid slogans, generic dashboard introductions, repeated brand/year stamps and instructions that duplicate the adjacent control. Put extended guidance in contextual help. Remove the associated layout space when removing text.
+
 Use `Button` variants (`primary`, `secondary`, `danger`, `ghost`), `Panel`, `TextArea`, `Label`, `Message`, `Tabs`, `Dialog`, and `ScrollRegion`. Labels are semantic content; buttons retain native HTML behavior and accessible names. Tabs support arrows/Home/End. Dialogs trap focus, close on Escape, restore focus, and lock background scrolling. Scrollable result/text regions remain keyboard accessible.
 
 Phosphor defaults come from IconContext: bold outlines, currentColor, no duotone. Custom game marks use a 32-unit grid with a 2-unit stroke and no fill. Keep the marks recognizable at 16–48 px.

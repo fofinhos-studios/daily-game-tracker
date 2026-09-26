@@ -39,3 +39,11 @@ Follow-up validation: large figures now show points or attempts, including attem
 - Catalog checked at 360, 768, 1024 and 1440 px in both themes, plus English at 360 px. App checked at 360 and 1440 px in both themes. No page or ticket overflow; axe WCAG 2 A/AA audits reported zero violations.
 - Added tests for edition placement across all nine games, played guesses versus unused cells, mode-specific editions and Termo board keycaps. Existing data/share invariants still pass.
 - Lint, typecheck and build passed; **81 tests passed**, 404 assertions.
+
+## Copy cleanup
+
+Removed promotional headings, ticket record labels, repeated brand/year stamps, the footer brand and redundant input/empty/manual-loss instructions. Functional labels and contextual help remain. Spacing now follows the shorter content.
+
+- [Desktop, light/EN](copy-cleanup-desktop.png) and [mobile, dark/PT](copy-cleanup-mobile.png).
+- App checked at 360, 768, 1024 and 1440 px in both themes; catalog checked at 360 px in both themes. No page overflow and no axe WCAG 2 A/AA violations after theme transitions settled.
+- Lint, typecheck, build and all 81 tests passed (404 assertions).

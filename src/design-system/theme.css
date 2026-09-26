@@ -350,17 +350,12 @@
   padding-bottom: 24px;
   border-bottom: var(--rule-strong) solid var(--color-foreground);
 }
-.workspace-heading h2 {
-  font-family: var(--font-display);
-  font-size: clamp(28px, 3vw, 40px);
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.04em;
-}
 .workspace-tools {
   display: flex;
   align-items: flex-start;
   gap: 12px;
+  padding-bottom: 24px;
+  border-bottom: var(--rule-strong) solid var(--color-foreground);
 }
 .workspace-grid {
   display: grid;
@@ -390,21 +385,6 @@
 }
 .paste-panel .ds-field {
   min-height: 210px;
-}
-.paste-sign {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin: 16px 0 24px;
-}
-.paste-sign svg {
-  width: 56px;
-  height: 56px;
-}
-.paste-sign p {
-  font-size: 24px;
-  max-width: 300px;
 }
 .app-footer {
   max-width: var(--layout-max);
@@ -451,7 +431,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
   gap: 20px;
   padding: 18px 14px;
@@ -496,7 +476,7 @@
 }
 .ticket-top {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 8px;
   padding-bottom: 12px;
@@ -702,7 +682,6 @@ button:not(:disabled):active {
   }
   .workspace-tools {
     flex-wrap: wrap;
-    justify-content: flex-end;
   }
 }
 @media (max-width: 639px) {
@@ -758,9 +737,6 @@ button:not(:disabled):active {
   }
   .ticket-body {
     padding: 16px;
-  }
-  .ticket-stub .ticket-stub-label {
-    margin-left: auto;
   }
   .catalog-tickets {
     grid-template-columns: minmax(0, 1fr);

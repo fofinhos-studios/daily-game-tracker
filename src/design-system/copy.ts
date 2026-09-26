@@ -2,12 +2,7 @@ import type { Locale } from "@/i18n/strings"
 
 const en = {
   cancel: "Cancel",
-  dashboard: "Your daily playbook.",
-  subtitle: "PLAY. RECORD. REPEAT.",
-  input: "Every game. One place.",
-  inputHint: "Paste the share text from your games. Results are saved automatically.",
   local: "Saved on this device",
-  ticket: "GAME RECORD",
   won: "Completed",
   lost: "Not completed",
   attempts: "Attempts",
@@ -29,12 +24,7 @@ export const industrialCopy: Record<Locale, Copy> = {
   en,
   "pt-BR": {
     cancel: "Cancelar",
-    dashboard: "Seu diário de jogos.",
-    subtitle: "JOGUE. REGISTRE. REPITA.",
-    input: "Cada jogo. Um só lugar.",
-    inputHint: "Cole o texto compartilhado pelos jogos. Os resultados são salvos automaticamente.",
     local: "Salvo neste dispositivo",
-    ticket: "REGISTRO DE JOGO",
     won: "Concluído",
     lost: "Não concluído",
     attempts: "Tentativas",

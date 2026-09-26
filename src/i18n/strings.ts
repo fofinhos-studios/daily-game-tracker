@@ -66,7 +66,6 @@ type Strings = {
   results: {
     emptyToday: string
     emptyDay: string
-    emptyHint: string
     paste: string
     reorder: string
     moveUp: (game: string) => string
@@ -76,7 +75,6 @@ type Strings = {
     removeConfirmation: string
     markLossTitle: string
     markLossHint: string
-    markLossDescription: string
     markLoss: (game: string) => string
     overallScore: (score: number) => string
   }
@@ -164,7 +162,6 @@ export const strings: Record<Locale, Strings> = {
     results: {
       emptyToday: "No games recorded today",
       emptyDay: "No games recorded for this day",
-      emptyHint: "Paste a result or mark a loss to get started",
       paste: "Paste a result",
       reorder: "Reorder result",
       moveUp: (game) => `Move ${game} up`,
@@ -174,7 +171,6 @@ export const strings: Record<Locale, Strings> = {
       removeConfirmation: "Remove this result?",
       markLossTitle: "Mark a game as lost",
       markLossHint: "Use this when a game has no result to paste",
-      markLossDescription: "Select a game to record for this day as a loss.",
       markLoss: (game) => `Record ${game} as a loss`,
       overallScore: (score) => `Score: ${score}/500`,
     },
@@ -278,7 +274,6 @@ export const strings: Record<Locale, Strings> = {
     results: {
       emptyToday: "Nenhum jogo registrado hoje",
       emptyDay: "Nenhum jogo registrado neste dia",
-      emptyHint: "Cole um resultado ou marque uma derrota para começar",
       paste: "Colar um resultado",
       reorder: "Reordenar resultado",
       moveUp: (game) => `Mover ${game} para cima`,
@@ -288,7 +283,6 @@ export const strings: Record<Locale, Strings> = {
       removeConfirmation: "Remover este resultado?",
       markLossTitle: "Marcar um jogo como perdido",
       markLossHint: "Use esta opção quando um jogo não tiver um resultado para colar",
-      markLossDescription: "Selecione um jogo para registrar como derrota neste dia.",
       markLoss: (game) => `Registrar ${game} como derrota`,
       overallScore: (score) => `Pontuação: ${score}/500`,
     },

@@ -15,7 +15,6 @@ export function EmptyState({ isToday }: EmptyStateProps) {
         <p className="ds-display text-2xl text-foreground">
           {isToday ? t.results.emptyToday : t.results.emptyDay}
         </p>
-        <p className="mt-1 text-xs text-muted-foreground">{t.results.emptyHint}</p>
         <Button
           variant="primary"
           type="button"

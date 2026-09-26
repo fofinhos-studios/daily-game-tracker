@@ -60,9 +60,6 @@ export function MarkLoss({ existingGames, onMarkLoss }: MarkLossProps) {
 
       {open && (
         <div id={panelId} className="border-t border-border px-4 py-3 animate-fade-in">
-          <p className="mb-2.5 text-xs font-medium text-muted-foreground">
-            {t.results.markLossDescription}
-          </p>
           <div className="flex flex-wrap gap-2">
             {availableGames.map((game) => (
               <button

@@ -65,8 +65,7 @@ export function GridRows({ rows, label }: { rows: string[]; label: string }) {
 export function ResultGrid({ result }: { result: GameResult }) {
   const { locale } = useI18n()
   const copy = industrialCopy[locale]
-  if (isManualLoss(result))
-    return <p className="mt-4 text-sm text-muted-foreground">{copy.manual}</p>
+  if (isManualLoss(result)) return null
   if (result.gameType === "gamedle" || result.gameType === "termo") {
     return (
       <div className="ticket-modes">

@@ -1,5 +1,4 @@
 import {
-  ArrowDownRightIcon,
   ArrowUpRightIcon,
   ChartBarIcon as BarChart3,
   CalendarDotsIcon as CalendarDays,
@@ -89,42 +88,31 @@ export default function App() {
     <PageShell>
       <Header today={today} onOpenBackup={() => setShowBackup(true)} />
       <main className="workspace">
-        <div className="workspace-heading">
-          <div>
-            <Label className="text-muted-foreground">{copy.subtitle}</Label>
-            <h2 className="mt-2">{copy.dashboard}</h2>
-          </div>
-          <div className="workspace-tools">
-            {availableGames.length > 0 && (
-              <div className="w-52 max-w-full">
-                <GameFilter
-                  availableGames={availableGames}
-                  selected={gameFilter}
-                  onChange={setGameFilter}
-                />
-              </div>
-            )}
-            <Button
-              onClick={() => setShowSupportedGames(true)}
-              title={t.app.supportedGamesDescription}
-            >
-              <Gamepad2 size={18} aria-hidden="true" />
-              {t.app.supportedGames}
-              <ArrowUpRightIcon size={16} aria-hidden="true" />
-            </Button>
-          </div>
+        <div className="workspace-tools">
+          {availableGames.length > 0 && (
+            <div className="w-52 max-w-full">
+              <GameFilter
+                availableGames={availableGames}
+                selected={gameFilter}
+                onChange={setGameFilter}
+              />
+            </div>
+          )}
+          <Button
+            onClick={() => setShowSupportedGames(true)}
+            title={t.app.supportedGamesDescription}
+          >
+            <Gamepad2 size={18} aria-hidden="true" />
+            {t.app.supportedGames}
+            <ArrowUpRightIcon size={16} aria-hidden="true" />
+          </Button>
         </div>
         <div className="workspace-grid">
-          <Panel className="workspace-input paste-panel">
+          <Panel className="workspace-input paste-panel space-y-4">
             <SectionHeading help={t.help.pasteResults} icon={ClipboardPaste}>
               {t.app.pasteResults}
             </SectionHeading>
-            <div className="paste-sign">
-              <p className="ds-display">{copy.input}</p>
-              <ArrowDownRightIcon aria-hidden="true" />
-            </div>
             <PasteInput onResults={store.addResults} onDatesAffected={handleDatesAffected} />
-            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{copy.inputHint}</p>
           </Panel>
           <section className="workspace-results space-y-5" aria-label={t.app.reviewResults}>
             <Tabs
@@ -187,7 +175,6 @@ export default function App() {
         </div>
       </main>
       <footer className="app-footer">
-        <span>MINIGĒMU / DAILY GAME TRACKER</span>
         <span className="inline-flex items-center gap-2">
           <HardDrivesIcon size={16} aria-hidden="true" />
           {copy.local}

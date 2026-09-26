@@ -45,18 +45,10 @@ export function GameResultCard({
       <div className="ticket-stub" aria-hidden="true">
         <GameIcon gameType={result.gameType} />
         <span className="ticket-code">{GAME_VISUALS[result.gameType].code}</span>
-        <span className="ds-label ticket-stub-label">
-          MINIGĒMU
-          <br />
-          {result.date.slice(0, 4)}
-        </span>
       </div>
       <div className="ticket-body">
         <div className="ticket-top">
-          <div>
-            <Label className="text-muted-foreground">{copy.ticket}</Label>
-            <h3 className="ticket-title mt-1">{name}</h3>
-          </div>
+          <h3 className="ticket-title">{name}</h3>
           <Button
             variant="ghost"
             className="ds-icon-button"
