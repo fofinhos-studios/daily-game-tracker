@@ -79,9 +79,9 @@ export default function App() {
       label: isToday ? t.app.todayResults : t.app.results,
       icon: CheckCircle2,
     },
+    { id: "win-rates" as const, label: t.app.winRates, icon: BarChart3 },
     { id: "activity" as const, label: t.app.activity, icon: CalendarDays },
     { id: "accuracy" as const, label: t.app.accuracy, icon: Target },
-    { id: "win-rates" as const, label: t.app.winRates, icon: BarChart3 },
   ]
 
   const copy = industrialCopy[locale]

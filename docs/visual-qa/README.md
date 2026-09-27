@@ -81,3 +81,10 @@ Removed promotional headings, ticket record labels, repeated brand/year stamps, 
 - Checked app at 360, 768, 1024 and 1440 px, light/EN and dark/PT. All axe WCAG 2 A/AA audits passed without incomplete checks or page overflow. Catalog also includes the new tab and manual-loss control.
 - Verified saving a manual loss from the top control, End-key navigation to the fourth tab, absence of win-rate content in Results, and filtering to one game with all four of its modes retained.
 - Added coverage for parent totals with manual losses, independent mode outcomes, complete-group filtering and empty filtered data. Lint, typecheck and build passed; **84 tests passed**, 430 assertions.
+
+## Today tab and game favicons
+
+- The current-day tab now reads “Hoje”/“Today”; Win Rates is second. Desktop workspace columns use a 40/60 split.
+- Restored the nine local site favicons and applied a shared grayscale, high-contrast filter for monochrome marks. Catalog screenshot shows all nine in context: [desktop, light/PT](today-layout-catalog.png) and [mobile, dark/PT](today-layout-mobile-dark.png).
+- Checked 1440 px column proportions and tab order, all nine local images loaded, and 360 px mobile layout has no horizontal overflow.
+- Lint, typecheck and production build passed.

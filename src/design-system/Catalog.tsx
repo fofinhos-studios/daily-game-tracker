@@ -140,9 +140,9 @@ export default function Catalog() {
         label={t.app.results}
         items={[
           { id: "results", label: t.app.results, icon: CheckCircleIcon },
+          { id: "win-rates", label: t.app.winRates, icon: ChartBarIcon },
           { id: "activity", label: t.app.activity, icon: CalendarDotsIcon },
           { id: "accuracy", label: t.app.accuracy, icon: TargetIcon },
-          { id: "win-rates", label: t.app.winRates, icon: ChartBarIcon },
         ]}
         value={tab}
         onChange={setTab}

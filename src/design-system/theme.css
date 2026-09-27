@@ -421,7 +421,7 @@
 }
 .workspace-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
   grid-template-rows: auto auto 1fr;
   gap: 24px 32px;
   padding-top: 28px;
@@ -441,6 +441,12 @@
   grid-column: 1;
   grid-row: 2;
   min-width: 0;
+}
+.game-mark {
+  display: block;
+  flex: none;
+  object-fit: contain;
+  filter: grayscale(1) contrast(100);
 }
 .paste-panel {
   border-top: 6px solid var(--color-foreground);

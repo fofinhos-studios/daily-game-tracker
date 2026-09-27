@@ -123,7 +123,7 @@ export const strings: Record<Locale, Strings> = {
       replaceConfirmation: "Replace all current progress with this backup? This cannot be undone.",
     },
     app: {
-      todayResults: "Today's Results",
+      todayResults: "Today",
       results: "Results",
       activity: "Activity",
       accuracy: "Accuracy",
@@ -234,7 +234,7 @@ export const strings: Record<Locale, Strings> = {
         "Substituir todo o progresso atual por este backup? Esta ação não pode ser desfeita.",
     },
     app: {
-      todayResults: "Resultados de hoje",
+      todayResults: "Hoje",
       results: "Resultados",
       activity: "Atividade",
       accuracy: "Precisão",
