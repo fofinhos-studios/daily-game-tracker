@@ -85,6 +85,6 @@ Removed promotional headings, ticket record labels, repeated brand/year stamps, 
 ## Today tab and game favicons
 
 - The current-day tab now reads “Hoje”/“Today”; Win Rates is second. Desktop workspace columns use a 40/60 split.
-- Restored the nine local site favicons and applied a shared grayscale, high-contrast filter for monochrome marks. Catalog screenshot shows all nine in context: [desktop, light/PT](today-layout-catalog.png) and [mobile, dark/PT](today-layout-mobile-dark.png).
+- Restored the nine original, full-color local site favicons. Catalog screenshot shows all nine in context: [desktop, light/PT](today-layout-catalog.png) and [mobile, dark/PT](today-layout-mobile-dark.png).
 - Checked 1440 px column proportions and tab order, all nine local images loaded, and 360 px mobile layout has no horizontal overflow.
 - Lint, typecheck and production build passed.

@@ -446,7 +446,6 @@
   display: block;
   flex: none;
   object-fit: contain;
-  filter: grayscale(1) contrast(100);
 }
 .paste-panel {
   border-top: 6px solid var(--color-foreground);
