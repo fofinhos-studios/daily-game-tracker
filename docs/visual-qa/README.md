@@ -94,3 +94,9 @@ Removed promotional headings, ticket record labels, repeated brand/year stamps, 
 - Replaced the local-save status and storage icon with the centered “Made with love by 🧡💜 fofinhos.studio” credit and external studio link.
 - [Desktop, light](footer-credit-desktop.png) and [mobile, dark](footer-credit-mobile-dark.png). Verified destination, readable foreground colors, and no horizontal overflow at 360 px.
 - Lint, typecheck and production build passed.
+
+## Monospaced typography
+
+- Replaced IBM Plex Mono with locally hosted Spline Sans Mono 400/500 for dates, data and metadata. Archivo, Chakra Petch and the Japanese wordmark font are unchanged.
+- [Catalog specimen, desktop/light](spline-mono-desktop.png) and [mobile/dark](spline-mono-mobile-dark.png). Confirmed the Latin Extended subset renders Portuguese accents, all Spline font faces load, and the 360 px layout has no horizontal overflow.
+- Lint, typecheck and production build passed.

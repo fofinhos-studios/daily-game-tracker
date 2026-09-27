@@ -17,7 +17,7 @@ The theme stylesheet is the authority for visual values. Its commented sections 
 
 ## Foundations
 
-- Archivo 400/600/700: body and controls. Chakra Petch 500/700: headings and ticket numbers. IBM Plex Mono 400/500: dates and metadata. Noto Sans JP 700: the Japanese wordmark only.
+- Archivo 400/600/700: body and controls. Chakra Petch 500/700: headings and ticket numbers. Spline Sans Mono 400/500: dates and metadata, with compact proportions and distinctive ink traps. Noto Sans JP 700: the Japanese wordmark only.
 - All fonts are served locally with `font-display: swap`. `python scripts/fetch_fonts.py` refreshes Latin/Latin Extended subsets, a wordmark-only Japanese subset, and OFL licenses. Identical font URLs are downloaded once. If the Japanese brand text changes, update the subset query too.
 - Body 14–16 px, metadata 12 px, headings 24–40 px, ticket metrics 38 px. Uppercase is reserved for short labels.
 - Rectangular surfaces, 1 px rules, 2 px ticket boundaries and dashed perforation. Tickets have no resting shadow, preserving both notch openings; pointer hover adds a soft shadow using `--ticket-hover-shadow`. Other raised surfaces use short, hard shadows. Pastel backgrounds always use black ink.
@@ -32,7 +32,7 @@ Use `Button` variants (`primary`, `secondary`, `danger`, `ghost`), `Panel`, `Tex
 
 Ticket actions belong in one header group: move up, move down, then delete. Keep the reorder fieldset and accessible names, disabled boundary states, and 44 px targets. The group can wrap below a long title on narrow screens; do not add a separate action footer.
 
-The results view puts manual-loss entry before its tickets. Win rates have their own fourth tab, alongside results, activity and accuracy, and use the same game filter. Tabs form two columns on mobile. Statistics use a game row followed by an indented nested list of its modes; show mode names without repeating the game name, while retaining full accessible labels on progress bars. Parent rates use the stored daily game outcome; children use only their own recorded mode outcomes. A manual loss affects the parent and does not invent losses for unrecorded modes.
+The results view puts manual-loss entry before its tickets. Win rates have their own tab in the second position after results, alongside activity and accuracy, and use the same game filter. Tabs form two columns on mobile. Statistics use a game row followed by an indented nested list of its modes; show mode names without repeating the game name, while retaining full accessible labels on progress bars. Parent rates use the stored daily game outcome; children use only their own recorded mode outcomes. A manual loss affects the parent and does not invent losses for unrecorded modes.
 
 Phosphor defaults come from IconContext: bold outlines, currentColor, no duotone. Custom game marks use a 32-unit grid with a 2-unit stroke and no fill. Keep the marks recognizable at 16–48 px.
 
