@@ -2,7 +2,6 @@ import type { Locale } from "@/i18n/strings"
 
 const en = {
   cancel: "Cancel",
-  local: "Saved on this device",
   won: "Completed",
   lost: "Not completed",
   attempts: "Attempts",
@@ -23,7 +22,6 @@ export const industrialCopy: Record<Locale, Copy> = {
   en,
   "pt-BR": {
     cancel: "Cancelar",
-    local: "Salvo neste dispositivo",
     won: "Concluído",
     lost: "Não concluído",
     attempts: "Tentativas",

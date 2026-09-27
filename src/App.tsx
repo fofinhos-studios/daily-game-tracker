@@ -5,7 +5,6 @@ import {
   CheckCircleIcon as CheckCircle2,
   ClipboardTextIcon as ClipboardPaste,
   GameControllerIcon as Gamepad2,
-  HardDrivesIcon,
   ArrowCounterClockwiseIcon as RotateCcw,
   TargetIcon as Target,
 } from "@phosphor-icons/react"
@@ -22,7 +21,6 @@ import { AccuracyHeatmap } from "@/components/stats/AccuracyHeatmap"
 import { CalendarHeatmap } from "@/components/stats/CalendarHeatmap"
 import { SuccessRateList } from "@/components/stats/SuccessRateList"
 import { DailySummary } from "@/components/summary/DailySummary"
-import { industrialCopy } from "@/design-system/copy"
 import { Button, Label, Panel, Tabs } from "@/design-system/primitives"
 import { useGameStore } from "@/hooks/useGameStore"
 import { useToday } from "@/hooks/useToday"
@@ -84,7 +82,6 @@ export default function App() {
     { id: "accuracy" as const, label: t.app.accuracy, icon: Target },
   ]
 
-  const copy = industrialCopy[locale]
   return (
     <PageShell>
       <Header today={today} onOpenBackup={() => setShowBackup(true)} />
@@ -178,10 +175,10 @@ export default function App() {
         </div>
       </main>
       <footer className="app-footer">
-        <span className="inline-flex items-center gap-2">
-          <HardDrivesIcon size={16} aria-hidden="true" />
-          {copy.local}
-        </span>
+        <span>Made with love by 🧡💜</span>
+        <a href="https://fofinhos.studio/" target="_blank" rel="noopener noreferrer">
+          fofinhos.studio
+        </a>
       </footer>
       {showSupportedGames && <SupportedGamesModal onClose={closeSupportedGames} />}
       {showBackup && (

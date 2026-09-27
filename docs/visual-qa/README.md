@@ -88,3 +88,9 @@ Removed promotional headings, ticket record labels, repeated brand/year stamps, 
 - Restored the nine original, full-color local site favicons. Catalog screenshot shows all nine in context: [desktop, light/PT](today-layout-catalog.png) and [mobile, dark/PT](today-layout-mobile-dark.png).
 - Checked 1440 px column proportions and tab order, all nine local images loaded, and 360 px mobile layout has no horizontal overflow.
 - Lint, typecheck and production build passed.
+
+## Footer credit
+
+- Replaced the local-save status and storage icon with the centered “Made with love by 🧡💜 fofinhos.studio” credit and external studio link.
+- [Desktop, light](footer-credit-desktop.png) and [mobile, dark](footer-credit-mobile-dark.png). Verified destination, readable foreground colors, and no horizontal overflow at 360 px.
+- Lint, typecheck and production build passed.
