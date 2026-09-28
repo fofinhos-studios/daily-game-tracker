@@ -49,7 +49,7 @@ export function Header({ today, onOpenBackup }: HeaderProps) {
         <h1>
           <Wordmark />
         </h1>
-        <div className="flex items-center gap-2">
+        <div className="header-controls flex items-center gap-2">
           <time dateTime={today} className="mr-3 hidden font-mono text-xs lg:block">
             {formatDateDisplay(today, locale)}
           </time>

@@ -23,8 +23,6 @@
   --color-destructive: #ad2237;
   --color-destructive-foreground: #ffffff;
   --color-success: #24673b;
-  --color-header: #111111;
-  --color-header-accent: #c4a1ff;
   --color-ink: #111111;
   --color-paper: #ffffff;
   --radius-sm: 0px;
@@ -55,8 +53,6 @@
   --ease-juice: cubic-bezier(0.2, 0.8, 0.2, 1.15);
   --hover-ticket: 1.015;
   --ticket-hover-shadow: 0 10px 24px -12px rgb(0 0 0 / 24%);
-  --wordmark-glow-color: #dac4ff;
-  --wordmark-shimmer-duration: 1800ms;
   --hover-control: 1.03;
   --press-scale: 0.97;
   --game-conexo: #c4a1ff;
@@ -317,9 +313,9 @@
   padding: 32px;
 }
 .app-header {
-  background: var(--color-ink);
-  color: var(--color-paper);
-  border-bottom: 4px solid var(--color-accent);
+  background: var(--color-card);
+  color: var(--color-card-foreground);
+  border-bottom: var(--rule) solid var(--color-border);
 }
 .header-inner {
   max-width: var(--layout-max);
@@ -328,81 +324,50 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 18px 32px;
+  padding: 20px 32px;
 }
 .wordmark {
-  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 14px;
-}
-.wordmark-glow {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  gap: inherit;
-  pointer-events: none;
-  user-select: none;
-  opacity: 0;
-  filter: drop-shadow(0 0 2px var(--wordmark-glow-color))
-    drop-shadow(0 0 6px var(--color-header-accent));
-  mask-image: linear-gradient(110deg, transparent 40%, #000 48%, #000 52%, transparent 60%);
-  mask-size: 300% 100%;
-  mask-repeat: no-repeat;
-  animation: wordmark-shimmer var(--wordmark-shimmer-duration) cubic-bezier(0.25, 0.1, 0.25, 1) both;
-}
-.wordmark-glow .wordmark-jp,
-.wordmark-glow .wordmark-latin {
-  color: transparent;
-  -webkit-text-stroke: 0.75px var(--wordmark-glow-color);
-}
-.wordmark-glow .brand-symbol {
-  color: var(--wordmark-glow-color);
+  gap: 12px;
 }
 .wordmark-preview {
   padding: 24px;
-  background: var(--color-ink);
-  color: var(--color-paper);
+  background: var(--color-card);
+  color: var(--color-card-foreground);
+  border: var(--rule) solid var(--color-border);
 }
-@keyframes wordmark-shimmer {
-  0% {
-    mask-position: 100% 0;
-    opacity: 0;
-  }
-  18%,
-  72% {
-    opacity: 1;
-  }
-  100% {
-    mask-position: 0% 0;
-    opacity: 0;
-  }
-}
-.wordmark-jp {
-  font-family: var(--font-japanese);
-  font-size: 25px;
+.wordmark-name {
+  font-family: var(--font-sans);
+  font-size: 34px;
   font-weight: 700;
-  letter-spacing: -0.06em;
+  line-height: 1;
+  letter-spacing: -0.065em;
 }
-.wordmark-latin {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.16em;
+.wordmark-subtitle {
+  margin-left: 4px;
+  padding-left: 14px;
+  border-left: var(--rule) solid currentColor;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.2;
+  white-space: pre-line;
 }
 .brand-symbol {
-  width: 42px;
-  height: 42px;
-  color: var(--color-accent);
+  width: 48px;
+  height: 48px;
+  flex: none;
+}
+[data-theme="dark"] .brand-symbol {
+  outline: var(--rule) solid var(--color-border);
 }
 .header-action {
   background: transparent;
-  border-color: #777772;
-  color: var(--color-paper);
+  border-color: var(--color-border);
+  color: var(--color-card-foreground);
 }
 .header-action:focus-visible {
-  outline-color: var(--color-accent);
+  outline-color: var(--color-ring);
 }
 .workspace-heading {
   display: flex;
@@ -715,7 +680,7 @@ button:disabled {
     background: var(--color-muted);
   }
   .header-action:hover {
-    background: #333333;
+    background: var(--color-muted);
   }
 }
 button:not(:disabled):active {
@@ -775,13 +740,14 @@ button:not(:disabled):active {
     gap: 8px;
   }
   .brand-symbol {
+    width: 40px;
+    height: 40px;
+  }
+  .wordmark-name {
+    font-size: 23px;
+  }
+  .wordmark-subtitle {
     display: none;
-  }
-  .wordmark-jp {
-    font-size: 20px;
-  }
-  .wordmark-latin {
-    font-size: 9px;
   }
   .workspace-heading {
     flex-direction: column;
@@ -840,10 +806,16 @@ button:not(:disabled):active {
     flex-wrap: wrap;
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .wordmark-glow {
-    display: none;
+@media (max-width: 380px) {
+  .header-inner {
+    flex-wrap: wrap;
   }
+  .header-controls {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {

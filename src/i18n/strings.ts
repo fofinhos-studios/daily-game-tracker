@@ -27,6 +27,7 @@ type Strings = {
     replaceConfirmation: string
   }
   app: {
+    brandSubtitle: string
     todayResults: string
     results: string
     activity: string
@@ -123,6 +124,7 @@ export const strings: Record<Locale, Strings> = {
       replaceConfirmation: "Replace all current progress with this backup? This cannot be undone.",
     },
     app: {
+      brandSubtitle: "daily game\ntracker",
       todayResults: "Today",
       results: "Results",
       activity: "Activity",
@@ -234,6 +236,7 @@ export const strings: Record<Locale, Strings> = {
         "Substituir todo o progresso atual por este backup? Esta ação não pode ser desfeita.",
     },
     app: {
+      brandSubtitle: "jogos\ndiários",
       todayResults: "Hoje",
       results: "Resultados",
       activity: "Atividade",

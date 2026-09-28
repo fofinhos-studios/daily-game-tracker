@@ -1,29 +1,19 @@
-# ミニゲーム (Minigēmu)
+<h1 align="center">
+  <img src="public/favicon.svg" width="32" height="32" alt="" align="absmiddle" />
+  <a href="https://minigemu.fofinhos.studio/">minigēmu</a>
+</h1>
 
-Made with love by 🧡💜 fofinhos.studios
+<p align="center">A home for your daily game results.</p>
 
-Your small home for daily puzzle wins. Paste the share cards from your favourite games, keep a private record of each day and see your streaks take shape.
+Paste a game's share text to save the result, revisit past days and see how you're doing over time.
 
 ## What you can do
 
-- Save and revisit daily results
-- Track win rates, activity and accuracy over time
-- Filter your history by game
-- Copy a neat daily summary to share
-- Back up your progress or restore it on another device
+- Save results from Conexo, Expresso, Framed, Gamedle, GuessTheGame, Krillion, Letroso, Size It Up and Termo.
+- Browse your history by day or filter it by game.
+- See activity, accuracy and win rates at a glance.
+- Copy a daily summary and back up your progress.
 
-## Supported games
+Your results stay in your browser. Minigēmu is an independent fan project; the games and their share formats belong to their respective creators.
 
-| Game | Play |
-| --- | --- |
-| Conexo | [Open Conexo](https://conexo.ws) |
-| Expresso | [Open Expresso](https://expresso.ac) |
-| Framed | [Open Framed](https://framed.wtf) |
-| Gamedle | [Open Gamedle](https://gamedle.wtf) |
-| GuessTheGame | [Open GuessTheGame](https://guessthe.game) |
-| Letroso | [Open Letroso](https://letroso.com) |
-| Termo | [Open Termo](https://term.ooo) |
-
-## Data sources
-
-Minigēmu reads the share text you provide. Game names, links and result formats belong to their respective creators: [Conexo](https://conexo.ws), [Expresso](https://expresso.ac), [Framed](https://framed.wtf), [Gamedle](https://gamedle.wtf), [GuessTheGame](https://guessthe.game), [Letroso](https://letroso.com) and [Termo](https://term.ooo). This is an independent fan project and is not affiliated with any of them.
+<p align="center">Made with love by 🧡💜 <a href="https://www.fofinhos.studio/">fofinhos.studio</a></p>
